@@ -18,7 +18,7 @@ import { LeaderboardComponent } from './components/leaderboard/leaderboard.compo
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
