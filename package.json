@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev-server": "concurrently npm:dev-server:*",
-    "dev-server:compile": "rm -rf ./dist/ &&tsc -w",
+    "dev-server:compile": "rm -rf ./dist/server && rm -rf ./dist/shared &&tsc -w",
     "dev-server:run": "nodemon"
   },
   "nodemonConfig": {

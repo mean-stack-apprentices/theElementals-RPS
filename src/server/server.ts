@@ -24,6 +24,11 @@ app.get('/', function(req, res) {
   res.json({test: 'test'})
 });
 
+app.get('*', function(req, res) {
+  const filePath = path.join(__dirname, '/dist/client/index.html');
+  res.sendFile(filePath);
+})
+
 app.listen(port, function() {
   console.log(`running on http://localhost:${port}`)
 }) 
