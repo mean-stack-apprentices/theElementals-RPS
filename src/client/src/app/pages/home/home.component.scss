@@ -8,12 +8,14 @@ nav {
     align-items: center;
     background-color: darkgray;
     height: 50px;
+    
 }
 
 nav ul {
     display: flex;
     list-style: none;
-    margin: 0 4%;  
+    margin: 0 4%;
+    width: 100%;
 }
 
 nav ul :hover {
@@ -22,7 +24,7 @@ nav ul :hover {
 
 nav li {
     padding: 8px;
-    margin: 0 4%;
+    margin: 0 2%;
     background-color: lightgray;
     box-shadow: 1px 1.5px 2px 1px #3e873e;
 }

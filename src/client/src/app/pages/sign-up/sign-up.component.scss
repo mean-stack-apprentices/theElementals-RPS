@@ -1,0 +1,21 @@
+#background {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.427);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#container {
+    height: 50%;
+    width: 30%;
+    background-color: rgb(225, 225, 225);
+    border-radius: 7px;
+    box-shadow: 2px 3px 4px 2px #3e873e;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-around;
+}
