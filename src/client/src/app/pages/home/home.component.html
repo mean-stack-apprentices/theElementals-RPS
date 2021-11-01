@@ -1,7 +1,7 @@
 <nav>
     <ul>
-        <li><a routerLink="./play" class="route">Play</a></li>
-        <li><a routerLink="./leaderboard" class="route" >Leaderboard</a></li>
+        <li routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"><a routerLink="./play">Play</a></li>
+        <li routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"><a routerLink="./leaderboard">Leaderboard</a></li>
     </ul>
 </nav>
 

@@ -10,7 +10,7 @@ const port = 3000;
 const app = express();
 
 mongoose
-  .connect("mongodb://localhost:27017/test")
+  .connect("mongodb://localhost:27017/rockPaperScissors")
   .then(() => {
     console.log("Connected to DB Successfully");
   })

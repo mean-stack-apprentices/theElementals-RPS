@@ -1,4 +1,7 @@
-
+a {
+    color: black;
+    text-decoration: none;
+}
 
 nav {
     display: flex;
@@ -13,8 +16,17 @@ nav ul {
     margin: 0 4%;  
 }
 
+nav ul :hover {
+    cursor: pointer
+}
+
 nav li {
-    border: thin red solid;
-    padding: 7px;
+    padding: 8px;
     margin: 0 4%;
+    background-color: lightgray;
+    box-shadow: 1px 1.5px 2px 1px #3e873e;
+}
+
+.active-link {
+   border: thick #499d49
 }
