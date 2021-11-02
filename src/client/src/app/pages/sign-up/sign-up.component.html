@@ -1,8 +1,11 @@
 <div id="background">
     <div id="container">
-        <input type="text" placeholder="username">
-        <input type="text" placeholder="password">
-        <input type="text" placeholder="confirm password">
-        <span>upload profile picture: <input type="image"></span>
+        <form [formGroup] = 'createUserForm'>
+            <input type="text" formControlName='username' placeholder="username">
+            <input type="text" formControlName='password' placeholder="password">
+            <input type="text" formControlName='confirmPassword' placeholder="confirm password">
+            <span>upload profile picture: <input type="image"></span>
+            <button (click)='signUp' [disabled]='createUserForm.invalid'>Sign Up</button>
+        </form>
     </div>
 </div>
