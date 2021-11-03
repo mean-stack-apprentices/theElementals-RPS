@@ -1,11 +1,11 @@
 <div id="background">
-    <div id="container">
+    <div id="container" >
         <form [formGroup] = 'createUserForm'>
-            <input type="text" formControlName='username' placeholder="username">
-            <input type="text" formControlName='password' placeholder="password">
-            <input type="text" formControlName='confirmPassword' placeholder="confirm password">
-            <span>upload profile picture: <input type="image"></span>
-            <button (click)='signUp' [disabled]='createUserForm.invalid'>Sign Up</button>
+            <input type="text" formControlName='username' placeholder="username"><br>
+            <input type="text" formControlName='password' placeholder="password"><br>
+            <input type="text" formControlName='confirmPassword' placeholder="confirm password"><br>
+            <span>upload profile picture: <input type="image"></span><br>
+            <button (click)='signUp()'>Sign Up</button>
         </form>
     </div>
 </div>

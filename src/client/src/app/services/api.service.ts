@@ -12,6 +12,6 @@ export class ApiService {
     return this.http.get<T>(this.baseURL + path)
   }
   post<T,D>(path:string, data: D) {
-    this.http.post<T>(this.baseURL + path, data)
+    return this.http.post<T>(this.baseURL + path, data)
   }
 }
