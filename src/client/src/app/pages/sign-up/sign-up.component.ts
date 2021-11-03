@@ -36,6 +36,7 @@ export class SignUpComponent implements OnInit {
         password: this.createUserForm.controls.password.value,
       }
       this.userService.signUp(user)
+      
       this.router.navigate(['home']);
     }
   }
