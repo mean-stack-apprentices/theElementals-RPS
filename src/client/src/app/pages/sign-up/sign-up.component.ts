@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 import { json } from 'express';
 import { confirmPassword } from 'src/app/form-validators/create-user-form-validators';
 import { UserService } from 'src/app/services/user.service';
@@ -14,6 +15,7 @@ export class SignUpComponent implements OnInit {
   constructor(
     private userService: UserService,
     private fb: FormBuilder,
+    private router: Router,
   ) {
     this.createUserForm = this.fb.group({
       username: ['',Validators.required],
@@ -34,6 +36,7 @@ export class SignUpComponent implements OnInit {
         password: this.createUserForm.controls.password.value,
       }
       this.userService.signUp(user)
+      this.router.navigate(['home']);
     }
   }
 }

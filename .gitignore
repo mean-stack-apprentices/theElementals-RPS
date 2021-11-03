@@ -2,3 +2,5 @@
 /dist/
 
 /src/client/node_modules/
+
+.env

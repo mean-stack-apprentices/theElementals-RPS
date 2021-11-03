@@ -5,11 +5,14 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import cookieParser from "cookie-parser";
-import { UserModel } from "./schemas/user.schema";
+import { UserModel } from "./schemas/user.schema.js";
 
 const __dirname = path.resolve();
 console.log(__dirname);
 const port = 3000;
+const saltRounds = 10
+
+const access_secret = process.env.ACCESS_TOKEN_SECRET as string;
 
 const app = express();
 
@@ -21,16 +24,46 @@ mongoose
   .catch((err) => console.log("Failed to Connect to DB", err));
 
 app.use(cors());
+app.use(express.json())
 app.use(express.static("public"));
 
 
 app.get('/test', function(req, res) {
   res.json({test: 'test'})
 });
-app.get('/api/sign-up', function(req, res) {
+app.post('/api/sign-up', async function(req, res) {
+  console.log('user signing up!!!')
   const {username, password} = req.body
-  const user = new UserModel({
+  const salt = await bcrypt.genSalt(saltRounds);
+  const hash = await bcrypt.hash(password, salt);
 
+  const user = new UserModel({
+    username,
+    password: hash
+  });
+  user.save()
+  .then((data) => {
+    res.json({ data });
+  })
+  .catch((err) => {
+    res.status(501);
+    res.json({ errors: err });
+  });
+})
+app.post('/api/sign-in', async function(req, res) {
+  const {username, password} = req.body
+
+  UserModel.findOne({ username }).then(user => {
+    bcrypt.compare(password, `${user?.password}`, function(err, result) {
+      if (result) {
+        const accessToken = jwt.sign({user}, access_secret)
+        res.cookie('jwt', accessToken, {
+          httpOnly: true,
+          maxAge: 60 * 1000,
+        })
+        res.json({message: 'Successfully Logged In'})
+      }
+    })
   })
 })
 app.get('*', function(req, res) {

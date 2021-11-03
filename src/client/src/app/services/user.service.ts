@@ -13,7 +13,7 @@ export class UserService {
     return this.api.post<{message: string}, User>('sign-in', user)
   }
   signUp(user: User) {
-    return this.api.post<{message: string}, User>('sign-up', user).subscribe
+    return this.api.post<{message: string}, User>('sign-up', user).subscribe()
   }
 
 }

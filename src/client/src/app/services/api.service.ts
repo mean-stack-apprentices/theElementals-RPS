@@ -5,13 +5,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ApiService {
-  baseURL = 'http://localhost/3000/api/'
+  baseURL = 'http://localhost:3000/api/'
   constructor(private http: HttpClient) { }
 
   get<T>(path:string) {
     return this.http.get<T>(this.baseURL + path)
   }
   post<T,D>(path:string, data: D) {
-    return this.http.post<T>(this.baseURL + path, data)
+    return this.http.post<T>(this.baseURL + path, data,)
   }
 }
