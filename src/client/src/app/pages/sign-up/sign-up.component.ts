@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { json } from 'express';
 import { confirmPassword } from 'src/app/form-validators/create-user-form-validators';
 import { UserService } from 'src/app/services/user.service';
+import { tap, debounceTime } from 'rxjs/operators'
 
 @Component({
   selector: 'app-sign-up',
@@ -11,6 +12,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit {
+  validUsername: boolean = false
   createUserForm: FormGroup
   constructor(
     private userService: UserService,
@@ -25,6 +27,16 @@ export class SignUpComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.createUserForm.controls.username.valueChanges.pipe(debounceTime(700)).subscribe(() => {
+      this.checkValidUsername();
+      console.log(this.createUserForm.controls.username.value)
+    })
+  }
+
+  checkValidUsername() {
+    this.userService.validUsername(this.createUserForm.controls.username.value).pipe(tap(data => {
+      this.validUsername = data.validUsername
+    })).subscribe()
   }
 
   signUp() {

@@ -15,5 +15,7 @@ export class UserService {
   signUp(user: User) {
     return this.api.post<{message: string}, User>('sign-up', user).subscribe()
   }
-
+  validUsername(username: string) {
+    return this.api.post<{validUsername:  boolean}, {username:string}>('vaid-username', {username})
+  }
 }
