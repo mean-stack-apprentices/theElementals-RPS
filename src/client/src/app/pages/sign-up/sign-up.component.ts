@@ -41,7 +41,9 @@ export class SignUpComponent implements OnInit {
 
   signUp() {
     if (this.createUserForm.invalid) {
-      alert((this.createUserForm.errors))
+      alert((this.createUserForm.errors));
+    } else if (!this.validUsername) {
+      alert('This username is taken, please try another');
     } else {
       const user = {
         username: this.createUserForm.controls.username.value,

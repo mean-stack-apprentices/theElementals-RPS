@@ -61,6 +61,18 @@ app.post('/api/sign-up', async function(req, res) {
     res.json({ errors: err });
   });
 })
+app.post('/api/vaid-username', function(req, res) {
+  const {username} = req.body
+
+  UserModel.findOne({ username }).lean().then(username => {
+    if (username) {
+      res.json({validUsername: false})
+    } else {
+      res.json({validUsername: true})
+    }
+  })
+
+});
 app.post('/api/sign-in', async function(req, res) {
   const {username, password} = req.body
 
