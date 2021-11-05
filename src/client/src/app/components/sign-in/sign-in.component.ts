@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
+import { User } from '../../../../../shared/models/user.model';
 
 @Component({
   selector: 'app-sign-in',
@@ -6,10 +9,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit {
-
-  constructor() { }
+  signInForm: FormGroup
+  constructor(
+    private userService: UserService,
+    private fb: FormBuilder,
+  ) {
+    this.signInForm = this.fb.group({
+      username: ['',Validators.required],
+      password: ['',Validators.required],
+    })
+   }
 
   ngOnInit(): void {
   }
 
+  signIn() {
+    this.userService.signIn(this.signInForm.value)
+  }
 }
