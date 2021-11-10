@@ -12,6 +12,13 @@ import { LeaderboardComponent } from './components/leaderboard/leaderboard.compo
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { environment } from 'src/environments/environment';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import * as fromUser from './store/user/reducers/user.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { UserEffects } from './store/user/effects/user.effects';
 
 const config: SocketIoConfig = {
   url: !environment.production ? 
@@ -33,6 +40,10 @@ const config: SocketIoConfig = {
     BrowserModule,
     AppRoutingModule,
     SocketIoModule.forRoot(config),
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
+    EffectsModule.forRoot([UserEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]
