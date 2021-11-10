@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { User } from '../../../../../shared/models/user.model';
 
@@ -13,6 +14,7 @@ export class SignInComponent implements OnInit {
   constructor(
     private userService: UserService,
     private fb: FormBuilder,
+    private router: Router
   ) {
     this.signInForm = this.fb.group({
       username: ['',Validators.required],
@@ -24,6 +26,8 @@ export class SignInComponent implements OnInit {
   }
 
   signIn() {
-    this.userService.signIn(this.signInForm.value)
+    console.log(this.signInForm.value)
+    this.userService.signIn(this.signInForm.value);
+    this.router.navigate(['home'])
   }
 }

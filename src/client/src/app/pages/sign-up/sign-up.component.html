@@ -1,11 +1,9 @@
 <div id="background">
-    <div id="container" >
-        <form [formGroup] = 'createUserForm'>
-            <input type="text" formControlName='username' placeholder="username"><br>
-            <input type="text" formControlName='password' placeholder="password"><br>
-            <input type="text" formControlName='confirmPassword' placeholder="confirm password"><br>
-            <span>upload profile picture: <input type="file"></span><br>
-            <button (click)='signUp()'>Sign Up</button>
-        </form>
+    <div [formGroup] = 'createUserForm' id="container" >
+        <input type="text" formControlName='username' placeholder="username">
+        <input type="text" formControlName='password' placeholder="password">
+        <input type="text" formControlName='confirmPassword' placeholder="confirm password">
+        <span>upload profile picture: <input type="file"></span><br>
+        <button (click)='signUp()'>Sign Up</button>
     </div>
 </div>

@@ -6,14 +6,17 @@ import http from 'http';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import cookieParser from "cookie-parser";
+import dotenv from 'dotenv'
 import { UserModel } from "./schemas/user.schema.js";
 import { Server } from "socket.io";
+import { domainToASCII } from "url";
 
 const __dirname = path.resolve();
+dotenv.config();
 const port = 3000;
 const saltRounds = 10
 
-const access_secret = process.env.ACCESS_TOKEN_SECRET as string;
+const access_secret = process.env.ACCESS_SECRET as string;
 
 const app = express();
 const server = http.createServer(app);
@@ -75,16 +78,18 @@ app.post('/api/vaid-username', function(req, res) {
 });
 app.post('/api/sign-in', async function(req, res) {
   const {username, password} = req.body
-
-  UserModel.findOne({ username }).then(user => {
+  UserModel.findOne({username}).then(user => {
     bcrypt.compare(password, `${user?.password}`, function(err, result) {
+      console.log(result)
       if (result) {
         const accessToken = jwt.sign({user}, access_secret)
         res.cookie('jwt', accessToken, {
           httpOnly: true,
-          maxAge: 60 * 1000,
+          maxAge: 3600 * 1000,
         })
         res.json({message: 'Successfully Logged In'})
+      } else {
+        res.sendStatus(403);
       }
     })
   })
