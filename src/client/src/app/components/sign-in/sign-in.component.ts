@@ -27,7 +27,7 @@ export class SignInComponent implements OnInit {
 
   signIn() {
     console.log(this.signInForm.value)
-    this.userService.signIn(this.signInForm.value);
+    this.userService.signIn(this.signInForm.value).subscribe();
     this.router.navigate(['home'])
   }
 }

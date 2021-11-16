@@ -15,10 +15,10 @@ import { environment } from 'src/environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
-import * as fromUser from './store/user/reducers/user.reducer';
+//import { environment } from '../environments/environment';
+import * as fromUser from './store/reducers/user/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import { UserEffects } from './store/user/effects/user.effects';
+import { UserEffects } from './store/effects/user/user.effects';
 
 const config: SocketIoConfig = {
   url: !environment.production ? 

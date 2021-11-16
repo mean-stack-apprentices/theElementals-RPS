@@ -10,7 +10,7 @@ export class UserService {
   constructor(private api: ApiService) { }
 
   signIn(user: User) {
-    return this.api.post<{message: string}, User>('sign-in', user).subscribe()
+    return this.api.post<{data: User}, User>('sign-in', user)
   }
   signUp(user: User) {
     return this.api.post<{message: string}, User>('sign-up', user).subscribe()

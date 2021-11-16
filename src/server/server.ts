@@ -10,6 +10,7 @@ import dotenv from 'dotenv'
 import { UserModel } from "./schemas/user.schema.js";
 import { Server } from "socket.io";
 import { domainToASCII } from "url";
+import { profile } from "console";
 
 const __dirname = path.resolve();
 dotenv.config();
@@ -87,7 +88,7 @@ app.post('/api/sign-in', async function(req, res) {
           httpOnly: true,
           maxAge: 3600 * 1000,
         })
-        res.json({message: 'Successfully Logged In'})
+        res.json({data: {username: username, profilePic: user?.profilePic}})
       } else {
         res.sendStatus(403);
       }
