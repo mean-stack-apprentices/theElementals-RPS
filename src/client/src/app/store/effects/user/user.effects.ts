@@ -13,7 +13,7 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(signIn),
       mergeMap((action) =>
-        this.userService.signIn(action.data).pipe(
+        this.userService.signIn(action).pipe(
           map((data) => signInSuccess(data)),
           catchError((error) => of(signInFailure({ error })))
         )

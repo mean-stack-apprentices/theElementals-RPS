@@ -90,7 +90,7 @@ app.post('/api/sign-in', async function(req, res) {
         })
         res.json({data: {username: username, profilePic: user?.profilePic}})
       } else {
-        res.sendStatus(403);
+        res.sendStatus(502);
       }
     })
   })

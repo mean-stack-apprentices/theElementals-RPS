@@ -3,7 +3,7 @@ import { User } from '../../../../../../shared/models/user.model';
 
 export const signIn = createAction(
   '[User] Sign In',
-  props<{data: User}>()
+  props<User>()
 );
 
 export const signInSuccess = createAction(
