@@ -14,22 +14,25 @@ import { tap, debounceTime } from 'rxjs/operators'
 export class SignUpComponent implements OnInit {
   validUsername: boolean = false
   createUserForm: FormGroup
+  imageFileName = ''
+  formData: FormData
   constructor(
     private userService: UserService,
     private fb: FormBuilder,
     private router: Router,
   ) {
+    this.formData = new FormData();
     this.createUserForm = this.fb.group({
       username: ['',Validators.required],
       password: ['',Validators.compose([Validators.required, Validators.minLength(3),])],
       confirmPassword: ['',Validators.compose([Validators.required, Validators.minLength(3),])],
+      profilePic: [''],
     }, {validators: confirmPassword})
    }
 
   ngOnInit(): void {
     this.createUserForm.controls.username.valueChanges.pipe(debounceTime(700)).subscribe(() => {
       this.checkValidUsername();
-      console.log(this.createUserForm.controls.username.value)
     })
   }
 
@@ -48,10 +51,24 @@ export class SignUpComponent implements OnInit {
       const user = {
         username: this.createUserForm.controls.username.value,
         password: this.createUserForm.controls.password.value,
+        profilePic: this.createUserForm.get('profilePic')?.value,
       }
+      console.log(user)
       this.userService.signUp(user)
       
       this.router.navigate(['home']);
+    }
+  }
+
+  makeFileReady(event: any) {
+    const file = event.target.files[0]
+    this.createUserForm.get('profilePic')?.setValue(file)
+    console.log(file)
+    if(file) {
+      this.imageFileName = file.name
+      this.formData.append('profilePic', this.createUserForm.get('profilePic')?.value)
+      console.log('>>>>>', this.createUserForm.get('profilePic')?.value, file )
+      console.log(this.formData)
     }
   }
 }

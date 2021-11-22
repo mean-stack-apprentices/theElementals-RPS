@@ -13,6 +13,7 @@ nav {
 
 nav ul {
     display: flex;
+    justify-content: left;
     list-style: none;
     margin: 0 4%;
     width: 100%;
@@ -22,13 +23,23 @@ nav ul :hover {
     cursor: pointer
 }
 
-nav li {
-    padding: 8px;
+nav li  {
     margin: 0 2%;
+    // background-color: lightgray;
+    // box-shadow: 1px 1.5px 2px 1px #3e873e;
+}
+
+nav li a {
+    display: inline-block;
+    padding: 8px;
     background-color: lightgray;
     box-shadow: 1px 1.5px 2px 1px #3e873e;
 }
 
-.active-link {
-   border: thick #499d49
+nav li.goRight {
+    margin-left: auto;
+}
+
+nav li a.active-link {
+   box-shadow: 2px 2px 2px lawngreen;
 }

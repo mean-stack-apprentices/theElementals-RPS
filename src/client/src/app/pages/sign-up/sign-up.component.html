@@ -3,7 +3,7 @@
         <input type="text" formControlName='username' placeholder="username">
         <input type="text" formControlName='password' placeholder="password">
         <input type="text" formControlName='confirmPassword' placeholder="confirm password">
-        <span>upload profile picture: <input type="file"></span><br>
+        <span>upload profile picture: <input type="file" (change)='makeFileReady($event)'></span><br>
         <button (click)='signUp()'>Sign Up</button>
     </div>
 </div>

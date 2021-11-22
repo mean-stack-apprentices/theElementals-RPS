@@ -1,12 +1,17 @@
+<ng-container >
 <nav>
     <ul>
-        <li routerLinkActive="active-link"><a routerLink="./play">Play</a></li>
-        <li routerLinkActive="active-link"><a routerLink="./leaderboard">Leaderboard</a></li>
-        <!-- <ng-template *ngIf="(loggedIn$ | async)"> -->
-            <li routerLinkActive="active-link"><a routerLink="./sign-in">Sign in</a></li>
-        <!-- </ng-template> -->
+        <li><a routerLinkActive="active-link" routerLink="./play">Play</a></li>
+        <li><a routerLinkActive="active-link" routerLink="./leaderboard">Leaderboard</a></li>
+        <ng-container *ngIf="!(loggedIn$ | async)">
+            <li><a routerLinkActive="active-link" routerLink="./sign-in">Sign in</a></li>
+        </ng-container>
+        <ng-container *ngIf="(loggedIn$ | async)">
+            <li class="goRight"><a routerLinkActive="active-link" routerLink="./profile">Profile</a></li>
+        </ng-container>
     </ul>
 </nav>
+</ng-container>
 
 {{(loggedIn$ | async)|json}}
 

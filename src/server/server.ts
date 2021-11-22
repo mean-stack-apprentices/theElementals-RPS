@@ -43,7 +43,7 @@ app.get('/test', function(req, res) {
   res.json({test: 'test'})
 });
 app.post('/api/sign-up', async function(req, res) {
-  const {username, password} = req.body
+  const {username, password, profilePic} = req.body
 
   const found = await UserModel.findOne({username}).lean()
   if (found){
@@ -54,7 +54,8 @@ app.post('/api/sign-up', async function(req, res) {
 
   const user = new UserModel({
     username,
-    password: hash
+    password: hash,
+    profilePic,
   });
   user.save()
   .then((data) => {
