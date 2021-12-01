@@ -10,7 +10,8 @@ import dotenv from 'dotenv'
 
 import multer from 'multer';
 import { GridFsStorage } from "multer-gridfs-storage";
-import { GridFSBucket } from "mongodb";
+import type { GridFSBucket } from "mongodb";
+import crypto from 'crypto';
 
 import { UserModel } from "./schemas/user.schema.js";
 import { Server } from "socket.io";
@@ -21,6 +22,9 @@ const __dirname = path.resolve();
 dotenv.config();
 const port = 3000;
 const saltRounds = 10;
+const dbString = "mongodb://localhost:27017/rockPaperScissors"
+
+let gfs: GridFSBucket;
 
 const access_secret = process.env.ACCESS_SECRET as string;
 
@@ -31,11 +35,38 @@ const io = new Server(server, {
 });
 
 mongoose
-  .connect("mongodb://localhost:27017/rockPaperScissors")
+  .connect(dbString)
   .then(() => {
     console.log("Connected to DB Successfully");
+    gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+      bucketName: "uploads",
+    });
   })
   .catch((err) => console.log("Failed to Connect to DB", err));
+
+const storage = new GridFsStorage({
+  url: dbString,
+  // url: mongoURI,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = buf.toString("hex") + path.extname(file.originalname);
+        const fileInfo = {
+          filename: file.originalname,
+          bucketName: "uploads",
+        }; 
+        resolve(fileInfo);
+      });
+    });
+  },
+});
+
+const upload = multer({
+  storage,
+});
 
 app.use(cors());
 app.use(express.json())
@@ -101,7 +132,7 @@ app.post('/api/sign-in', async function(req, res) {
     })
   })
 })
-app.get('*', function(req, res) {
+app.all('*', function(req, res) {
   const filePath = path.join(__dirname, '/dist/client/index.html');
   res.sendFile(filePath);
 })
