@@ -7,6 +7,11 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import cookieParser from "cookie-parser";
 import dotenv from 'dotenv'
+
+import multer from 'multer';
+import { GridFsStorage } from "multer-gridfs-storage";
+import { GridFSBucket } from "mongodb";
+
 import { UserModel } from "./schemas/user.schema.js";
 import { Server } from "socket.io";
 import { domainToASCII } from "url";
@@ -15,7 +20,7 @@ import { profile } from "console";
 const __dirname = path.resolve();
 dotenv.config();
 const port = 3000;
-const saltRounds = 10
+const saltRounds = 10;
 
 const access_secret = process.env.ACCESS_SECRET as string;
 
