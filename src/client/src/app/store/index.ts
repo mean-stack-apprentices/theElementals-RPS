@@ -11,7 +11,7 @@ import * as fromUser from './reducers/user/user.reducer';
 
 export interface AppState {
 
-  [fromUser.userFeatureKey]: fromUser.State;
+  [fromUser.userFeatureKey]: fromUser.UserState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {

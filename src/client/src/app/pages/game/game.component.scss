@@ -1,0 +1,41 @@
+nav {
+    margin: 5px 15px;
+
+    display: flex;
+    justify-content: space-between;
+}
+.right {
+    display: flex;
+    justify-content: right;
+    flex-direction: row-reverse;
+}
+
+.username {
+    font-size: 25px;
+    font-family:monospace;
+}
+.healthBar {
+    display: flex;
+    flex-direction: row;
+}
+.healthCell {
+    height: 10px;
+    width: 80px;
+    margin: 0 2px;
+    border: thin solid black;
+    background-color:green;
+
+}
+
+#background {
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: 60%;
+    position: absolute;
+    top: 23px;
+    z-index: -1000;
+}
+#fightImg {
+    transition: 2s;
+}

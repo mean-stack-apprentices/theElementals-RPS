@@ -6,9 +6,10 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { GameComponent } from './pages/game/game.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
+import { GameInfoResolver } from './resolvers/game-info.resolver';
 
 const routes: Routes = [
-  {path: 'game', component: GameComponent},
+  {path: 'game', component: GameComponent, resolve: {gameInfo: GameInfoResolver}},
   {path:'home', component: HomeComponent,
     children: [
       {path:'play', component: PlayComponent},

@@ -1,16 +1,29 @@
 import { Action, createReducer, on } from '@ngrx/store';
+import { Player } from '../../../../../../shared/models/player.model';
 import { User } from '../../../../../../shared/models/user.model';
 import { signInSuccess } from '../../actions/user/sign-in.action';
 
 
 export const userFeatureKey = 'user';
 
-export interface State {
+export interface UserState {
   loggedIn: User | null
+  pLeft: Player | null
+  pRight: Player | null
+  pLeftName: string
+  pRightName: string
+  pLeftSocketId: string
+  pRightSocketId: string
 }
 
-export const initialState: State = {
-  loggedIn: null
+export const initialState: UserState = {
+  loggedIn: null,
+  pLeft: null,
+  pRight: null,
+  pLeftName: '',
+  pRightName: '',
+  pLeftSocketId: '',
+  pRightSocketId: '',
 }; 
 
 
@@ -20,6 +33,7 @@ export const reducer = createReducer(
   on(signInSuccess, (state, action) => {
     return {...state, loggedIn: action.data}
   })
+
 
 );
 
