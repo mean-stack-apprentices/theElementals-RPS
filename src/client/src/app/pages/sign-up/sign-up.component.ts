@@ -67,7 +67,7 @@ export class SignUpComponent implements OnInit {
     if(file) {
       this.imageFileName = file.name
       this.formData.append('profilePic', this.createUserForm.get('profilePic')?.value)
-      console.log('>>>>>', this.createUserForm.get('profilePic')?.value, file )
+      console.log('>>>>>', this.createUserForm.get('profilePic')?.value, file)
       console.log(this.formData)
     }
   }
