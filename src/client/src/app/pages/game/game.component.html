@@ -1,33 +1,60 @@
-<nav>
-<div id="pLeft">
-    <div id="pLeftInfo">
-        <img src="" alt="">
-        <span class="username">{{pLeft.username}}</span>
-    </div>
-    <div class="healthBar left">
-        <ng-container *ngFor="let i of [].constructor(pRight.health)">
-            <div class="healthCell"[ngStyle]="{'backgroud-color': healthBarColor(pRight.health)}"></div>
-        </ng-container>
-    </div>
-</div>
-
-<div id="pRight" class="">
-    <div id="pRightInfo" class="right">
-        <img src="" alt="">
-        <span class="username">{{pRight.username}}</span>
-    </div>
-    <div class="healthBar right">
-        <ng-container *ngFor="let i of [].constructor(pRight.health)">
-            <div class="healthCell"[ngStyle]="{'backgroud-color': healthBarColor(pLeft.health)}"></div>
-        </ng-container>
-    </div>
-</div>
-</nav>
-
+<img id="background" src="assets/images/{{backgroundString}}" alt="image">
 <div id="fightImgContainer">
     <img [@inOut]="fightImgShowing ? 'in' : 'out'" id="fightImg" src="assets/images/178-1784143_photo-street-fighter-fight-png.png" alt="">
 </div>
-<img id="background" src="assets/images/{{backgroundString}}" alt="image">
+<nav>
+    <div id="pLeft">
+        <div id="pLeftInfo">
+            <img src="" alt="">
+            <span class="username">{{pLeft.username}}</span>
+        </div>
+        <div class="healthBar left">
+            <ng-container *ngFor="let i of [].constructor(pRight.health)">
+                <div class="healthCell"[ngStyle]="{'backgroud-color': healthBarColor(pRight.health)}"></div>
+            </ng-container>
+        </div>
+    </div>
 
+    <div id="pRight" class="">
+        <div id="pRightInfo" class="right">
+            <img src="" alt="">
+            <span class="username">{{pRight.username}}</span>
+        </div>
+        <div class="healthBar right">
+            <ng-container *ngFor="let i of [].constructor(pRight.health)">
+                <div class="healthCell"[ngStyle]="{'backgroud-color': healthBarColor(pLeft.health)}"></div>
+            </ng-container>
+        </div>
+    </div>
+</nav>
+
+<div id="wrapper">
+    <div id="inputAreaContainer">
+        <!-- LEFT SIDE -->
+        <div *ngIf="!pLeft.ready && pLeft === activePlayer" class='inputArea'>
+            <button *ngIf="!started" (click)='makeReady(pLeft)'>Ready For War?</button>
+            <div *ngIf="started">
+                <button>Rock</button>
+                <button>Paper</button>
+                <button>Scissors</button>
+            </div>
+        </div>
+        <div *ngIf="!pLeft.ready && pLeft !== activePlayer" class='inputArea'>
+            <img class="waitingRing" src="assets/images/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="">
+        </div>
+        
+        <!-- RIGHT SIDE -->
+        <div *ngIf="!pRight.ready && pRight === activePlayer" class='inputArea right'>
+            <button *ngIf="!started" (click)='makeReady(pRight)'>Ready For War?</button>
+            <button *ngIf="started">Rock</button>
+            <button *ngIf="started">Paper</button>
+            <button *ngIf="started">Scissors</button>
+        </div>
+        <div *ngIf="!pRight.ready && pRight !== activePlayer" class='inputArea right'>
+            <img class="waitingRing" src="assets/images/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="">
+        </div>
+        
+    </div>
+</div>
 
 

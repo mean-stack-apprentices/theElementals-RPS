@@ -1,4 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReducerManagerDispatcher, Store } from '@ngrx/store';
@@ -22,7 +23,7 @@ import { Player } from '../../../../../shared/models/player.model';
         animate('1s')
       ]),
       transition('in => out', [
-        animate('0.5s')
+        animate('0.3s')
       ]),
     ]),
   ],
@@ -30,30 +31,33 @@ import { Player } from '../../../../../shared/models/player.model';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
+  activePlayer: Player;
   pLeft: Player;
   pRight: Player;
   loggedInUsername: string | undefined = undefined;
-  backgroundString: string
-  fightImgShowing: boolean = false
+  backgroundString: string;
+  fightImgShowing: boolean = false;
+  started: boolean = false;
   constructor(
     private socketService: SocketService,
     private store: Store<AppState>,
     private route: ActivatedRoute,
     ) {
       this.backgroundString = this.getBackground();
-      setTimeout(() => {
-        this.fightImgShowing = true
-        this.playSound(); 
-      }, 3000);
+      // setTimeout(() => {
+      //   this.playFight(); 
+      // }, 3000);
       //this.fightImgShowing = true
       this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
       const state = this.route.snapshot.data.gameInfo;
       
       if (state.loggedIn){
         this.pLeft = new Player(this.loggedInUsername!)
+        this.activePlayer = this.pLeft
         this.pRight = new Player('Computer')
       } else {
         this.pLeft = new Player('Player1')
+        this.activePlayer = this.pLeft
         this.pRight = new Player('Computer')
         this.pRight.ready = true
       }
@@ -86,7 +90,9 @@ export class GameComponent implements OnInit {
     const random = Math.floor(Math.random() * imgArray.length);
     return imgArray[random]
   }
-  playSound() {
+  playFight() {
+    this.fightImgShowing = true
+
     let fightSound = new Audio();
     fightSound.src = "../assets/sounds/321913__jrc-yt__fight.mp3";
     fightSound.autoplay = true;
@@ -95,4 +101,27 @@ export class GameComponent implements OnInit {
     fightSound.play();
     console.log('sound??')
   }
+
+  checkPlayersReady() {
+    if(this.pLeft.ready && this.pRight.ready) {
+      this.started = true;
+      this.playFight()
+      setTimeout(()=>{
+        this.fightImgShowing = false
+        this.makeAllNotReady()
+        console.log(this.pRight.ready)
+      }, 2000)
+      
+    }
+  }
+
+  makeReady(player: Player) {
+    player.makeReady()
+    this.checkPlayersReady()
+  }
+  makeAllNotReady() {
+    this.pLeft.ready = false;
+    this.pRight.ready = false;
+  }
+
 }

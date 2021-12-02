@@ -5,6 +5,13 @@ export class Player {
     health: number = 3;
     ready:boolean = false;
 
+    makeReady() {
+        this.ready = true;
+    }
+    notReady() {
+        this.ready = false;
+    }
+    
     loseHealth() {
         this.health - 1;
     };
