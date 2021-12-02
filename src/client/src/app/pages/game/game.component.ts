@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReducerManagerDispatcher, Store } from '@ngrx/store';
 import { SocketService } from 'src/app/services/socket.service';
@@ -8,6 +9,23 @@ import { Player } from '../../../../../shared/models/player.model';
 
 @Component({
   selector: 'app-game',
+  animations: [
+    trigger('inOut', [
+      // ...
+      state('in', style({
+        display: 'block',
+      })),
+      state('out', style({
+        height: '0px'
+      })),
+      transition('* => in', [
+        animate('1s')
+      ]),
+      transition('in => out', [
+        animate('0.5s')
+      ]),
+    ]),
+  ],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss']
 })
@@ -16,6 +34,7 @@ export class GameComponent implements OnInit {
   pRight: Player;
   loggedInUsername: string | undefined = undefined;
   backgroundString: string
+  fightImgShowing: boolean = false
   constructor(
     private socketService: SocketService,
     private store: Store<AppState>,
@@ -23,8 +42,10 @@ export class GameComponent implements OnInit {
     ) {
       this.backgroundString = this.getBackground();
       setTimeout(() => {
+        this.fightImgShowing = true
         this.playSound(); 
       }, 3000);
+      //this.fightImgShowing = true
       this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
       const state = this.route.snapshot.data.gameInfo;
       
@@ -34,10 +55,13 @@ export class GameComponent implements OnInit {
       } else {
         this.pLeft = new Player('Player1')
         this.pRight = new Player('Computer')
+        this.pRight.ready = true
       }
     }
 
   ngOnInit(): void {
+    //this.playSound();
+    //this.fightImgShowing = true
   }
 
   healthBarColor(health: number) {
@@ -65,6 +89,8 @@ export class GameComponent implements OnInit {
   playSound() {
     let fightSound = new Audio();
     fightSound.src = "../assets/sounds/321913__jrc-yt__fight.mp3";
+    fightSound.autoplay = true;
+    fightSound.muted = false;
     fightSound.load();
     fightSound.play();
     console.log('sound??')

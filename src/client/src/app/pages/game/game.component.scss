@@ -36,6 +36,19 @@ nav {
     top: 23px;
     z-index: -1000;
 }
+#fightImgContainer {
+    position: absolute;
+    height: 80%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // z-index: 100;
+    // background-color: black;
+    // opacity: 30%;
+
+}
 #fightImg {
-    transition: 2s;
+    height: 45%;
+    // z-index: 100;
 }
