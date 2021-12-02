@@ -34,9 +34,9 @@
         <div *ngIf="!pLeft.ready && pLeft === activePlayer" class='inputArea'>
             <button *ngIf="!started" (click)='makeReady(pLeft)'>Ready For War?</button>
             <div *ngIf="started">
-                <button>Rock</button>
-                <button>Paper</button>
-                <button>Scissors</button>
+                <button (click)="select(pLeft, 'rock')">Rock</button>
+                <button (click)="select(pLeft, 'paper')">Paper</button>
+                <button (click)="select(pLeft, 'scissors')">Scissors</button>
             </div>
         </div>
         <div *ngIf="!pLeft.ready && pLeft !== activePlayer" class='inputArea'>
@@ -46,9 +46,11 @@
         <!-- RIGHT SIDE -->
         <div *ngIf="!pRight.ready && pRight === activePlayer" class='inputArea right'>
             <button *ngIf="!started" (click)='makeReady(pRight)'>Ready For War?</button>
-            <button *ngIf="started">Rock</button>
-            <button *ngIf="started">Paper</button>
-            <button *ngIf="started">Scissors</button>
+            <div *ngIf="started">
+                <button (click)="select(pRight, 'rock')">Rock</button>
+                <button (click)="select(pRight, 'paper')">Paper</button>
+                <button (click)="select(pRight, 'scissors')">Scissors</button>
+            </div>
         </div>
         <div *ngIf="!pRight.ready && pRight !== activePlayer" class='inputArea right'>
             <img class="waitingRing" src="assets/images/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="">

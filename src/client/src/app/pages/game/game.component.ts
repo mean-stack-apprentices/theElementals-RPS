@@ -3,6 +3,7 @@ import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReducerManagerDispatcher, Store } from '@ngrx/store';
+import { GameService } from 'src/app/services/game.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { AppState } from 'src/app/store';
 import { loggedInSelector } from 'src/app/store/selectors/user/user.selectors';
@@ -42,12 +43,9 @@ export class GameComponent implements OnInit {
     private socketService: SocketService,
     private store: Store<AppState>,
     private route: ActivatedRoute,
+    private gameService: GameService,
     ) {
       this.backgroundString = this.getBackground();
-      // setTimeout(() => {
-      //   this.playFight(); 
-      // }, 3000);
-      //this.fightImgShowing = true
       this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
       const state = this.route.snapshot.data.gameInfo;
       
@@ -103,15 +101,18 @@ export class GameComponent implements OnInit {
   }
 
   checkPlayersReady() {
-    if(this.pLeft.ready && this.pRight.ready) {
-      this.started = true;
-      this.playFight()
-      setTimeout(()=>{
-        this.fightImgShowing = false
-        this.makeAllNotReady()
-        console.log(this.pRight.ready)
-      }, 2000)
-      
+    if (!this.started) {
+      if(this.pLeft.ready && this.pRight.ready) {
+        this.started = true;
+        this.playFight()
+        setTimeout(()=>{
+          this.fightImgShowing = false
+          this.makeAllNotReady()
+          console.log(this.pRight.ready)
+        }, 2000)
+      }
+    } else if (this.pLeft.ready && this.pRight.ready) {
+
     }
   }
 
@@ -123,5 +124,11 @@ export class GameComponent implements OnInit {
     this.pLeft.ready = false;
     this.pRight.ready = false;
   }
+  select(player: Player, selection: 'rock' | 'paper' | 'scissors') {
+    player.optionSelction = selection
+    this.gameService
+    player.ready = true
+  }
+    
 
 }

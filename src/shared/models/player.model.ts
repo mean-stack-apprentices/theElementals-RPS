@@ -3,6 +3,8 @@ export class Player {
     constructor(public username: string){}
     
     health: number = 3;
+
+    optionSelction: 'rock' | 'paper' | 'scissors' | null = null;
     ready:boolean = false;
 
     makeReady() {
@@ -11,7 +13,7 @@ export class Player {
     notReady() {
         this.ready = false;
     }
-    
+
     loseHealth() {
         this.health - 1;
     };
