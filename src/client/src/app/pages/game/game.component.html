@@ -1,6 +1,8 @@
 <img id="background" src="assets/images/{{backgroundString}}" alt="image">
-<div id="fightImgContainer">
+<div id="popUpImgContainer">
     <img [@inOut]="fightImgShowing ? 'in' : 'out'" id="fightImg" src="assets/images/178-1784143_photo-street-fighter-fight-png.png" alt="">
+    <img [@inOut]="drawImgShowing ? 'in' : 'out'" id="drawImg" src="assets/images/{{drawImgString}}" alt="">
+    <img [@inOut]="fatalityImgShowing ? 'in' : 'out'" id="fatalityImg" src="assets/images/fatality.gif" alt="">
 </div>
 <nav>
     <div id="pLeft">
@@ -9,8 +11,8 @@
             <span class="username">{{pLeft.username}}</span>
         </div>
         <div class="healthBar left">
-            <ng-container *ngFor="let i of [].constructor(pRight.health)">
-                <div class="healthCell"[ngStyle]="{'backgroud-color': healthBarColor(pRight.health)}"></div>
+            <ng-container *ngFor="let i of [].constructor(pLeft.health)">
+                <div class="healthCell"[ngStyle]="{'background-color': healthBarColor(pLeft.health)}"></div>
             </ng-container>
         </div>
     </div>
@@ -22,7 +24,7 @@
         </div>
         <div class="healthBar right">
             <ng-container *ngFor="let i of [].constructor(pRight.health)">
-                <div class="healthCell"[ngStyle]="{'backgroud-color': healthBarColor(pLeft.health)}"></div>
+                <div class="healthCell" [ngStyle]="{'background-color': healthBarColor(pRight.health)}"></div>
             </ng-container>
         </div>
     </div>

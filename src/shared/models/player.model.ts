@@ -15,6 +15,6 @@ export class Player {
     }
 
     loseHealth() {
-        this.health - 1;
+        this.health -= 1;
     };
 }

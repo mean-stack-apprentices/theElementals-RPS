@@ -3,6 +3,7 @@ import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReducerManagerDispatcher, Store } from '@ngrx/store';
+import { GameInfoResolver } from 'src/app/resolvers/game-info.resolver';
 import { GameService } from 'src/app/services/game.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { AppState } from 'src/app/store';
@@ -38,6 +39,11 @@ export class GameComponent implements OnInit {
   loggedInUsername: string | undefined = undefined;
   backgroundString: string;
   fightImgShowing: boolean = false;
+  drawImgString: string | null = null;
+  drawImgShowing: boolean = false;
+  fatalityImgShowing: boolean = false
+  
+  vsComputer: boolean = false
   started: boolean = false;
   constructor(
     private socketService: SocketService,
@@ -53,7 +59,8 @@ export class GameComponent implements OnInit {
         this.pLeft = new Player(this.loggedInUsername!)
         this.activePlayer = this.pLeft
         this.pRight = new Player('Computer')
-      } else {
+      } else { //Match where user not logged in and playing computer
+        this.vsComputer = true;
         this.pLeft = new Player('Player1')
         this.activePlayer = this.pLeft
         this.pRight = new Player('Computer')
@@ -67,7 +74,7 @@ export class GameComponent implements OnInit {
   }
 
   healthBarColor(health: number) {
-    switch (health){
+    switch (health) {
       case 3: 
         return 'green';
       case 2:
@@ -78,15 +85,26 @@ export class GameComponent implements OnInit {
   }
 
   getBackground() {
-    const imgArray = [
+    const backgroundImgArray = [
       "Street-Fighter-background-Street-fighter-characters-.jpg",
       "Mm6kmlz.gif",
       "Blanka-Stage-Background-Bitmap-GIF-Without-Characters-from-Street-Fighter-Alpha-3-Arcade.gif",
       "animated-gifs-of-fighting-game-backgrounds-51.gif", 
       "80f9d4af066c7c4245b80ffd41975f29.gif"
     ]
-    const random = Math.floor(Math.random() * imgArray.length);
-    return imgArray[random]
+    const random = Math.floor(Math.random() * backgroundImgArray.length);
+    return backgroundImgArray[random]
+  }
+  getDrawImg() {
+    const drawImgArray = [
+      "knot0.png",
+      "tie0.png",
+      "tie1.png",
+      "tie2.gif",
+    ]
+    const random = Math.floor(Math.random() * drawImgArray.length);
+    console.log(drawImgArray[random])
+    this.drawImgString = drawImgArray[random]
   }
   playFight() {
     this.fightImgShowing = true
@@ -99,20 +117,48 @@ export class GameComponent implements OnInit {
     fightSound.play();
     console.log('sound??')
   }
-
+//// IMPORTANT 
   checkPlayersReady() {
-    if (!this.started) {
-      if(this.pLeft.ready && this.pRight.ready) {
-        this.started = true;
-        this.playFight()
-        setTimeout(()=>{
-          this.fightImgShowing = false
-          this.makeAllNotReady()
-          console.log(this.pRight.ready)
-        }, 2000)
+    if(!this.started && this.pLeft.ready && this.pRight.ready) {
+      this.started = true;
+      this.playFight()
+      setTimeout(()=>{
+        this.fightImgShowing = false
+        this.makeAllNotReady()
+      }, 2000) 
+    }
+    else if (this.started && this.pLeft.ready && this.pRight.ready) {
+      switch (this.gameService.findRoundWinner(this.pLeft, this.pRight)) {
+        case 'draw': 
+          this.getDrawImg()
+          this.drawImgShowing = true
+          console.log('twas a draw')
+          setTimeout(() => {
+            this.drawImgShowing = false
+            this.makeAllNotReady()
+          }, 2000);
+          break
+        case "pLeft":
+          this.pRight.loseHealth()
+          if (this.pRight.health === 0){
+            this.gameOver(this.pLeft)
+          } else {
+            setTimeout(() => {
+              this.makeAllNotReady()
+            }, 2000);
+          }
+          break
+        case "pRight":
+          this.pLeft.loseHealth()
+          if (this.pLeft.health === 0){
+            this.gameOver(this.pRight)
+          } else {
+            setTimeout(() => {
+              this.makeAllNotReady()
+            }, 2000);
+          }
       }
-    } else if (this.pLeft.ready && this.pRight.ready) {
-
+      
     }
   }
 
@@ -123,12 +169,20 @@ export class GameComponent implements OnInit {
   makeAllNotReady() {
     this.pLeft.ready = false;
     this.pRight.ready = false;
+    if (this.vsComputer) {
+      setTimeout(() => {
+        this.select(this.pRight, this.gameService.computerSelection())
+      }, Math.random() * 2000 + 2000);
+    }
   }
   select(player: Player, selection: 'rock' | 'paper' | 'scissors') {
-    player.optionSelction = selection
-    this.gameService
-    player.ready = true
+    player.optionSelction = selection;
+    player.ready = true;
+    this.checkPlayersReady();
   }
     
-
+  gameOver(winner: Player) {
+    this.fatalityImgShowing = true
+    console.log(`${winner.username} Wins!!`)
+  }
 }
