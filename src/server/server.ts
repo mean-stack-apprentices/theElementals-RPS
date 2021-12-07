@@ -118,7 +118,6 @@ app.post('/api/sign-in', async function(req, res) {
   const {username, password} = req.body
   UserModel.findOne({username}).then(user => {
     bcrypt.compare(password, `${user?.password}`, function(err, result) {
-      console.log(result)
       if (result) {
         const accessToken = jwt.sign({user}, access_secret)
         res.cookie('jwt', accessToken, {

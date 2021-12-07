@@ -17,8 +17,9 @@ const routes: Routes = [
       {path:'sign-in', component: SignInComponent},
     ]
   },
-  {path: 'sign-up', component: SignUpComponent}
-];
+  {path: 'sign-up', component: SignUpComponent},
+  { path: '**', redirectTo: 'home/play'},
+]; 
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
