@@ -19,6 +19,7 @@ import { domainToASCII } from "url";
 import { profile } from "console";
 
 const __dirname = path.resolve();
+console.log(__dirname)
 dotenv.config();
 const port = 3000;
 const saltRounds = 10;
@@ -70,7 +71,8 @@ const upload = multer({
 
 app.use(cors());
 app.use(express.json())
-app.use(express.static("public"));
+const clientPath = path.join(__dirname, '/dist/client');
+app.use(express.static(clientPath));
 
 io.on("connection", socket => {
 })
