@@ -25,9 +25,10 @@ const port = 3000;
 const saltRounds = 10;
 const dbString = "mongodb://localhost:27017/rockPaperScissors"
 
-let gfs: GridFSBucket;
-
+const mongo_uri = process.env.MONGO_URI as string;
 const access_secret = process.env.ACCESS_SECRET as string;
+
+let gfs: GridFSBucket;
 
 const app = express();
 const server = http.createServer(app);
@@ -36,7 +37,7 @@ const io = new Server(server, {
 });
 
 mongoose
-  .connect(dbString)
+  .connect(mongo_uri)
   .then(() => {
     console.log("Connected to DB Successfully");
     gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
@@ -46,8 +47,8 @@ mongoose
   .catch((err) => console.log("Failed to Connect to DB", err));
 
 const storage = new GridFsStorage({
-  url: dbString,
-  // url: mongoURI,
+  // url: dbString,
+  url: mongo_uri,
   file: (req, file) => {
     return new Promise((resolve, reject) => {
       crypto.randomBytes(16, (err, buf) => {
