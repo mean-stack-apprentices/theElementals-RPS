@@ -21,7 +21,7 @@ import { profile } from "console";
 const __dirname = path.resolve();
 console.log(__dirname)
 dotenv.config();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const saltRounds = 10;
 const dbString = "mongodb://localhost:27017/rockPaperScissors"
 
