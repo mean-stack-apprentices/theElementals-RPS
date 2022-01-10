@@ -76,10 +76,13 @@ const clientPath = path.join(__dirname, '/dist/client');
 app.use(express.static(clientPath));
 
 io.on("connection", socket => {
-})
+});
 
 app.get('/test', function(req, res) {
   res.json({test: 'test'})
+});
+app.post('/api/upload-profilePic', upload.single('file'), function(req, res) {
+  
 });
 app.post('/api/sign-up', async function(req, res) {
   const {username, password, profilePic} = req.body
