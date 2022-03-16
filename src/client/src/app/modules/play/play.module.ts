@@ -8,12 +8,11 @@ import { PlayComponent } from './components/play/play.component';
 @NgModule({
   declarations: [
     PlayComponent,
-    
+
   ],
   imports: [
     CommonModule,
     PlayRoutingModule,
-
 
   ]
 })

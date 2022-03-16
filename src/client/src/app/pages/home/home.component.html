@@ -1,7 +1,7 @@
 <ng-container >
 <nav>
     <ul>
-        <li><a routerLinkActive="active-link" routerLink="./home/play">Play</a></li>
+        <li><a routerLinkActive="active-link" routerLink="/home/play">Play</a></li>
         <li><a routerLinkActive="active-link" routerLink="./leaderboard">Leaderboard</a></li>
         <ng-container *ngIf="!(loggedIn$ | async)">
             <li><a routerLinkActive="active-link" routerLink="./sign-in">Sign in</a></li>
