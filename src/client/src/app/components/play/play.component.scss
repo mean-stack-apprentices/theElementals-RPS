@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
 ul {
     height: 77vh;
@@ -15,16 +15,16 @@ li button {
     height: 100px;
     margin: 2.5%;
     font-size: 15pt;
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'Open Sans', sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 15px;
-    background-color: rgba(177, 51, 177, 0.322);
+    background-color: rgba(134, 29, 134, 0.322);
     color: white;
 }
 
 ul li :hover {
-    background-color: rgb(78, 191, 199);
+    background-color: rgba(134, 29, 134, 0.514);
     cursor: pointer;
 }
