@@ -21,8 +21,10 @@ li button {
     justify-content: center;
     border-radius: 15px;
     background-color: #499d49;
+    color: white;
 }
 
 ul li :hover {
     background-color: rgb(78, 191, 199);
+    cursor: pointer;
 }
