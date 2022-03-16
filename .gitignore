@@ -6,3 +6,11 @@
 .env
 
 .DS_Store
+
+# Generated Code
+dist/
+dist/**/**
+dist/**/*
+dist/*/*
+dist/**/**/**
+package-lock.json
