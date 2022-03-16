@@ -8,7 +8,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
-import { PlayComponent } from './components/play/play.component';
+import { PlayComponent } from './modules/play/components/play/play.component';
 import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
@@ -23,15 +23,14 @@ import { UserEffects } from './store/effects/user/user.effects';
 import { GameComponent } from './pages/game/game.component';
 
 const config: SocketIoConfig = {
-  url: !environment.production ? 
-  'http://localhost:3000' : '', options: {} 
+  url: !environment.production ?
+  'http://localhost:3000' : '', options: {}
 };
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    PlayComponent,
     LeaderboardComponent,
     SignInComponent,
     SignUpComponent,
