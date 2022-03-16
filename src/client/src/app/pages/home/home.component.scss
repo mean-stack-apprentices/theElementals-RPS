@@ -26,8 +26,6 @@ nav ul :hover {
 
 nav li  {
     margin: 0 2%;
-    // background-color: lightgray;
-    // box-shadow: 1px 1.5px 2px 1px #3e873e;
 }
 
 nav li a {
@@ -40,5 +38,6 @@ nav li.goRight {
 }
 
 nav li a.active-link {
-   box-shadow: 2px 2px 2px lawngreen;
+    background-color: rgb(124, 16, 16);
+    box-shadow: 0px 0px 5px 5px rgba(124, 16, 16,0.7);
 }
