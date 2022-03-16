@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800;900&display=swap');
+
 ul {
     height: 77vh;
     font-size: large;
@@ -13,8 +15,8 @@ li button {
     width: 300px;
     height: 100px;
     margin: 2.5%;
-    font-size: 25pt;
-    font-family: 'Open Sans', sans-serif;
+    font-size: 27pt;
+    font-family: 'Jost', sans-serif;
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -26,6 +28,6 @@ li button {
 }
 
 ul li :hover {
-    background-color: rgb(92, 0, 0);
+    background-color: rgb(100, 0, 0);
     cursor: pointer;
 }
