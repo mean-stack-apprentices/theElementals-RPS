@@ -1,8 +1,14 @@
 /node_modules/
-
-
 /src/client/node_modules/
 
 .env
 
 .DS_Store
+
+# Generated Code
+dist/
+dist/**/**
+dist/**/*
+dist/*/*
+dist/**/**/**
+package-lock.json
