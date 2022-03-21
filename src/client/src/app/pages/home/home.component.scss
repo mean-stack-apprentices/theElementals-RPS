@@ -36,6 +36,7 @@ nav li.goRight {
 }
 
 nav li a.active-link {
-    background-color: red;
-    box-shadow: 0px 0px 3px 3px red;
+    background-color: rgb(0, 0, 0);
+    box-shadow: 0px 0px 4px 4px red;
+    border-radius: 10px;
 }
