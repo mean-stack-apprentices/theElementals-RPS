@@ -1,16 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800;900&display=swap');
+
 /* You can add global styles to this file, and also import other style files */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    //color: white;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-html, body {
-    height: 100%;
-    // display: flex;
-    // flex-direction: column;
+
+html,
+body {
+  height: 100%;
+  font-family: 'Jost', sans-serif;
 }
 
 body {
-    background-color:lightgray;
+  background: #e00000;
 }
