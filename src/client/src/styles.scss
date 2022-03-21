@@ -1,18 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  //color: white;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    //color: white;
 }
-
-html,
-body {
-  height: 100%;
-  // display: flex;
-  // flex-direction: column;
+html, body {
+    height: 100%;
+    // display: flex;
+    // flex-direction: column;
 }
 
 body {
-  background: #e00000;
+    background-color:lightgray;
 }
