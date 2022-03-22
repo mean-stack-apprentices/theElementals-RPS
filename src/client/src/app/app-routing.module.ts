@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
-import { PlayComponent } from './modules/play/components/play/play.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
-import { GameComponent } from './modules/play/modules/game/components/game/game.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
-import { GameInfoResolver } from './modules/play/modules/game/resolvers/game-info.resolver';
 
 const routes: Routes = [
   {path:'home', component: HomeComponent,
