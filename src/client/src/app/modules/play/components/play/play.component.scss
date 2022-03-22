@@ -9,17 +9,21 @@ ul {
 }
 
 li button {
-    width: 175px;
-    height: 40px;
+    width: 300px;
+    height: 100px;
     margin: 2.5%;
-    font-size: 13pt;
+    font-size: 27pt;
+    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 15px;
-    background-color: #499d49;
+    border-radius: 50px;
+    border: none;
+    background-color: black;
+    color: white;
 }
 
 ul li :hover {
-    background-color: rgb(78, 191, 199);
+    background-color: rgb(100, 0, 0);
+    cursor: pointer;
 }
