@@ -31,7 +31,7 @@ export class PlayComponent implements OnInit {
   }
 
   playComputer() {
-    this.router.navigate(['game'])
+    this.router.navigate(['home/play/game'])
   }
   playOnline() {
     if (!this.loggedIn){
