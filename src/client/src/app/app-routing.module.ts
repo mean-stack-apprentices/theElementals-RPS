@@ -15,6 +15,8 @@ const routes: Routes = [
       {path:'sign-in', component: SignInComponent},
     ]
   },
+  {path: 'game', loadChildren:
+    () => import('./modules/play/modules/game/game.module').then(m => m.GameModule)},
   {path: 'sign-up', component: SignUpComponent},
   { path: '**', redirectTo: 'home/play'},
 ];
