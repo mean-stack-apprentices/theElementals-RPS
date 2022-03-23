@@ -23,7 +23,7 @@ console.log(__dirname)
 dotenv.config();
 const port = process.env.PORT || 3000;
 const saltRounds = 10;
-const dbString = "mongodb://localhost:27017/rockPaperScissors"
+const dbString = "mongodb://localhost:27017/theElementalRPS"
 
 const mongo_uri = process.env.MONGO_URI as string;
 const access_secret = process.env.ACCESS_SECRET as string;

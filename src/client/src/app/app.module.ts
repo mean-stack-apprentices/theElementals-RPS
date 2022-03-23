@@ -17,7 +17,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import * as fromUser from './store/reducers/user/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/effects/user/user.effects';
-import { GameComponent } from './pages/game/game.component';
 
 const config: SocketIoConfig = {
   url: !environment.production ?
@@ -30,7 +29,7 @@ const config: SocketIoConfig = {
     HomeComponent,
     SignInComponent,
     SignUpComponent,
-    GameComponent,
+
   ],
   imports: [
     HttpClientModule,

@@ -7,9 +7,9 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { AppState } from '../store';
-import { UserState } from '../store/reducers/user/user.reducer';
-import { testSelector } from '../store/selectors/user/user.selectors';
+import { AppState } from '../../../../../store';
+import { UserState } from '../../../../../store/reducers/user/user.reducer';
+import { testSelector } from '../../../../../store/selectors/user/user.selectors';
 
 @Injectable({
   providedIn: 'root'
