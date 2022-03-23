@@ -1,0 +1,64 @@
+<img id="background" src="assets/images/{{backgroundString}}" alt="image">
+<div id="popUpImgContainer">
+    <img [@inOut]="fightImgShowing ? 'in' : 'out'" id="fightImg" src="assets/images/178-1784143_photo-street-fighter-fight-png.png" alt="">
+    <img [@inOut]="drawImgShowing ? 'in' : 'out'" id="drawImg" src="assets/images/{{drawImgString}}" alt="">
+    <img [@inOut]="fatalityImgShowing ? 'in' : 'out'" id="fatalityImg" src="assets/images/fatality.gif" alt="">
+</div>
+<nav>
+    <div id="pLeft">
+        <div id="pLeftInfo">
+            <img src="" alt="">
+            <span class="username">{{pLeft.username}}</span>
+        </div>
+        <div class="healthBar left">
+            <ng-container *ngFor="let i of [].constructor(pLeft.health)">
+                <div class="healthCell"[ngStyle]="{'background-color': healthBarColor(pLeft.health)}"></div>
+            </ng-container>
+        </div>
+    </div>
+
+    <div id="pRight" class="">
+        <div id="pRightInfo" class="right">
+            <img src="" alt="">
+            <span class="username">{{pRight.username}}</span>
+        </div>
+        <div class="healthBar right">
+            <ng-container *ngFor="let i of [].constructor(pRight.health)">
+                <div class="healthCell" [ngStyle]="{'background-color': healthBarColor(pRight.health)}"></div>
+            </ng-container>
+        </div>
+    </div>
+</nav>
+
+<div id="wrapper">
+    <div id="inputAreaContainer">
+        <!-- LEFT SIDE -->
+        <div *ngIf="!pLeft.ready && pLeft === activePlayer" class='inputArea'>
+            <button *ngIf="!started" (click)='makeReady(pLeft)'>Ready For War?</button>
+            <div *ngIf="started">
+                <button (click)="select(pLeft, 'rock')">Rock</button>
+                <button (click)="select(pLeft, 'paper')">Paper</button>
+                <button (click)="select(pLeft, 'scissors')">Scissors</button>
+            </div>
+        </div>
+        <div *ngIf="!pLeft.ready && pLeft !== activePlayer" class='inputArea'>
+            <img class="waitingRing" src="assets/images/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="">
+        </div>
+        
+        <!-- RIGHT SIDE -->
+        <div *ngIf="!pRight.ready && pRight === activePlayer" class='inputArea right'>
+            <button *ngIf="!started" (click)='makeReady(pRight)'>Ready For War?</button>
+            <div *ngIf="started">
+                <button (click)="select(pRight, 'rock')">Rock</button>
+                <button (click)="select(pRight, 'paper')">Paper</button>
+                <button (click)="select(pRight, 'scissors')">Scissors</button>
+            </div>
+        </div>
+        <div *ngIf="!pRight.ready && pRight !== activePlayer" class='inputArea right'>
+            <img class="waitingRing" src="assets/images/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="">
+        </div>
+        
+    </div>
+</div>
+
+
