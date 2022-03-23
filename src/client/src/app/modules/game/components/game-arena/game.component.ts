@@ -3,12 +3,12 @@ import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReducerManagerDispatcher, Store } from '@ngrx/store';
-import { GameInfoResolver } from 'src/app/modules/play/modules/game/resolvers/game-info.resolver';
-import { GameService } from 'src/app/modules/play/modules/game/services/game.service';
-import { SocketService } from 'src/app/modules/play/modules/game/services/socket.service';
+import { GameInfoResolver } from 'src/app/modules/game/resolvers/game-info.resolver';
+import { GameService } from 'src/app/modules/game/services/game.service';
+import { SocketService } from 'src/app/modules/game/services/socket.service';
 import { AppState } from 'src/app/store';
 import { loggedInSelector } from 'src/app/store/selectors/user/user.selectors';
-import { Player } from '../../../../../../../../../shared/models/player.model';
+import { Player } from '../../../../../../../shared/models/player.model';
 
 @Component({
   selector: 'app-game',

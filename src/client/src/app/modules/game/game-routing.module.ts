@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GameComponent } from './components/game/game.component';
+import { GameComponent } from './components/game-arena/game.component';
 import { GameInfoResolver } from './resolvers/game-info.resolver';
 
 const routes: Routes = [
