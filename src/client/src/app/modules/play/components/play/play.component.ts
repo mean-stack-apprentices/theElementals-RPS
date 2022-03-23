@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from 'src/app/store';
 import { loggedInSelector } from 'src/app/store/selectors/user/user.selectors';
-import { User } from '../../../../../shared/models/user.model';
+import { User } from '../../../../../../../shared/models/user.model';
 
 @Component({
   selector: 'app-play',
@@ -30,8 +30,8 @@ export class PlayComponent implements OnInit {
   //   }
   }
 
-  playComputer() {   
-    this.router.navigate(['game'])
+  playComputer() {
+    this.router.navigate(['home/play/game'])
   }
   playOnline() {
     if (!this.loggedIn){

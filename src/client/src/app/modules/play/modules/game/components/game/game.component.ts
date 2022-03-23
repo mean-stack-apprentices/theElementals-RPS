@@ -3,12 +3,12 @@ import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReducerManagerDispatcher, Store } from '@ngrx/store';
-import { GameInfoResolver } from 'src/app/resolvers/game-info.resolver';
-import { GameService } from 'src/app/services/game.service';
-import { SocketService } from 'src/app/services/socket.service';
+import { GameInfoResolver } from 'src/app/modules/play/modules/game/resolvers/game-info.resolver';
+import { GameService } from 'src/app/modules/play/modules/game/services/game.service';
+import { SocketService } from 'src/app/modules/play/modules/game/services/socket.service';
 import { AppState } from 'src/app/store';
 import { loggedInSelector } from 'src/app/store/selectors/user/user.selectors';
-import { Player } from '../../../../../shared/models/player.model';
+import { Player } from '../../../../../../../../../shared/models/player.model';
 
 @Component({
   selector: 'app-game',
@@ -42,7 +42,7 @@ export class GameComponent implements OnInit {
   drawImgString: string | null = null;
   drawImgShowing: boolean = false;
   fatalityImgShowing: boolean = false
-  
+
   vsComputer: boolean = false
   started: boolean = false;
   constructor(
@@ -54,7 +54,7 @@ export class GameComponent implements OnInit {
       this.backgroundString = this.getBackground();
       this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
       const state = this.route.snapshot.data.gameInfo;
-      
+
       if (state.loggedIn){
         this.pLeft = new Player(this.loggedInUsername!)
         this.activePlayer = this.pLeft
@@ -75,7 +75,7 @@ export class GameComponent implements OnInit {
 
   healthBarColor(health: number) {
     switch (health) {
-      case 3: 
+      case 3:
         return 'green';
       case 2:
         return 'yellow';
@@ -89,7 +89,7 @@ export class GameComponent implements OnInit {
       "Street-Fighter-background-Street-fighter-characters-.jpg",
       "Mm6kmlz.gif",
       "Blanka-Stage-Background-Bitmap-GIF-Without-Characters-from-Street-Fighter-Alpha-3-Arcade.gif",
-      "animated-gifs-of-fighting-game-backgrounds-51.gif", 
+      "animated-gifs-of-fighting-game-backgrounds-51.gif",
       "80f9d4af066c7c4245b80ffd41975f29.gif"
     ]
     const random = Math.floor(Math.random() * backgroundImgArray.length);
@@ -117,7 +117,7 @@ export class GameComponent implements OnInit {
     fightSound.play();
     console.log('sound??')
   }
-//// IMPORTANT 
+//// IMPORTANT
   checkPlayersReady() {
     if(!this.started && this.pLeft.ready && this.pRight.ready) {
       this.started = true;
@@ -125,11 +125,11 @@ export class GameComponent implements OnInit {
       setTimeout(()=>{
         this.fightImgShowing = false
         this.makeAllNotReady()
-      }, 2000) 
+      }, 2000)
     }
     else if (this.started && this.pLeft.ready && this.pRight.ready) {
       switch (this.gameService.findRoundWinner(this.pLeft, this.pRight)) {
-        case 'draw': 
+        case 'draw':
           this.getDrawImg()
           this.drawImgShowing = true
           console.log('twas a draw')
@@ -158,7 +158,7 @@ export class GameComponent implements OnInit {
             }, 2000);
           }
       }
-      
+
     }
   }
 
@@ -180,7 +180,7 @@ export class GameComponent implements OnInit {
     player.ready = true;
     this.checkPlayersReady();
   }
-    
+
   gameOver(winner: Player) {
     this.fatalityImgShowing = true
     let fatalitySound = new Audio();

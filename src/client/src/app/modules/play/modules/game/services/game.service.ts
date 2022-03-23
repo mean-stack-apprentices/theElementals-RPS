@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Player } from '../../../../shared/models/player.model';
+import { Player } from '../../../../../../../../shared/models/player.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class GameService {
     if (pLeft.optionSelction && pRight.optionSelction) {
       const l = pLeft.optionSelction
       const r = pRight.optionSelction
-    
+
       if (l === 'rock' && r === 'rock') {
         return 'draw'
       }
@@ -50,7 +50,7 @@ export class GameService {
       }else {
         console.log('something went very wrong lol')
         return 'something went very wrong lol'
-        
+
       }
     } else {
       console.log('something went very wrong lol')
