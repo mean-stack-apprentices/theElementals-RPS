@@ -1,22 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SignInComponent } from './components/sign-in/sign-in.component';
+import { OnlineMatchComponent } from './pages/online-match/online-match.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 
 const routes: Routes = [
+  {path: 'game', loadChildren:
+    () => import('./modules/game/game.module').then(m => m.GameModule)},
   {path:'home', component: HomeComponent,
     children: [
-      {path:'play', loadChildren:
-        () => import('./modules/play/play.module').then(m => m.PlayModule)
-      },
       {path:'leaderboard', loadChildren:
       () => import('./modules/leaderboard/leaderboard.module').then(m => m.LeaderboardModule)},
+      {path:'play', loadChildren:
+        () => import('./modules/play/play.module').then(m => m.PlayModule)},
       {path:'sign-in', component: SignInComponent},
     ]
   },
-  {path: 'game', loadChildren:
-    () => import('./modules/game/game.module').then(m => m.GameModule)},
+  {path: 'online-match', component: OnlineMatchComponent},
   {path: 'sign-up', component: SignUpComponent},
   { path: '**', redirectTo: 'home/play'},
 ];
