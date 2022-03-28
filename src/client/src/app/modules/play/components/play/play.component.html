@@ -1,8 +1,5 @@
 <div class="menu-container">
-    <ul>
-        <li (click)='playComputer()'><button>Computer</button></li>
-        <li routerLink="../../online-match" [ngStyle]="{'backgroud-color': buttonColor()}"><button>Online Match</button></li>
-        <li [ngStyle]="{'backgroud-color': buttonColor()}"><button>Tournament</button></li>
-    </ul>
-    
+        <button (click)='playComputer()'>Computer</button>
+        <button routerLink="../../online-match" [ngStyle]="{'backgroud-color': buttonColor()}">Online Match</button>
+        <button [ngStyle]="{'backgroud-color': buttonColor()}">Tournament</button>
 </div>
