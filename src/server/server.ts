@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import http from 'http';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import cookieParser from "cookie-parser";
 import dotenv from 'dotenv'
 
 import multer from 'multer';
@@ -15,8 +14,6 @@ import crypto from 'crypto';
 
 import { UserModel } from "./schemas/user.schema.js";
 import { Server } from "socket.io";
-import { domainToASCII } from "url";
-import { profile } from "console";
 
 const __dirname = path.resolve();
 console.log(__dirname)
@@ -33,7 +30,7 @@ let gfs: GridFSBucket;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: { origin: ["http://localhost:4200"] },
+  cors: { origin: "*" },
 });
 
 mongoose
@@ -75,8 +72,7 @@ app.use(express.json())
 const clientPath = path.join(__dirname, '/dist/client');
 app.use(express.static(clientPath));
 
-io.on("connection", socket => {
-});
+
 
 app.get('/test', function(req, res) {
   res.json({test: 'test'})
@@ -137,13 +133,27 @@ app.post('/api/sign-in', async function(req, res) {
     })
   })
 })
+
+io.on("connection", (socket) => {
+  console.log("user connected, ", socket.id)
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected", socket.id)
+  })
+});
+
 app.all('*', function(req, res) {
   const filePath = path.join(__dirname, '/dist/client/index.html');
   res.sendFile(filePath);
 })
 
-app.listen(port, function() {
-  console.log(`running on http://localhost:${port}`)
-}) 
+
+server.listen(port, function (){
+  console.log(`listening to port http://localhost:${port}`)
+})
+
+// app.listen(port, function() {
+//   console.log(`running on http://localhost:${port}`)
+// }) 
 
 
