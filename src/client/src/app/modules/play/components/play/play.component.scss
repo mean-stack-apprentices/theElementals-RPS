@@ -8,9 +8,12 @@
 }
 
 .menu-container button {
-    font-size: 50px;
-    background-color: blue;
+    background-image: linear-gradient(180deg, #ffffff 55%, #4245ff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-family: 'Bebas Neue', cursive;
+    filter: drop-shadow(3px 3px black);
+    font-size: 47px;
     border: none;
-    text-align: center;
-    color: white;
 }
