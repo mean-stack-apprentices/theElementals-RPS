@@ -26,7 +26,6 @@ export class SignUpComponent implements OnInit {
       username: ['',Validators.required],
       password: ['',Validators.compose([Validators.required, Validators.minLength(3),])],
       confirmPassword: ['',Validators.compose([Validators.required, Validators.minLength(3),])],
-      profilePic: [''],
     }, {validators: confirmPassword})
    }
 
@@ -51,23 +50,23 @@ export class SignUpComponent implements OnInit {
       const user = {
         username: this.createUserForm.controls.username.value,
         password: this.createUserForm.controls.password.value,
-        profilePic: this.createUserForm.get('profilePic')?.value,
       }
       console.log(user)
       this.userService.signUp(user)
+      this.userService.uploadProfilePic(this.formData);
       
-      this.router.navigate(['home']);
+      
+      //this.router.navigate(['home/sign-in']);
     }
   }
 
   makeFileReady(event: any) {
     const file = event.target.files[0]
-    this.createUserForm.get('profilePic')?.setValue(file)
     console.log(file)
     if(file) {
       this.imageFileName = file.name
-      this.formData.append('profilePic', this.createUserForm.get('profilePic')?.value)
-      console.log('>>>>>', this.createUserForm.get('profilePic')?.value, file)
+      this.formData.append('profilePic', file);
+      console.log('>>>>>', file)
       console.log(this.formData);
     }
   }
