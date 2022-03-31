@@ -6,7 +6,7 @@ a {
 nav {
     display: flex;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.322);
+    background-color: rgb(0, 0, 126);
     height: 50px;
 }
 
@@ -36,7 +36,6 @@ nav li.goRight {
 }
 
 nav li a.active-link {
-    background-color: rgb(0, 0, 0);
-    box-shadow: 0px 0px 4px 4px red;
+    box-shadow: 0px 0px 4px 4px blue;
     border-radius: 10px;
 }
