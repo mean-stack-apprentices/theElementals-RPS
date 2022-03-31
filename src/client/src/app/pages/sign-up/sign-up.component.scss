@@ -1,22 +1,35 @@
 #background {
-    height: 100vh;
+    height: 95vh;
     width: 100vw;
-    background-color: rgba(0, 0, 0, 0.427);
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #container {
-    height: 200px;
+    height: 350px;
     width: 30%;
     padding: 3%;
-    background-color: rgb(225, 225, 225);
-    border-radius: 7px;
-    box-shadow: 2px 3px 4px 2px #3e873e;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     justify-content: space-around;
+    text-align: center;
+}
+
+input {
+    margin: -7px;
+    height: 35px;
+    width: 200px;
+    padding: 3.5px;
+    border: solid 1px rgb(185, 185, 185);
+    border-radius: 10px;
+}
+
+button {
+    border-radius: 10px;
+    height: 35px;
+    width: 200px;
+    font-size: 18px;
 }
