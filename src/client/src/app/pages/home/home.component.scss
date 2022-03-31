@@ -1,6 +1,7 @@
 a {
     color: white;
     text-decoration: none;
+    font-size: 25px;
 }
 
 nav {
@@ -36,6 +37,5 @@ nav li.goRight {
 }
 
 nav li a.active-link {
-    box-shadow: 0px 0px 4px 4px blue;
-    border-radius: 10px;
+    color: yellow;
 }
