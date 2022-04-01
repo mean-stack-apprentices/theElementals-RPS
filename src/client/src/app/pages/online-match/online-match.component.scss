@@ -1,29 +1,38 @@
-ul {
-    height: 77vh;
-    font-size: large;
-    list-style: none;
+.online-match-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    height: 97.2vh;
+    background: linear-gradient(180deg, rgb(0, 0, 126), rgb(0, 102, 255), rgb(0, 0, 126));
 }
 
-li button {
-    width: 300px;
-    height: 100px;
-    margin: 2.5%;
-    font-size: 27pt;
-    font-weight: 600;
+.online-match-modes {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50px;
-    border: none;
-    background-color: black;
-    color: white;
+    flex-direction: column;
 }
 
-ul li :hover {
-    background-color: rgb(100, 0, 0);
+h1 {
+    color: rgb(238, 255, 0);
+    font-size: 130px;
+    margin-bottom: 30px;
+}
+
+.online-match-container button {
+    background-image: linear-gradient(180deg, #ffffff 55%, #9e9fff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-family: 'Bebas Neue', cursive;
+    filter: drop-shadow(3px 3px black);
+    font-size: 80px;
+    height: 100px;
+    border: transparent;
     cursor: pointer;
+    margin: 10px;
+}
+
+.online-match-container button:hover {
+    background-image: linear-gradient(180deg, #ffffff 5%, #fdad00);
+    font-size: 90px;
 }
