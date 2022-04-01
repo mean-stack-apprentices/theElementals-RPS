@@ -14,6 +14,7 @@ import crypto from 'crypto';
 
 import { UserModel } from "./schemas/user.schema.js";
 import { Server } from "socket.io";
+import { authHandler } from "./middleware/auth.middleware.js";
 
 const __dirname = path.resolve();
 console.log(__dirname)
@@ -79,6 +80,24 @@ app.get('/test', function(req, res) {
 });
 app.post('/api/upload-profilePic', upload.single('profilePic'), function(req, res) {
   res.json({message: "profilePic landed"})
+});
+app.get("/api/profilePic/:userId", authHandler, async (req, res) => {
+  // console.log('id', req.params.id)
+  console.log('get profilePic')
+  const user = await UserModel.findById(req.params.userId)
+  gfs
+    .find({
+      _id: user?.profilePic
+    })
+    .toArray((err, files) => {
+      console.log(files);
+      if (!files || files.length === 0) {
+        return res.status(404).json({
+          err: "no files exist"
+        });
+      }
+      gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+    });
 });
 app.post('/api/sign-up', async function(req, res) {
   const {username, password, profilePic} = req.body
