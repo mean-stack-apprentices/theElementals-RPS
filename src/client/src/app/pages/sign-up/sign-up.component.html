@@ -1,9 +1,9 @@
 <div id="background">
     <div [formGroup] = 'createUserForm' id="container" >
-        <input type="text" formControlName='username' placeholder="username">
-        <input type="text" formControlName='password' placeholder="password">
-        <input type="text" formControlName='confirmPassword' placeholder="confirm password">
-        <span>upload profile picture: <input type="file" (change)='makeFileReady($event)'></span><br>
+        <input type="text" formControlName='username' placeholder="Username">
+        <input type="text" formControlName='password' placeholder="Password">
+        <input type="text" formControlName='confirmPassword' placeholder="Confirm Password">
+        <span><p>Upload Profile Picture</p><input type="file" (change)='makeFileReady($event)'></span>
         <button (click)='signUp()'>Sign Up</button>
     </div>
 </div>
