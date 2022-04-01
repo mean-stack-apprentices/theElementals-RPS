@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { User } from '../models/user.model';
+import type mongoose from "mongoose";
+import type { User } from '../models/user.model';
 
 export interface Game {
     date: Date,
