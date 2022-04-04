@@ -6,8 +6,8 @@
         <ng-container *ngIf="!(loggedIn$ | async)">
             <li><a routerLinkActive="active-link" routerLink="./sign-in">Sign in</a></li>
         </ng-container>
-        <ng-container *ngIf="(loggedIn$ | async)">
-            <li class="goRight"><a routerLinkActive="active-link" routerLink="./profile">Profile</a></li>
+        <ng-container *ngIf="(loggedIn$ | async) as loggedInUser">
+            <li class="goRight" ><img [src]="baseURL + 'get-profilePic/' + loggedInUser._id" style="height: 35px; border-radius: 50%;" routerLinkActive="active-link" routerLink="./profile"/></li>
         </ng-container>
     </ul>
 </nav>
