@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
 
-  // url = 'http://localhost:4200';
+  public sID!: string
+  // public sid$ = this.socket.fromEvent('connect').pipe(map(() => this.socket.ioSocket.id))
 
   constructor(private socket: Socket) {
-   }
-
-   joinGame(){
-     this.socket.emit('join game')
-     console.log(`player joined`)
-   }
+    this.socket.fromEvent('connect').subscribe(()=> {
+      this.sID = this.socket.ioSocket.id
+    })
+  }
 }
