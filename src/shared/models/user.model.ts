@@ -1,5 +1,9 @@
 export interface User {
+    _id?: string,
     username: string,
     password?: string,
-    profilePic?: string,
+    profilePic?: {
+        picId: any,
+        filename: string
+    }
 }
