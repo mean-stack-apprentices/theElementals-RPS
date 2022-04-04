@@ -18,6 +18,8 @@ import * as fromUser from './store/reducers/user/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/effects/user/user.effects';
 import { OnlineMatchComponent } from './pages/online-match/online-match.component';
+import { GameComponent } from './modules/game/components/game-arena/game.component';
+import { GameModule } from './modules/game/game.module';
 
 const config: SocketIoConfig = {
   url: !environment.production ?
@@ -44,6 +46,7 @@ const config: SocketIoConfig = {
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
     EffectsModule.forRoot([UserEffects]),
+
   ],
   providers: [],
   bootstrap: [AppComponent]
