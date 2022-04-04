@@ -137,6 +137,10 @@ app.post('/api/sign-in', async function(req, res) {
 io.on("connection", (socket) => {
   console.log("user connected, ", socket.id)
 
+  socket.on('join game', () => {
+    console.log(`${socket.id} joined game`)
+  })
+
   socket.on("disconnect", () => {
     console.log("user disconnected", socket.id)
   })
