@@ -81,23 +81,40 @@ app.get('/test', function(req, res) {
 app.post('/api/upload-profilePic', upload.single('profilePic'), function(req, res) {
   res.json({message: "profilePic landed"})
 });
-app.get("/api/profilePic/:userId", authHandler, async (req, res) => {
-  // console.log('id', req.params.id)
-  console.log('get profilePic')
-  const user = await UserModel.findById(req.params.userId)
-  gfs
-    .find({
-      _id: user?.profilePic
-    })
-    .toArray((err, files) => {
-      console.log(files);
-      if (!files || files.length === 0) {
-        return res.status(404).json({
-          err: "no files exist"
-        });
-      }
-      gfs.openDownloadStreamByName(req.params.filename).pipe(res);
-    });
+app.get("/api/get-profilePic/:userId", async (req, res) => {
+  console.log('getting profilePic')
+  const user = await UserModel.findById(req.params.userId).exec();
+  if (user?.profilePic) {
+    console.log("has a profile pic")
+    gfs
+      .find({
+        _id: user?.profilePic.picId
+      })
+      .toArray((err, files) => {
+        console.log(files);
+        if (!files || files.length === 0) {
+          return res.status(404).json({
+            err: "no files exist"
+          });
+        }
+        gfs.openDownloadStreamByName(user!.profilePic!.filename).pipe(res);
+      });
+  } else {
+    console.log("getting default pic")
+    gfs
+      .find({
+        filename: "unknownChar.jpeg"
+      })
+      .toArray((err, files) => {
+        console.log(files);
+        if (!files || files.length === 0) {
+          return res.status(404).json({
+            err: "no files exist"
+          });
+        }
+        gfs.openDownloadStreamByName("unknownChar.jpeg").pipe(res);
+      });
+  }
 });
 app.post('/api/sign-up', async function(req, res) {
   const {username, password, profilePic} = req.body
@@ -145,7 +162,7 @@ app.post('/api/sign-in', async function(req, res) {
           httpOnly: true,
           maxAge: 3600 * 1000,
         })
-        res.json({data: {username: username, profilePic: user?.profilePic}})
+        res.json({data: {_id: user?._id, username: username, profilePic: user?.profilePic}})
       } else {
         res.sendStatus(502);
       }
