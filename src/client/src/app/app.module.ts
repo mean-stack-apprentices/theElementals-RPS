@@ -13,13 +13,10 @@ import { environment } from 'src/environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-//import { environment } from '../environments/environment';
 import * as fromUser from './store/reducers/user/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/effects/user/user.effects';
 import { OnlineMatchComponent } from './pages/online-match/online-match.component';
-import { GameComponent } from './modules/game/components/game-arena/game.component';
-import { GameModule } from './modules/game/game.module';
 
 const config: SocketIoConfig = {
   url: !environment.production ?
