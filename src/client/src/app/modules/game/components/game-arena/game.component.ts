@@ -45,6 +45,7 @@ export class GameComponent implements OnInit {
 
   vsComputer: boolean = false
   started: boolean = false;
+  // id$ = this.socketService.sid$
   constructor(
     private socketService: SocketService,
     private store: Store<AppState>,
@@ -53,6 +54,7 @@ export class GameComponent implements OnInit {
     ) {
       this.backgroundString = this.getBackground();
       this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
+
       const state = this.route.snapshot.data.gameInfo;
 
       if (state.loggedIn){
@@ -61,7 +63,7 @@ export class GameComponent implements OnInit {
         this.pRight = new Player('Computer')
       } else { //Match where user not logged in and playing computer
         this.vsComputer = true;
-        this.pLeft = new Player('Player1')
+        this.pLeft = new Player(`${this.socketService.sID}`)
         this.activePlayer = this.pLeft
         this.pRight = new Player('Computer')
         this.pRight.ready = true
@@ -69,9 +71,6 @@ export class GameComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    //this.playSound();
-    //this.fightImgShowing = true
-    this.socketService.joinGame()
   }
 
   healthBarColor(health: number) {

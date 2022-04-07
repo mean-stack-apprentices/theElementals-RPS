@@ -13,7 +13,6 @@ import { environment } from 'src/environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-//import { environment } from '../environments/environment';
 import * as fromUser from './store/reducers/user/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/effects/user/user.effects';
@@ -44,6 +43,7 @@ const config: SocketIoConfig = {
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
     EffectsModule.forRoot([UserEffects]),
+
   ],
   providers: [],
   bootstrap: [AppComponent]
