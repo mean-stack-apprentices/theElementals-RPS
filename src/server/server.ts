@@ -14,6 +14,7 @@ import crypto from 'crypto';
 
 import { UserModel } from "./schemas/user.schema.js";
 import { Server } from "socket.io";
+import { authHandler } from "./middleware/auth.middleware.js";
 
 const __dirname = path.resolve();
 console.log(__dirname)
@@ -77,8 +78,46 @@ app.use(express.static(clientPath));
 app.get('/test', function(req, res) {
   res.json({test: 'test'})
 });
-app.post('/api/upload-profilePic', upload.single('file'), function(req, res) {
-  
+app.post('/api/upload-profilePic', upload.single('profilePic'), function(req, res) {
+  res.json({
+    message: "profilePic landed",
+    reqFile: req.file,
+  })
+});
+app.get("/api/get-profilePic/:userId", async (req, res) => {
+  console.log('getting profilePic')
+  const user = await UserModel.findById(req.params.userId).exec();
+  if (user?.profilePic) {
+    console.log("has a profile pic")
+    gfs
+      .find({
+        filename: user?.profilePic.filename
+      })
+      .toArray((err, files) => {
+        console.log(files);
+        if (!files || files.length === 0) {
+          return res.status(404).json({
+            err: "no files exist"
+          });
+        }
+        gfs.openDownloadStreamByName(user!.profilePic!.filename).pipe(res);
+      });
+  } else {
+    console.log("getting default pic")
+    gfs
+      .find({
+        filename: "unknownChar.jpeg"
+      })
+      .toArray((err, files) => {
+        console.log(files);
+        if (!files || files.length === 0) {
+          return res.status(404).json({
+            err: "no files exist"
+          });
+        }
+        gfs.openDownloadStreamByName("unknownChar.jpeg").pipe(res);
+      });
+  }
 });
 app.post('/api/sign-up', async function(req, res) {
   const {username, password, profilePic} = req.body
@@ -126,7 +165,7 @@ app.post('/api/sign-in', async function(req, res) {
           httpOnly: true,
           maxAge: 3600 * 1000,
         })
-        res.json({data: {username: username, profilePic: user?.profilePic}})
+        res.json({data: {_id: user?._id, username: username, profilePic: user?.profilePic}})
       } else {
         res.sendStatus(502);
       }
