@@ -79,7 +79,10 @@ app.get('/test', function(req, res) {
   res.json({test: 'test'})
 });
 app.post('/api/upload-profilePic', upload.single('profilePic'), function(req, res) {
-  res.json({message: "profilePic landed"})
+  res.json({
+    message: "profilePic landed",
+    reqFile: req.file,
+  })
 });
 app.get("/api/get-profilePic/:userId", async (req, res) => {
   console.log('getting profilePic')
@@ -88,7 +91,7 @@ app.get("/api/get-profilePic/:userId", async (req, res) => {
     console.log("has a profile pic")
     gfs
       .find({
-        _id: user?.profilePic.picId
+        filename: user?.profilePic.filename
       })
       .toArray((err, files) => {
         console.log(files);

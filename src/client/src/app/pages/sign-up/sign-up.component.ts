@@ -51,12 +51,22 @@ export class SignUpComponent implements OnInit {
         username: this.createUserForm.controls.username.value,
         password: this.createUserForm.controls.password.value,
       }
-      console.log(user)
-      this.userService.signUp(user)
-      this.userService.uploadProfilePic(this.formData);
+      
+      if (this.formData.get('profilePic')) {
+        this.userService.uploadProfilePic(this.formData).subscribe((response)=>{
+          this.userService.signUp({...user, profilePic: {
+            picId: response.reqFile.id,
+            filename: response.reqFile.filename
+          }})
+        });
+        
+      } else {
+        this.userService.signUp(user)
+      }
       
       
-      //this.router.navigate(['home/sign-in']);
+      
+      // this.router.navigate(['home/sign-in']);
     }
   }
 
@@ -67,7 +77,7 @@ export class SignUpComponent implements OnInit {
       this.imageFileName = file.name
       this.formData.append('profilePic', file);
       console.log('>>>>>', file)
-      console.log(this.formData);
+      console.log(this.formData.get('profilePic'));
     }
   }
 }

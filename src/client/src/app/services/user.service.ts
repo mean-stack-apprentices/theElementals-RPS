@@ -19,6 +19,6 @@ export class UserService {
     return this.api.post<{validUsername:  boolean}, {username:string}>('vaid-username', {username})
   }
   uploadProfilePic(formData: FormData) {
-    return this.api.post<any, any>('upload-profilePic', formData).subscribe();
+    return this.api.post<any, any>('upload-profilePic', formData);
   }
 }
