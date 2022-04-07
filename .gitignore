@@ -12,3 +12,6 @@ dist/**/*
 dist/*/*
 dist/**/**/**
 package-lock.json
+
+
+.vscode/
