@@ -71,6 +71,7 @@ export class GameComponent implements OnInit {
   ngOnInit(): void {
     //this.playSound();
     //this.fightImgShowing = true
+    this.socketService.joinGame()
   }
 
   healthBarColor(health: number) {

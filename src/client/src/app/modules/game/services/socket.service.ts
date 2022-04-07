@@ -6,5 +6,13 @@ import { Socket } from 'ngx-socket-io';
 })
 export class SocketService {
 
-  constructor(private socket: Socket) { }
+  // url = 'http://localhost:4200';
+
+  constructor(private socket: Socket) {
+   }
+
+   joinGame(){
+     this.socket.emit('join game')
+     console.log(`player joined`)
+   }
 }
