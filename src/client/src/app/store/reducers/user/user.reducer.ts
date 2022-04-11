@@ -24,16 +24,15 @@ export const initialState: UserState = {
   pRightName: '',
   pLeftSocketId: '',
   pRightSocketId: '',
-}; 
+};
 
 
 export const reducer = createReducer(
   initialState,
 
   on(signInSuccess, (state, action) => {
+    localStorage.setItem('token', JSON.stringify(action.data))
     return {...state, loggedIn: action.data}
   })
-
-
 );
 
