@@ -16,9 +16,9 @@ export class SocketService {
       let ran = String(Math.ceil(Math.random()  * 100000))
       this.sID = this.socket.ioSocket.id
         if (reg.test(this.sID)){
-          this.sID = 'guest_' + this.sID.substring(5,12).replace(reg, ran).toLowerCase()
+          this.sID = 'guest' + this.sID.substring(5,12).replace(reg, ran).toLowerCase()
         }else {
-          this.sID = 'guest_' + this.sID.substring(5,12).toLowerCase()
+          this.sID = 'guest' + this.sID.substring(5,12).toLowerCase()
         }
     })
   }
