@@ -1,11 +1,11 @@
 import express from 'express';
-import { uploadHandler } from "../middleware/upload.middleware.js";
+import { upload } from "../config/db.js";
 import { UserModel } from "../schemas/user.schema.js";
-import { gfs } from '../server.js'
+import { gfs } from '../config/db.js'
 
 export const imageRouter = express.Router();
 
-imageRouter.post('/upload-profilePic', uploadHandler, function(req, res) {
+imageRouter.post('/upload-profilePic', upload.single('profilePic'), function(req, res) {
     res.json({
       message: "profilePic landed",
       reqFile: req.file,
