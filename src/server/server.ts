@@ -1,6 +1,6 @@
 import path from 'path';
 import { apiRouter } from "./routes/api.routes.js";
-import { app } from './configs/express.config.js'
+import { app } from './configs/root.config.js'
 
 
 app.use('/api', apiRouter);
