@@ -2,12 +2,11 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { UserModel } from '../schemas/user.schema.js';
-import {socketConfig } from '../configs/socket.config.js'
-
+import { envConfig } from '../configs/root.config.js';
 
 export const userRouter = express.Router();
 const saltRounds = 10;
-const access_secret = socketConfig.secret
+const access_secret = envConfig.access_secret
 
 
 userRouter.post('/sign-up', async function(req, res) {
