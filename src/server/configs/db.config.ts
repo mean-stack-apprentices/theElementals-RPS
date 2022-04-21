@@ -1,17 +1,14 @@
-import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import type { GridFSBucket } from 'mongodb';
 import multer from 'multer';
 import { GridFsStorage } from 'multer-gridfs-storage';
 import path from 'path';
-import crypto from 'crypto'
-
-dotenv.config();
-
-const mongo_uri = process.env.MONGO_URI as string;
+import crypto from 'crypto';
+import { envConfig } from '../configs/root.config.js'
 
 export let gfs: GridFSBucket;
 
+const mongo_uri = envConfig.mongo_uri
 mongoose
   .connect(mongo_uri)
   .then(() => {
@@ -21,7 +18,6 @@ mongoose
     });
   })
   .catch((err) => console.log("Failed to Connect to DB", err));
-
 
 const storage = new GridFsStorage({
     url: mongo_uri,

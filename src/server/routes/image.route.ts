@@ -1,7 +1,7 @@
 import express from 'express';
-import { upload } from "../config/db.js";
+import { upload } from "../configs/db.config.js";
 import { UserModel } from "../schemas/user.schema.js";
-import { gfs } from '../config/db.js'
+import { gfs } from '../configs/db.config.js'
 
 export const imageRouter = express.Router();
 

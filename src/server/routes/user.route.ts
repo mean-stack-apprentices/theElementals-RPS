@@ -1,16 +1,13 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import { UserModel } from '../schemas/user.schema.js';
-import { authHandler } from '../middleware/auth.middleware.js';
-
-dotenv.config();
+import { envConfig } from '../configs/root.config.js';
 
 export const userRouter = express.Router();
-const port = process.env.PORT || 3000;
 const saltRounds = 10;
-const access_secret = process.env.ACCESS_SECRET as string;
+const access_secret = envConfig.access_secret
+
 
 userRouter.post('/sign-up', async function(req, res) {
     const {username, password, profilePic} = req.body
