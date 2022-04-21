@@ -23,8 +23,3 @@ app.use(cors());
 app.use(express.json())
 app.use(express.static(clientPath));
 
-
-app.all('*', function(req, res) {
-    const filePath = path.join(__dirname, '/dist/client/index.html');
-    res.sendFile(filePath);
-  })
