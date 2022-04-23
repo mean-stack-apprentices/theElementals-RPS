@@ -1,7 +1,7 @@
-import { app, envConfig } from './configs/root.config.js';
+import { app, envConfig, __dirname } from './configs/root.config.js';
 import { apiRouter } from "./routes/api.routes.js";
-import { SERVER } from './configs/socket.config.js';
-import io from './sockets.js';
+import { server } from './configs/socket.config.js';
+import sockets from './sockets.js';
 import path from 'path';
 
 app.use('/api', apiRouter);
@@ -11,7 +11,7 @@ app.all('*', function(req, res) {
   res.sendFile(filePath);
 })
 
-SERVER.listen(envConfig.port, function (){
+server.listen(envConfig.port, function (){
   console.log(`listening to port http://localhost:${envConfig.port}`)
 });
 
