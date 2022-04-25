@@ -6,9 +6,9 @@ import path from 'path';
 import crypto from 'crypto';
 import { envConfig } from '../configs/root.config.js'
 
-export let gfs: GridFSBucket;
-
 const mongo_uri = envConfig.mongo_uri
+let gfs: GridFSBucket;
+
 mongoose
   .connect(mongo_uri)
   .then(() => {
@@ -38,7 +38,8 @@ const storage = new GridFsStorage({
     },
   });
   
-  
-  export const upload = multer({
-    storage,
-  })
+const upload = multer({
+  storage,
+})
+
+export {gfs, upload}
