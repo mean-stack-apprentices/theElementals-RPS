@@ -4,6 +4,8 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { OnlineMatchComponent } from './pages/online-match/online-match.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
+import { LobbyComponent } from './pages/lobby/lobby.component';
+import { LobbyCreatedComponent } from './components/lobby-created/lobby-created.component';
 
 const routes: Routes = [
   {path: 'game', loadChildren:
@@ -18,6 +20,8 @@ const routes: Routes = [
     ]
   },
   {path: 'online-match', component: OnlineMatchComponent},
+  {path: 'lobby', component: LobbyComponent},
+  {path: 'lobby/:roomID', component: LobbyCreatedComponent},
   {path: 'sign-up', component: SignUpComponent},
   { path: '**', redirectTo: 'home/play'},
 ];
