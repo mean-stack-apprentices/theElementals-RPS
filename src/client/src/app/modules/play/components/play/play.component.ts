@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from 'src/app/store';
-import { loggedInSelector } from 'src/app/store/selectors/user/user.selectors';
+import { loggedInSelector } from 'src/app/store/user/user.selectors';
 import { User } from '../../../../../../../shared/models/user.model';
 
 @Component({
