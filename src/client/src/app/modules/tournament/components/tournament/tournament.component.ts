@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SocketService } from 'src/app/services/socket.service';
+import { TournamentService } from '../../services/tournament.service';
 
 @Component({
   selector: 'app-tournament',
@@ -8,12 +9,14 @@ import { SocketService } from 'src/app/services/socket.service';
 })
 export class TournamentComponent implements OnInit {
 
-  constructor(private socketService: SocketService) { }
+  constructor(private tournamentService: TournamentService) { }
 
   ngOnInit(): void {
+    
   }
 
+
   createTournament(){
-    this.socketService.createTournament()
+    this.tournamentService.createTournament()
   }
 }
