@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { UserService } from 'src/app/services/user.service';
-import { signIn } from 'src/app/store/actions/user/sign-in.action';
+import { signIn } from 'src/app/store/user/actions/sign-in.action';
 import { User } from '../../../../../shared/models/user.model';
 
 @Component({

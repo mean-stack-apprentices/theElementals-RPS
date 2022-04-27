@@ -7,7 +7,7 @@ import { GameInfoResolver } from 'src/app/modules/game/resolvers/game-info.resol
 import { GameService } from 'src/app/modules/game/services/game.service';
 import { SocketService } from 'src/app/modules/game/services/socket.service';
 import { AppState } from 'src/app/store';
-import { loggedInSelector } from 'src/app/store/selectors/user/user.selectors';
+import { loggedInSelector } from 'src/app/store/user/user.selectors';
 import { Player } from '../../../../../../../shared/models/player.model';
 
 @Component({
@@ -55,12 +55,13 @@ export class GameComponent implements OnInit {
       this.backgroundString = this.getBackground();
       this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
 
-      const state = this.route.snapshot.data.gameInfo;
+      const userStateSnapshot = this.route.snapshot.data.gameInfo;
 
-      if (state.loggedIn){
+      if (userStateSnapshot.loggedIn){
         this.pLeft = new Player(this.loggedInUsername!)
         this.activePlayer = this.pLeft
         this.pRight = new Player('Computer')
+        this.pRight.ready = true
       } else { //Match where user not logged in and playing computer
         this.vsComputer = true;
         this.pLeft = new Player(`${this.socketService.sID}`)
