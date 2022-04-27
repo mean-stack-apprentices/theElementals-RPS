@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 import { UserService } from 'src/app/services/user.service';
-import { signIn, signInFailure, signInSuccess } from '../../actions/user/sign-in.action';
+import { signIn, signInFailure, signInSuccess } from './actions/sign-in.action';
 
 
 

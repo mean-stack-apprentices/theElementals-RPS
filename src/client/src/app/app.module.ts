@@ -1,22 +1,28 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { reducers, metaReducers } from './store';
+import * as fromUser from './store/user/user.reducer';
+import { UserEffects } from './store/user/user.effects';
+import * as fromGame from './store/game/game.reducer';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import { HomeComponent } from './pages/home/home.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
-import { environment } from 'src/environments/environment';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import * as fromUser from './store/reducers/user/user.reducer';
-import { EffectsModule } from '@ngrx/effects';
-import { UserEffects } from './store/effects/user/user.effects';
 import { OnlineMatchComponent } from './pages/online-match/online-match.component';
+
+import { environment } from 'src/environments/environment';
+
 
 const config: SocketIoConfig = {
   url: !environment.production ?
@@ -35,6 +41,7 @@ const config: SocketIoConfig = {
   imports: [
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -43,6 +50,7 @@ const config: SocketIoConfig = {
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
     EffectsModule.forRoot([UserEffects]),
+    StoreModule.forFeature(fromGame.gameFeatureKey, fromGame.reducer),
 
   ],
   providers: [],

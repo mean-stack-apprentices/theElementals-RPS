@@ -8,8 +8,8 @@ import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AppState } from '../../../store';
-import { UserState } from '../../../store/reducers/user/user.reducer';
-import { testSelector } from '../../../store/selectors/user/user.selectors';
+import { UserState } from '../../../store/user/user.reducer';
+import { userStateSelector } from '../../../store/user/user.selectors';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,6 @@ export class GameInfoResolver implements Resolve<UserState> {
 
   }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UserState> {
-    return this.store.select(testSelector).pipe(take(1));
+    return this.store.select(userStateSelector).pipe(take(1));
   }
 }
