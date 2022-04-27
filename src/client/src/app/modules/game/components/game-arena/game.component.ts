@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ReducerManagerDispatcher, Store } from '@ngrx/store';
 import { GameInfoResolver } from 'src/app/modules/game/resolvers/game-info.resolver';
 import { GameService } from 'src/app/modules/game/services/game.service';
-import { SocketService } from 'src/app/modules/game/services/socket.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { AppState } from 'src/app/store';
 import { loggedInSelector } from 'src/app/store/user/user.selectors';
 import { Player } from '../../../../../../../shared/models/player.model';
