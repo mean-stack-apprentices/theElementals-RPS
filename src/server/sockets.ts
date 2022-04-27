@@ -15,18 +15,20 @@ const tournamentPool: any = {
 export default io.on("connection", (socket) => {
     console.log("user connected, ", socket.id)
 
-    socket.on('create-tournament', () => {
+    socket.on('create-tournament', (socketID,cb) => {
+
       let tPin = generateTournamentPin()
       let joinedPlayers: any
-      let tournamentKey  = tPin.toString()
-      socket.emit('generate tournament pin', {tournamentPin: tPin })
-      socket.join(tournamentKey)
+      cb(tPin);
+      socket.join(tPin)
 
-          if ( tournamentPool[tournamentKey] == undefined){
-            joinedPlayers = new Array<string>(socket.id)
+          if (tournamentPool[tPin] == undefined){
+            joinedPlayers = new Array(socket.id)
             tournamentPool[tPin] = joinedPlayers
-          }
+          } 
+
           console.log(tournamentPool)
+
     })
   
     socket.on("disconnect", () => {
