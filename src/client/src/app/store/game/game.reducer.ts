@@ -1,5 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { Player } from '../../../../../shared/models/player.model';
+import { setGamePlayers } from './game.actions';
 
 
 export const gameFeatureKey = 'game';
@@ -7,24 +8,21 @@ export const gameFeatureKey = 'game';
 export interface GameState {
   pLeft: Player | null
   pRight: Player | null
-  pLeftName: string
-  pRightName: string
-  pLeftSocketId: string
-  pRightSocketId: string
+  gamePin: string | null
 }
 
 export const initialState: GameState = {
   pLeft: null,
   pRight: null,
-  pLeftName: '',
-  pRightName: '',
-  pLeftSocketId: '',
-  pRightSocketId: '',
+  gamePin: null
 };
 
 
 export const reducer = createReducer(
   initialState,
 
-);
+  on(setGamePlayers, (state, action) => {
+    return {...state, ...action}
+  }),
+)
 
