@@ -26,6 +26,11 @@ export class SocketService {
 
   createTournament(){
     this.router.navigate(['/tournament/lobby'])
-    this.socket.emit('create-room', this.socket.ioSocket.id)
+    this.socket.emit('create-tournament', this.socket.ioSocket.id)
+    this.socket.on('generate tournament pin', (data :string) => {
+      console.log('Here is your tournament Pin', data)
+    })
   }
 }
+
+
