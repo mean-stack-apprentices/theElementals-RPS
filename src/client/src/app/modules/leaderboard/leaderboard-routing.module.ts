@@ -4,7 +4,7 @@ import { LeaderboardComponent } from './components/leaderboard/leaderboard.compo
 
 const routes: Routes = [
   {path: '', component: LeaderboardComponent},
-  
+
 ];
 
 @NgModule({
