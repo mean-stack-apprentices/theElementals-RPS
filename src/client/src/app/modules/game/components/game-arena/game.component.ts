@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Navigation } from '@angular/router';
 import { ReducerManagerDispatcher, Store } from '@ngrx/store';
 import { GameInfoResolver } from 'src/app/modules/game/resolvers/game-info.resolver';
 import { GameService } from 'src/app/modules/game/services/game.service';
@@ -9,6 +9,7 @@ import { SocketService } from 'src/app/services/socket.service';
 import { AppState } from 'src/app/store';
 import { loggedInSelector } from 'src/app/store/user/user.selectors';
 import { Player } from '../../../../../../../shared/models/player.model';
+import { NavigationService } from 'src/app/services/navigation.service';
 
 @Component({
   selector: 'app-game',
@@ -50,7 +51,7 @@ export class GameComponent implements OnInit {
     private socketService: SocketService,
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    private gameService: GameService,
+    private gameService: GameService, private navigation: NavigationService
     ) {
       this.backgroundString = this.getBackground();
       this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
@@ -192,5 +193,9 @@ export class GameComponent implements OnInit {
     fatalitySound.play();
 
     console.log(`${winner.username} Wins!!`)
+  }
+
+  back(): void {
+    this.navigation.back()
   }
 }
