@@ -1,15 +1,12 @@
 import { createAction, props } from '@ngrx/store';
+import { Player } from '../../../../../shared/models/player.model';
 
-export const loadGames = createAction(
-  '[Game] Load Games'
+export const setGamePlayers = createAction(
+  '[Game] Set Game Players',
+  props<{ pLeft:Player, pRight:Player }>()
 );
 
-export const loadGamesSuccess = createAction(
-  '[Game] Load Games Success',
-  props<{ data: any }>()
-);
-
-export const loadGamesFailure = createAction(
-  '[Game] Load Games Failure',
-  props<{ error: any }>()
-);
+export const setGamePin = createAction(
+  '[Game] Set Game Pin',
+  props<{ gamePin: string }>()
+)
