@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationService } from 'src/app/services/navigation.service';
 
 @Component({
   selector: 'app-online-match',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OnlineMatchComponent implements OnInit {
 
-  constructor() { }
+  constructor(private navigation: NavigationService) { }
+
+  back(): void {
+    this.navigation.back()
+  }
 
   ngOnInit(): void {
   }
