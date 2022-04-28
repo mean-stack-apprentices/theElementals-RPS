@@ -65,7 +65,7 @@ export class GameComponent implements OnInit {
         this.pRight.ready = true
       } else { //Match where user not logged in and playing computer
         this.vsComputer = true;
-        this.pLeft = new Player(`${this.socketService.sID}`)
+        this.pLeft = new Player(`${this.socketService.guestUsername}`)
         this.activePlayer = this.pLeft
         this.pRight = new Player('Computer')
         this.pRight.ready = true
