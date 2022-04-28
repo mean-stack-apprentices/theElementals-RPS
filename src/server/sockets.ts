@@ -5,7 +5,7 @@ import { io } from './configs/socket.config.js';
 const createFindPool: any = {
   /*__pin__: {
     pLeft: __Player__,
-    PRight: __Player__,
+    pRight: __Player__,
   }
   ]*/
 }
