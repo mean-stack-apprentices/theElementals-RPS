@@ -16,14 +16,11 @@ imageRouter.get("/get-profilePic/:userId", async (req, res) => {
 
     const user = await UserModel.findById(req.params.userId).exec();
     if (user?.profilePic) {
-      console.log("has a profile pic")
-      console.log(user!.profilePic.filename)
       gfs
         .find({
           filename: user!.profilePic!.filename
         })
         .toArray((err, files) => {
-          console.log(files);
           if (!files || files.length === 0) {
             return res.status(404).json({
               err: "no files exist"
@@ -32,13 +29,11 @@ imageRouter.get("/get-profilePic/:userId", async (req, res) => {
           gfs.openDownloadStreamByName(user!.profilePic!.filename).pipe(res);
         });
     } else {
-      console.log("getting default pic")
       gfs
         .find({
           filename: "unknownChar.jpeg"
         })
         .toArray((err, files) => {
-          console.log(files);
           if (!files || files.length === 0) {
             return res.status(404).json({
               err: "no files exist"
