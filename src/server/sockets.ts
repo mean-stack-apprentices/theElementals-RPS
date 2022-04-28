@@ -17,6 +17,7 @@ export default io.on("connection", (socket) => {
       const {emittingPlayer} = payload
       let pin = getUniqueGamePin(createFindPool, randomPin())
       createFindPool[pin] = {pLeft: emittingPlayer}
+      socket.join(pin)
       socket.emit('match created, waiting for opponent', {gamePin: pin})
     })
 
@@ -50,7 +51,7 @@ function randomPin() {
   return result;
 }
 
-function getUniqueGamePin(pool: any, pin:string): string  {
+function getUniqueGamePin(pool: any, pin:string): string {
   if (pool[pin]) {
     return getUniqueGamePin(pool, randomPin())
   } else {
