@@ -15,10 +15,11 @@ import { Player } from '../../../../shared/models/player.model';
 export class SocketService {
 
   public socketId!: string
-  public sID!: string
+  public guestUsername!: string
 
   loggedInUsername: string | undefined;
 
+  tPin: string | undefined
   // public sid$ = this.socket.fromEvent('connect').pipe(map(() => this.socket.ioSocket.id))
 
   constructor(
@@ -31,11 +32,10 @@ export class SocketService {
       let reg = /([-_])\w+/gi
       let ran = String(Math.ceil(Math.random()  * 100000))
       this.socketId = this.socket.ioSocket.id
-      this.sID = this.socket.ioSocket.id
-        if (reg.test(this.sID)){
-          this.sID = 'guest' + this.sID.substring(5,12).replace(reg, ran).toLowerCase()
+        if (reg.test(this.socketId)){
+          this.guestUsername = 'guest' + this.socketId.substring(5,12).replace(reg, ran).toLowerCase()
         }else {
-          this.sID = 'guest' + this.sID.substring(5,12).toLowerCase()
+          this.guestUsername = 'guest' + this.socketId.substring(5,12).toLowerCase()
         }
     })
     // on listeners
@@ -55,19 +55,25 @@ export class SocketService {
   createMatch() {
     this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
     this.socket.emit('requesting to create match',{
-      emittingPlayer: new Player(this.loggedInUsername ? this.loggedInUsername: this.sID, this.socketId )
+      emittingPlayer: new Player(this.loggedInUsername ? this.loggedInUsername: this.guestUsername, this.socketId )
     })
   }
   findCreatedMatch(gamePin: string) {
     this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
     this.socket.emit('find created game',{
-      emittingPlayer: new Player(this.loggedInUsername ? this.loggedInUsername: this.sID, this.socketId ),
+      emittingPlayer: new Player(this.loggedInUsername ? this.loggedInUsername: this.guestUsername, this.socketId ),
       requestedGamePin: gamePin
     })
   }
 
+
+
   createTournament(){
-    this.router.navigate(['/tournament/lobby'])
-    this.socket.emit('create tournament room', this.socket.ioSocket.id)
+    this.socket.emit('create-tournament', this.socketId, (data:any) => {
+      this.tPin = data
+      this.router.navigate(['/tournament/lobby'])
+    })
   }
 }
+
+

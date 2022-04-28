@@ -1,4 +1,16 @@
 import { io } from './configs/socket.config.js';
+import * as socketHelpers from './helpers/socket.helper.js';
+
+const tournamentPool: any = {
+  // tPin: [
+  //     socketIds,
+  //     socketIds,
+  // ],
+    // tPin: [
+  //     socketIds,
+  //     socketIds,
+  // ]
+}
 
 // CONNECTION STATES
 
@@ -15,7 +27,7 @@ export default io.on("connection", (socket) => {
 
     socket.on('requesting to create match',(payload) => {
       const {emittingPlayer} = payload
-      let pin = getUniqueGamePin(createFindPool, randomPin())
+      let pin = socketHelpers.getUniqueGamePin(createFindPool, socketHelpers.randomPin())
       createFindPool[pin] = {pLeft: emittingPlayer}
       socket.join(pin)
       socket.emit('match created, waiting for opponent', {gamePin: pin})
@@ -30,31 +42,17 @@ export default io.on("connection", (socket) => {
       }
     })
 
-    socket.on('create tournament room', (room) => {
-      socket.join(room)
-      console.log('id: ', room)
+    socket.on('create-tournament', (socketID, cb) => {
+      let tPin = socketHelpers.getUniqueGamePin(tournamentPool, socketHelpers.randomPin())
+      socket.join(tPin)         
+      let joinedPlayers = new Array(socket.id)
+      tournamentPool[tPin] = joinedPlayers
+      cb(tPin);
+      
+      console.log(tournamentPool)
     })
     
     socket.on("disconnect", () => {
       console.log("user disconnected", socket.id)
     })
 });
-
-function randomPin() {
-  const length = 4;
-  let result           = '';
-  const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-
-function getUniqueGamePin(pool: any, pin:string): string {
-  if (pool[pin]) {
-    return getUniqueGamePin(pool, randomPin())
-  } else {
-  return pin
-  }
-}
