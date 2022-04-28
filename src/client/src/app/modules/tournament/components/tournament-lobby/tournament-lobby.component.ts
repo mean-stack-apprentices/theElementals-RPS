@@ -20,7 +20,7 @@ export class TournamentLobbyComponent implements OnInit {
 
   constructor(private socketService: SocketService, private store: Store<AppState>) {
     this.store.select(loggedInSelector).subscribe(data => this.loggedIn = data)
-    this.guestPlayer = this.socketService.sID
+    this.guestPlayer = this.socketService.guestUsername
    }
 
   ngOnInit(): void {
