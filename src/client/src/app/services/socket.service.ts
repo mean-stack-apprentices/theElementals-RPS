@@ -6,7 +6,8 @@ import { map } from 'rxjs/operators';
 import { AppState } from 'src/app/store';
 import { setGamePin, setGamePlayers } from 'src/app/store/game/game.actions';
 import { loggedInSelector } from 'src/app/store/user/user.selectors';
-import { Player } from '../../../../../../shared/models/player.model';
+import { Player } from '../../../../shared/models/player.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -65,4 +66,8 @@ export class SocketService {
     })
   }
 
+  createTournament(){
+    this.router.navigate(['/tournament/lobby'])
+    this.socket.emit('create tournament room', this.socket.ioSocket.id)
+  }
 }

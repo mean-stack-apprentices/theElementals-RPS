@@ -18,6 +18,8 @@ const routes: Routes = [
     ]
   },
   {path: 'online-match', component: OnlineMatchComponent},
+  {path: 'tournament', loadChildren:
+  () => import('./modules/tournament/tournament.module').then(m => m.TournamentModule)},
   {path: 'sign-up', component: SignUpComponent},
   { path: '**', redirectTo: 'home/play'},
 ];

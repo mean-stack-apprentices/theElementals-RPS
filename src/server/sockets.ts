@@ -28,7 +28,12 @@ export default io.on("connection", (socket) => {
         socket.emit('found game, joining player', createFindPool[requestedGamePin])
       }
     })
-  
+
+    socket.on('create tournament room', (room) => {
+      socket.join(room)
+      console.log('id: ', room)
+    })
+    
     socket.on("disconnect", () => {
       console.log("user disconnected", socket.id)
     })
