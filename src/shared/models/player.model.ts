@@ -1,6 +1,9 @@
 export class Player {
     
-    constructor(public username: string){}
+    constructor(
+        public username: string,
+        public socketId?: string,
+    ){}
     
     health: number = 3;
 
