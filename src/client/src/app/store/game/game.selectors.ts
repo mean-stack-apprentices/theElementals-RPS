@@ -8,3 +8,7 @@ export const gameStateSelector = createSelector(
     gameFeatureSelector,
     (state) => state
 );
+export const gamePinSelector = createSelector(
+    gameFeatureSelector,
+    (state) => state.gamePin
+);
