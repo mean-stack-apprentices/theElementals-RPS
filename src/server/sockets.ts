@@ -1,6 +1,9 @@
 import { io } from './configs/socket.config.js';
 import * as socketHelpers from './helpers/socket.helper.js';
 
+
+// CONNECTION STATES
+
 const tournamentPool: any = {
   // tPin: [
   //     socketIds,
@@ -11,8 +14,6 @@ const tournamentPool: any = {
   //     socketIds,
   // ]
 }
-
-// CONNECTION STATES
 
 const createFindPool: any = {
   /*__pin__: {
