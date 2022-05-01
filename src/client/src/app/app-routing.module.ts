@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SignInComponent } from './components/sign-in/sign-in.component';
-import { OnlineMatchComponent } from './pages/online-match/online-match.component';
+import { OnlineMatchComponent } from './modules/online-match/components/online-match/online-match.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 
@@ -17,7 +17,8 @@ const routes: Routes = [
       {path:'sign-in', component: SignInComponent},
     ]
   },
-  {path: 'online-match', component: OnlineMatchComponent},
+  {path: 'online-match', loadChildren:
+  () => import('./modules/online-match/online-match.module').then(m => m.OnlineMatchModule)},
   {path: 'tournament', loadChildren:
   () => import('./modules/tournament/tournament.module').then(m => m.TournamentModule)},
   {path: 'sign-up', component: SignUpComponent},

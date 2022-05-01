@@ -69,8 +69,8 @@ export class SocketService {
 
 
   createTournament(){
-    this.socket.emit('create-tournament', this.socketId, (data:any) => {
-      this.tPin = data
+    this.socket.emit('create-tournament', this.socketId, (response:any) => {
+      this.tPin = response
       this.router.navigate(['/tournament/lobby'])
     })
   }
