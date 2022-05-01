@@ -42,7 +42,7 @@ export class SocketService {
     this.socket.on('match created, waiting for opponent', (payload:{gamePin: string}) => {
       this.store.dispatch(setGamePin(payload));
       console.log('match created, waiting for opponent',payload)
-      this.router.navigate(['game'])
+      this.router.navigate(['online-match', 'game-pin-display'])
 
     })
     this.socket.on('found game, joining player',(gameInfo: {pLeft:Player, pRight:Player}) => {

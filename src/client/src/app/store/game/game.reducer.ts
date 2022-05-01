@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { Player } from '../../../../../shared/models/player.model';
-import { setGamePlayers } from './game.actions';
+import { setGamePin, setGamePlayers } from './game.actions';
 
 
 export const gameFeatureKey = 'game';
@@ -23,6 +23,9 @@ export const reducer = createReducer(
 
   on(setGamePlayers, (state, action) => {
     return {...state, ...action}
+  }),
+  on(setGamePin, (state, action) => {
+    return {...state, gamePin: action.gamePin}
   }),
 )
 
