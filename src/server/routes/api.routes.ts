@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
+import { gameRouter } from './game.route.js';
 import { imageRouter } from './image.route.js';
 import { userRouter } from './user.route.js';
 
@@ -6,6 +7,7 @@ export const apiRouter = express.Router();
 
 apiRouter.use('/', userRouter);
 apiRouter.use('/', imageRouter);
+apiRouter.use('/', gameRouter);
 
 
 apiRouter.use((req,res, next) => {
