@@ -10,6 +10,7 @@ import { AppState } from 'src/app/store';
 import { loggedInSelector } from 'src/app/store/user/user.selectors';
 import { Player } from '../../../../../../../shared/models/player.model';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { SoundsService } from 'src/app/services/sounds.service';
 
 @Component({
   selector: 'app-game',
@@ -51,7 +52,9 @@ export class GameComponent implements OnInit {
     private socketService: SocketService,
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    private gameService: GameService, private navigation: NavigationService
+    private gameService: GameService, 
+    private navigation: NavigationService,
+    private sounds: SoundsService
     ) {
       this.backgroundString = this.getBackground();
       this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
@@ -73,6 +76,12 @@ export class GameComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.sounds.stopMenuMusic()
+    this.sounds.playFightMusic()
+  }
+
+  ngOnDestroy() {
+    this.sounds.stopFightMusic()
   }
 
   healthBarColor(health: number) {
