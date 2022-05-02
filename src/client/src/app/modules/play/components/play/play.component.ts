@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { resolve } from 'dns';
 import { AppState } from 'src/app/store';
 import { loggedInSelector } from 'src/app/store/user/user.selectors';
 import { User } from '../../../../../../../shared/models/user.model';
+import { PlayService } from '../../play.service';
 
 @Component({
   selector: 'app-play',
@@ -12,13 +12,8 @@ import { User } from '../../../../../../../shared/models/user.model';
   styleUrls: ['./play.component.scss']
 })
 export class PlayComponent implements OnInit {
-  loggedIn: User | null = null
-  constructor(
-    private store: Store<AppState>,
-    private router: Router,
-    ) {
-    this.store.select(loggedInSelector).subscribe(data => this.loggedIn = data)
-   }
+
+  constructor(private playService: PlayService) {}
 
   ngOnInit(): void {
   }
@@ -31,23 +26,10 @@ export class PlayComponent implements OnInit {
   }
 
   playComputer() {
-    this.router.navigate(['/game'])
+    this.playService.playComputer()
   }
 
   checkIfLoggedIn(route: string){
-      const checkPromise = new Promise((resolve, reject) => {
-        resolve(this.loggedIn)
-      })
-
-      checkPromise.then((response) => {
-        if(response){
-          route ==="online" ? this.router.navigate(['online-match']) : this.router.navigate(['tournament'])
-        }else {
-          alert('Please log in to continue')
-          setTimeout(() => {
-            this.router.navigateByUrl('/home/sign-in')
-          }, 100)
-        }
-      })
+    this.playService.checkIfLoggedIn(route)
   }
 }
