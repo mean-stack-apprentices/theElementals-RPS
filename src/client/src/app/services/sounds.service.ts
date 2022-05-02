@@ -7,6 +7,10 @@ export class SoundsService {
     playing = false;
     audio = new Audio();
     musicStatus = 'Play Music';
+    fightMusic = [
+        '../../assets/sounds/fight1.mp3',
+        '../../assets/sounds/fight2.mp3'
+    ]
 
 
     playMenuMusic() {
@@ -31,5 +35,17 @@ export class SoundsService {
         this.audio.pause();
         this.musicStatus = 'Play Music'
         this.playing = false
+    }
+
+    playFightMusic() {
+        this.audio.src = this.fightMusic[Math.floor(Math.random() * this.fightMusic.length)];
+        this.audio.load();
+        this.audio.volume = 0.1;
+        this.audio.loop = true;
+        this.audio.play()
+    }
+
+    stopFightMusic() {
+        this.audio.pause()
     }
 }
