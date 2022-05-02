@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
+import { SoundsService } from 'src/app/services/sounds.service';
 import { AppState } from 'src/app/store';
 import { loggedInSelector } from 'src/app/store/user/user.selectors';
 import { User } from '../../../../../shared/models/user.model';
@@ -17,31 +18,20 @@ export class HomeComponent implements OnInit {
   constructor(
       private store: Store<AppState>,
       private api: ApiService,
+      private sounds: SoundsService
     ) {
       this.loggedIn$ = this.store.select(loggedInSelector)
       console.log(this.loggedIn$)
   }
 
-  playing = false;
-  audio = new Audio();
-  musicStatus = 'Play Music'
+  musicStatus = this.sounds.musicStatus;
 
-  playSound() {
-    if (this.playing === false) {
-      this.audio.play()
-      this.playing = true;
-      this.musicStatus = 'Stop Music'
-    } else {
-      this.audio.pause()
-      this.playing = false;
-      this.musicStatus = 'Play Music'
-    }
+  playMusic() {
+    this.sounds.playSound()
   }
 
   ngOnInit(): void {
-    this.audio.src = "../../../assets/sounds/menu.mp3";
-    this.audio.load();
-    this.audio.volume = 0.1;
+
   }
 
 }
