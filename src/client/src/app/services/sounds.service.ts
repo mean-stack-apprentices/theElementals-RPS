@@ -8,8 +8,13 @@ export class SoundsService {
     audio = new Audio();
     musicStatus = 'Play Music';
     fightMusic = [
-        '../../assets/sounds/fight1.mp3',
-        '../../assets/sounds/fight2.mp3'
+        '../../assets/sounds/game/fight1.mp3',
+        '../../assets/sounds/game/fight2.mp3',
+        '../../assets/sounds/game/fight3.mp3',
+        '../../assets/sounds/game/fight4.mp3',
+        '../../assets/sounds/game/fight5.mp3',
+        '../../assets/sounds/game/fight6.mp3',
+        '../../assets/sounds/game/fight7.mp3',
     ]
 
 
