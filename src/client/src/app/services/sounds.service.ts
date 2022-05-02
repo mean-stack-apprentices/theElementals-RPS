@@ -9,7 +9,7 @@ export class SoundsService {
     musicStatus = 'Play Music';
 
 
-    playSound() {
+    playMenuMusic() {
         if (this.playing === false) {
             this.audio.src = "../../../assets/sounds/menu.mp3";
             this.audio.load();
@@ -27,7 +27,7 @@ export class SoundsService {
         }
     }
 
-    stopSound() {
+    stopMenuMusic() {
         this.audio.pause();
         this.musicStatus = 'Play Music'
         this.playing = false

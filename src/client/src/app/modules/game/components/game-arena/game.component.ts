@@ -76,7 +76,7 @@ export class GameComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.sounds.stopSound()
+    this.sounds.stopMenuMusic()
   }
 
   healthBarColor(health: number) {

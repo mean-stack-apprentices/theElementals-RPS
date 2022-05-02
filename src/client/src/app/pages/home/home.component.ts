@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   musicStatus = this.sounds.musicStatus;
 
   playMusic() {
-    this.sounds.playSound()
+    this.sounds.playMenuMusic()
   }
 
   ngOnInit(): void {
