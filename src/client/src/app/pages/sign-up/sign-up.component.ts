@@ -5,6 +5,7 @@ import { json } from 'express';
 import { confirmPassword } from 'src/app/form-validators/create-user-form-validators';
 import { UserService } from 'src/app/services/user.service';
 import { tap, debounceTime } from 'rxjs/operators'
+import { NavigationService } from 'src/app/services/navigation.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -20,6 +21,7 @@ export class SignUpComponent implements OnInit {
     private userService: UserService,
     private fb: FormBuilder,
     private router: Router,
+    private navigation: NavigationService
   ) {
     this.formData = new FormData();
     this.createUserForm = this.fb.group({
@@ -79,5 +81,9 @@ export class SignUpComponent implements OnInit {
       console.log('>>>>>', file)
       console.log(this.formData.get('profilePic'));
     }
+  }
+
+  back() {
+    this.navigation.back()
   }
 }
