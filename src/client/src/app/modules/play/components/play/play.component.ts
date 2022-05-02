@@ -1,9 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store';
-import { loggedInSelector } from 'src/app/store/user/user.selectors';
-import { User } from '../../../../../../../shared/models/user.model';
 import { PlayService } from '../../play.service';
 
 @Component({
