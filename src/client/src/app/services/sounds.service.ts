@@ -17,7 +17,7 @@ export class SoundsService {
         if (this.playing === false) {
             this.audio.src = "../../../assets/sounds/menu.mp3";
             this.audio.load();
-            this.audio.volume = 0.1;
+            this.audio.volume = 0.05;
             this.audio.loop = true;
             this.audio.play()
             this.playing = true;
@@ -40,7 +40,7 @@ export class SoundsService {
     playFightMusic() {
         this.audio.src = this.fightMusic[Math.floor(Math.random() * this.fightMusic.length)];
         this.audio.load();
-        this.audio.volume = 0.1;
+        this.audio.volume = 0.05;
         this.audio.loop = true;
         this.audio.play()
     }
