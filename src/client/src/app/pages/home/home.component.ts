@@ -22,7 +22,26 @@ export class HomeComponent implements OnInit {
       console.log(this.loggedIn$)
   }
 
+  playing = false;
+  audio = new Audio();
+  musicStatus = 'Play Music'
+
+  playSound() {
+    if (this.playing === false) {
+      this.audio.play()
+      this.playing = true;
+      this.musicStatus = 'Stop Music'
+    } else {
+      this.audio.pause()
+      this.playing = false;
+      this.musicStatus = 'Play Music'
+    }
+  }
+
   ngOnInit(): void {
+    this.audio.src = "../../../assets/sounds/menu.mp3";
+    this.audio.load();
+    this.audio.volume = 0.1;
   }
 
 }
