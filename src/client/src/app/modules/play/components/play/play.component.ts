@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { resolve } from 'dns';
 import { AppState } from 'src/app/store';
 import { loggedInSelector } from 'src/app/store/user/user.selectors';
 import { User } from '../../../../../../../shared/models/user.model';
@@ -34,21 +35,19 @@ export class PlayComponent implements OnInit {
   }
 
   checkIfLoggedIn(route: string){
-      const checkPromise = new Promise((res, rej) => {
-          rej(!this.loggedIn)
+      const checkPromise = new Promise((resolve, reject) => {
+        resolve(this.loggedIn)
       })
 
-      checkPromise.then(() => {
-        if (route ==="online"){
-          this.router.navigate(['online-match'])
-        }else if (route === "tournament"){
-          this.router.navigate(['tournament'])
+      checkPromise.then((response) => {
+        if(response){
+          route ==="online" ? this.router.navigate(['online-match']) : this.router.navigate(['tournament'])
+        }else {
+          alert('Please log in to continue')
+          setTimeout(() => {
+            this.router.navigateByUrl('/home/sign-in')
+          }, 100)
         }
-      }).catch(() => {
-        alert('Please log in to continue')
-        setTimeout(() => {
-          this.router.navigateByUrl('/home/sign-in')
-        }, 500)
       })
   }
 }
