@@ -65,4 +65,22 @@ export class SoundsService {
         selectAudio.volume = this.soundVolume;
         selectAudio.play()
     }
+
+    volumeUp() {
+        this.audio.volume += 0.1;
+    }
+
+    volumeDown() {
+        this.audio.volume -= 0.1;
+    }
+
+    volumeMute() {
+        if (this.isMuted) {
+            this.audio.muted = false;
+            this.isMuted = false;
+        } else {
+            this.audio.muted = true;
+            this.isMuted = true;
+        }
+    }
 }
