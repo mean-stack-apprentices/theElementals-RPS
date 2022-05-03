@@ -59,4 +59,10 @@ export class SoundsService {
         hoverAudio.volume = this.soundVolume;
         hoverAudio.play()
     }
+
+    playSelectSound() {
+        let selectAudio = new Audio('../../assets/sounds/navigation/select.wav')
+        selectAudio.volume = this.soundVolume;
+        selectAudio.play()
+    }
 }

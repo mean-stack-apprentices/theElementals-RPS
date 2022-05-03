@@ -34,4 +34,8 @@ export class PlayComponent implements OnInit {
   playHoverSound() {
     this.sounds.playHoverSound();
   }
+
+  playSelectSound() {
+    this.sounds.playSelectSound();
+  }
 }
