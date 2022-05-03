@@ -22,6 +22,7 @@ import { SignUpComponent } from './pages/sign-up/sign-up.component';
 
 import { environment } from 'src/environments/environment';
 
+import { SoundsService } from './services/sounds.service';
 
 const config: SocketIoConfig = {
   url: !environment.production ?
@@ -49,7 +50,7 @@ const config: SocketIoConfig = {
     StoreModule.forFeature(fromGame.gameFeatureKey, fromGame.reducer),
 
   ],
-  providers: [],
+  providers: [SoundsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
