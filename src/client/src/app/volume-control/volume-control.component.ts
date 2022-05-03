@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { SoundsService } from '../services/sounds.service';
 
 @Component({
@@ -9,11 +9,9 @@ import { SoundsService } from '../services/sounds.service';
 export class VolumeControlComponent implements OnInit {
 
   volumeLevel = 1;
+  muteOption = 'Mute';
 
   constructor(private sounds: SoundsService) { }
-
-  ngOnInit(): void {
-  }
 
   volumeUp() {
     this.sounds.volumeUp();
@@ -27,6 +25,14 @@ export class VolumeControlComponent implements OnInit {
 
   volumeMute() {
     this.sounds.volumeMute();
+    if (this.sounds.isMuted) {
+      this.muteOption = 'Unmute'
+    } else {
+      this.muteOption = 'Mute'
+    }
+  }
+
+  ngOnInit(): void {
   }
 
 }

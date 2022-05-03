@@ -18,7 +18,6 @@ export class SoundsService {
         '../../assets/sounds/game/fight7.mp3',
     ]
 
-
     playMenuMusic() {
         if (this.playing === false) {
             this.audio.src = "../../../assets/sounds/menu.mp3";
