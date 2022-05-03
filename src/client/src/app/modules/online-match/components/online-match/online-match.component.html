@@ -3,18 +3,18 @@
     <h1>Online Mode</h1>
   </div>
   <div class="online-match-modes">
-    <button>Random Match</button>
+    <button (click)="playSelectSound()" (mouseover)="playHoverSound()">Random Match</button>
     <div class="find-match-container">
       <div class="find-match-button">
-        <button (click)="socketRequestFindMatch()">Find Match</button>
+        <button (click)="socketRequestFindMatch(); playSelectSound()" (mouseover)="playHoverSound()">Find Match</button>
       </div>
       <div class="input-container">
         <input [(ngModel)]="gamePin" type="text" placeholder="PIN">
       </div>
     </div>
-    <button (click)="socketRequestCreateMatch()">Create Match</button>
+    <button (click)="socketRequestCreateMatch(); playSelectSound()" (mouseover)="playHoverSound()">Create Match</button>
   </div>
   <div>
-    <button id="back" (click)="back()">back</button>
+    <button id="back" (click)="back(); playSelectSound()" (mouseover)="playHoverSound()">back</button>
   </div>
 </div>
