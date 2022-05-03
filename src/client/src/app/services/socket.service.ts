@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Socket } from 'ngx-socket-io';
 import { map } from 'rxjs/operators';
 import { AppState } from 'src/app/store';
-import { setGamePin, setGamePlayers } from 'src/app/store/game/game.actions';
+import { setActivePlayer, setGamePin, setGamePlayers, setIsStarted } from 'src/app/store/game/game.actions';
 import { loggedInSelector } from 'src/app/store/user/user.selectors';
 import { Player } from '../../../../shared/models/player.model';
 
@@ -39,40 +39,73 @@ export class SocketService {
         }
     })
     // on listeners
-    this.socket.on('match created, waiting for opponent', (payload:{gamePin: string}) => {
-      this.store.dispatch(setGamePin(payload));
-      console.log('match created, waiting for opponent',payload)
-      this.router.navigate(['online-match', 'game-pin-display'])
-
+   
+    this.socket.on('found game, joining player',(playerInfo: {pLeft:Player, pRight:Player}) => {
+      this.store.dispatch(setGamePlayers(playerInfo));
+      
     })
-    this.socket.on('found game, joining player',(gameInfo: {pLeft:Player, pRight:Player}) => {
-      this.store.dispatch(setGamePlayers(gameInfo));
-      console.log('found game, joining player', gameInfo)
-      this.router.navigate(['game'])
+    this.socket.on('route', (urlString: string) => {
+      this.router.navigate([urlString])
+    })
+    this.socket.on('set game pin', (gamePin: string) => {
+      this.store.dispatch(setGamePin({gamePin}));
+    })
+    this.socket.on('set isStarted', (isStarted: boolean) => {
+      this.store.dispatch(setIsStarted({isStarted}))
+    })
+    this.socket.on('update game players', (playerInfo: {pLeft:Player, pRight:Player}) => {
+      this.store.dispatch(setGamePlayers(playerInfo));
     })
   }
 
   createMatch() {
     this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
-    this.socket.emit('requesting to create match',{
-      emittingPlayer: new Player(this.loggedInUsername ? this.loggedInUsername: this.guestUsername, this.socketId )
-    })
+    const activePlayer = new Player(this.loggedInUsername ? this.loggedInUsername: this.guestUsername, this.socketId)
+    this.store.dispatch(setActivePlayer({activePlayerUsername: activePlayer.username}))
+    this.socket.emit(
+      'requesting to create match',
+      {
+      emittingPlayer: activePlayer
+      },
+      () => {
+       
+      }
+    )
   }
   findCreatedMatch(gamePin: string) {
     this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
-    this.socket.emit('find created game',{
-      emittingPlayer: new Player(this.loggedInUsername ? this.loggedInUsername: this.guestUsername, this.socketId ),
-      requestedGamePin: gamePin
-    })
+    const activePlayer = new Player(this.loggedInUsername ? this.loggedInUsername: this.guestUsername, this.socketId )
+    this.socket.emit(
+      'find created game',
+      {
+        emittingPlayer: activePlayer,
+        requestedGamePin: gamePin
+      },
+      ()=>{
+        this.store.dispatch(setActivePlayer({activePlayerUsername: activePlayer.username}))
+      }
+    )
   }
-
-
-
   createTournament(){
     this.socket.emit('create-tournament', this.socketId, (response:any) => {
       this.tPin = response
       this.router.navigate(['/tournament/lobby'])
     })
+  }
+  decreasePlayersHealth(gamePin: string, side: 'pLeft' | 'pRight') {
+    this.socket.emit("request decrease player's health", {gamePin, side})
+  }
+  setPlayersSelection(gamePin: string, side: 'pLeft' | 'pRight', selction: 'rock' | 'paper' | 'scissors') {
+    this.socket.emit("request set player's selection", {gamePin, side, selction})
+  }
+  setSideToNotReady(gamePin: string, side: 'pLeft' | 'pRight') {
+    this.socket.emit('request set side to NOT ready', {gamePin, side})
+  }
+  setSideToReady(gamePin: string, side: 'pLeft' | 'pRight') {
+    this.socket.emit('request set side to ready', {gamePin, side})
+  }
+  setIsStarted(gamePin: string, bool: boolean) {
+    this.socket.emit('request set isStarted', {gamePin, bool})
   }
 }
 
