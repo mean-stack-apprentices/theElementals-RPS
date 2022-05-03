@@ -1,0 +1,5 @@
+<div class="menu-container">
+        <button (click)='playComputer(); playSelectSound()' (mouseover)="playHoverSound()">Computer</button>
+        <button (click)="checkIfLoggedIn('online')"  [ngStyle]="{'backgroud-color': buttonColor()}" (mouseover)="playHoverSound()">Online Match</button>
+        <button (click)="checkIfLoggedIn('tournament')" [ngStyle]="{'backgroud-color': buttonColor()}" (mouseover)="playHoverSound()">Tournament</button>
+</div>

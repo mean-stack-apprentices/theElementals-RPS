@@ -1,7 +1,9 @@
 export class Player {
     username;
-    constructor(username) {
+    socketId;
+    constructor(username, socketId) {
         this.username = username;
+        this.socketId = socketId;
     }
     health = 3;
     optionSelction = null;

@@ -5,6 +5,7 @@ import { json } from 'express';
 import { confirmPassword } from 'src/app/form-validators/create-user-form-validators';
 import { UserService } from 'src/app/services/user.service';
 import { tap, debounceTime } from 'rxjs/operators'
+import { NavigationService } from 'src/app/services/navigation.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -20,13 +21,13 @@ export class SignUpComponent implements OnInit {
     private userService: UserService,
     private fb: FormBuilder,
     private router: Router,
+    private navigation: NavigationService
   ) {
     this.formData = new FormData();
     this.createUserForm = this.fb.group({
       username: ['',Validators.required],
       password: ['',Validators.compose([Validators.required, Validators.minLength(3),])],
       confirmPassword: ['',Validators.compose([Validators.required, Validators.minLength(3),])],
-      profilePic: [''],
     }, {validators: confirmPassword})
    }
 
@@ -51,24 +52,38 @@ export class SignUpComponent implements OnInit {
       const user = {
         username: this.createUserForm.controls.username.value,
         password: this.createUserForm.controls.password.value,
-        profilePic: this.createUserForm.get('profilePic')?.value,
       }
-      console.log(user)
-      this.userService.signUp(user)
       
-      this.router.navigate(['home']);
+      if (this.formData.get('profilePic')) {
+        this.userService.uploadProfilePic(this.formData).subscribe((response)=>{
+          this.userService.signUp({...user, profilePic: {
+            picId: response.reqFile.id,
+            filename: response.reqFile.filename
+          }})
+        });
+        
+      } else {
+        this.userService.signUp(user)
+      }
+      
+      
+      
+      // this.router.navigate(['home/sign-in']);
     }
   }
 
   makeFileReady(event: any) {
     const file = event.target.files[0]
-    this.createUserForm.get('profilePic')?.setValue(file)
     console.log(file)
     if(file) {
       this.imageFileName = file.name
-      this.formData.append('profilePic', this.createUserForm.get('profilePic')?.value)
-      console.log('>>>>>', this.createUserForm.get('profilePic')?.value, file)
-      console.log(this.formData);
+      this.formData.append('profilePic', file);
+      console.log('>>>>>', file)
+      console.log(this.formData.get('profilePic'));
     }
+  }
+
+  back() {
+    this.navigation.back()
   }
 }

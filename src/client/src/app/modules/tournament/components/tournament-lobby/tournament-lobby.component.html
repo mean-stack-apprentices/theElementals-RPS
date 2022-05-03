@@ -1,0 +1,21 @@
+<div class="main-block">
+  <div>
+    <h1>Welcome!</h1>
+  </div>
+  <div>
+    <ul>
+      <h2>Players: </h2>
+        <li *ngIf="loggedIn; else guestBlock">
+          {{loggedIn.username}}
+
+        </li>
+        <ng-template #guestBlock>
+           {{guestPlayer}}
+        </ng-template>
+    </ul>
+  </div>
+  <div class="pin-container">
+    <h3>Your Tournament Pin is: </h3>
+      <app-tournamentpin [tournamentPin]="tPin">  </app-tournamentpin>
+  </div>
+</div>

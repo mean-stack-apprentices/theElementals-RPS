@@ -1,0 +1,27 @@
+.menu-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgb(0, 0, 126), rgb(0, 102, 255), rgb(0, 0, 126));
+    height: 91.9vh;
+}
+
+.menu-container button {
+    background-image: linear-gradient(180deg, #ffffff 55%, #9e9fff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-family: 'Bebas Neue', cursive;
+    filter: drop-shadow(3px 3px black);
+    font-size: 110px;
+    height: 120px;
+    border: transparent;
+    cursor: pointer;
+    margin-bottom: 50px;
+}
+
+.menu-container button:hover {
+    background-image: linear-gradient(180deg, #ffffff 5%, #fdad00);
+    font-size: 120px;
+}

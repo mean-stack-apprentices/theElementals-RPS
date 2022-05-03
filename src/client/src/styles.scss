@@ -1,16 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Righteous&family=Staatliches&display=swap');
 /* You can add global styles to this file, and also import other style files */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    //color: white;
-}
-html, body {
-    height: 100%;
-    // display: flex;
-    // flex-direction: column;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+html,
 body {
-    background-color:lightgray;
+  height: 100%;
+  font-family: 'Bebas Neue', cursive;
 }

@@ -1,0 +1,21 @@
+#table-container {
+  background-color: #003c96;
+  color: white;
+  margin: 20px 40px;
+  text-align: center;
+  border: 5px solid black;
+  border-radius: 25px;
+  letter-spacing: 1.5px;
+  height: 75%;
+}
+
+table {
+  width: 100%;
+  font-size: 40px;
+  table-layout: fixed;
+  margin-top: 30px;
+}
+
+th {
+  font-size: 50px;
+}
