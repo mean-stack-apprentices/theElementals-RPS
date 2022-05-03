@@ -14,7 +14,7 @@ import { userStateSelector } from '../../../store/user/user.selectors';
 @Injectable({
   providedIn: 'root'
 })
-export class GameInfoResolver implements Resolve<UserState> {
+export class UserStateResolver implements Resolve<UserState> {
   constructor(private store: Store<AppState>) {
 
   }

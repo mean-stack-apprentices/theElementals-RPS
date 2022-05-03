@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GameComponent } from './components/game-arena/game.component';
-import { GameInfoResolver } from './resolvers/game-info.resolver';
+import { UserStateResolver } from './resolvers/user-state.resolver';
 
 const routes: Routes = [
-  {path: '', component: GameComponent, resolve: {gameInfo: GameInfoResolver}},
+  {path: '', component: GameComponent, resolve: {userState: UserStateResolver}},
 
 ];
 
