@@ -18,6 +18,26 @@ h1 {
     margin-bottom: 30px;
 }
 
+.input-container {
+    width: 175px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: auto;
+    margin-left: 40px;
+}
+
+input {
+    width: 100%;
+    height: 70px;
+    text-align: center;
+    font-size: 50px;
+}
+
+.find-match-container {
+    display: flex;
+    justify-content: space-around;
+}
+
 .online-match-container button {
     background-image: linear-gradient(180deg, #ffffff 55%, #9e9fff);
     background-clip: text;
@@ -34,7 +54,7 @@ h1 {
 
 .online-match-container button:hover {
     background-image: linear-gradient(180deg, #ffffff 5%, #fdad00);
-    font-size: 90px;
+    transform: scale(1.2);
 }
 
 #back {

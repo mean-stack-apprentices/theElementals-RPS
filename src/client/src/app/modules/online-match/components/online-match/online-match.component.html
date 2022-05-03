@@ -3,14 +3,16 @@
     <h1>Online Mode</h1>
   </div>
   <div class="online-match-modes">
-    <ul>
-      <li><button>Random Match</button></li>
-      <li>
-        <input [(ngModel)]="gamePin" type="text" placeholder="*enter game pin*">
+    <button>Random Match</button>
+    <div class="find-match-container">
+      <div class="find-match-button">
         <button (click)="socketRequestFindMatch()">Find Match</button>
-      </li>
-      <li><button (click)="socketRequestCreateMatch()">Create Match</button></li>
-    </ul>
+      </div>
+      <div class="input-container">
+        <input [(ngModel)]="gamePin" type="text" placeholder="PIN">
+      </div>
+    </div>
+    <button (click)="socketRequestCreateMatch()">Create Match</button>
   </div>
   <div>
     <button id="back" (click)="back()">back</button>
