@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SoundsService } from 'src/app/services/sounds.service';
 import { PlayService } from '../../play.service';
 
 @Component({
@@ -8,9 +9,11 @@ import { PlayService } from '../../play.service';
 })
 export class PlayComponent implements OnInit {
 
-  constructor(private playService: PlayService) {}
+  constructor(private playService: PlayService,
+    private sounds: SoundsService) {}
 
   ngOnInit(): void {
+    
   }
    buttonColor() {
   //   if (this.loggedIn ===null) {
@@ -26,5 +29,9 @@ export class PlayComponent implements OnInit {
 
   checkIfLoggedIn(route: string){
     this.playService.checkIfLoggedIn(route)
+  }
+
+  playHoverSound() {
+    this.sounds.playHoverSound();
   }
 }

@@ -5,8 +5,9 @@ export class SoundsService {
     constructor() { }
 
     playing = false;
-    audio = new Audio();
+    musicAudio = new Audio();
     musicStatus = 'Play Music';
+    soundVolume = 0.1;
     fightMusic = [
         '../../assets/sounds/game/fight1.mp3',
         '../../assets/sounds/game/fight2.mp3',
@@ -17,19 +18,18 @@ export class SoundsService {
         '../../assets/sounds/game/fight7.mp3',
     ]
 
-
     playMenuMusic() {
         if (this.playing === false) {
-            this.audio.src = "../../../assets/sounds/menu.mp3";
-            this.audio.load();
-            this.audio.volume = 0.05;
-            this.audio.loop = true;
-            this.audio.play()
+            this.musicAudio.src = "../../../assets/sounds/menu.mp3";
+            this.musicAudio.load();
+            this.musicAudio.volume = 0.05;
+            this.musicAudio.loop = true;
+            this.musicAudio.play()
             this.playing = true;
             this.musicStatus = 'Stop Music'
             console.log('playing')
         } else {
-            this.audio.pause()
+            this.musicAudio.pause()
             this.playing = false;
             this.musicStatus = 'Play Music'
             console.log('paused')
@@ -37,20 +37,26 @@ export class SoundsService {
     }
 
     stopMenuMusic() {
-        this.audio.pause();
+        this.musicAudio.pause();
         this.musicStatus = 'Play Music'
         this.playing = false
     }
 
     playFightMusic() {
-        this.audio.src = this.fightMusic[Math.floor(Math.random() * this.fightMusic.length)];
-        this.audio.load();
-        this.audio.volume = 0.05;
-        this.audio.loop = true;
-        this.audio.play()
+        this.musicAudio.src = this.fightMusic[Math.floor(Math.random() * this.fightMusic.length)];
+        this.musicAudio.load();
+        this.musicAudio.volume = 0.05;
+        this.musicAudio.loop = true;
+        this.musicAudio.play()
     }
 
     stopFightMusic() {
-        this.audio.pause()
+        this.musicAudio.pause()
+    }
+
+    playHoverSound() {
+        let hoverAudio = new Audio('../../assets/sounds/navigation/move-cursor.wav');
+        hoverAudio.volume = this.soundVolume;
+        hoverAudio.play()
     }
 }
