@@ -3,13 +3,14 @@ import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute, Navigation } from '@angular/router';
 import { ReducerManagerDispatcher, Store } from '@ngrx/store';
-import { GameInfoResolver } from 'src/app/modules/game/resolvers/game-info.resolver';
+import { UserStateResolver } from 'src/app/modules/game/resolvers/user-state.resolver';
 import { GameService } from 'src/app/modules/game/services/game.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { AppState } from 'src/app/store';
 import { loggedInSelector } from 'src/app/store/user/user.selectors';
 import { Player } from '../../../../../../../shared/models/player.model';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { gameStateSelector } from 'src/app/store/game/game.selectors';
 
 @Component({
   selector: 'app-game',
@@ -34,10 +35,10 @@ import { NavigationService } from 'src/app/services/navigation.service';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-  activePlayer: Player;
-  pLeft: Player;
-  pRight: Player;
+  gameState: any
+  
   loggedInUsername: string | undefined = undefined;
+  
   backgroundString: string;
   fightImgShowing: boolean = false;
   drawImgString: string | null = null;
@@ -45,7 +46,6 @@ export class GameComponent implements OnInit {
   fatalityImgShowing: boolean = false
 
   vsComputer: boolean = false
-  started: boolean = false;
   // id$ = this.socketService.sid$
   constructor(
     private socketService: SocketService,
@@ -55,20 +55,25 @@ export class GameComponent implements OnInit {
     ) {
       this.backgroundString = this.getBackground();
       this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
+      this.store.select(gameStateSelector).subscribe(gs => this.gameState = {...gs})
+      const userStateSnapshot = this.route.snapshot.data.userState;
 
-      const userStateSnapshot = this.route.snapshot.data.gameInfo;
-
-      if (userStateSnapshot.loggedIn){
-        this.pLeft = new Player(this.loggedInUsername!)
-        this.activePlayer = this.pLeft
-        this.pRight = new Player('Computer')
-        this.pRight.ready = true
-      } else { //Match where user not logged in and playing computer
+      console.log(this.gameState)
+      //this.gameState = {}
+      if (this.gameState.vsComputer){
         this.vsComputer = true;
-        this.pLeft = new Player(`${this.socketService.guestUsername}`)
-        this.activePlayer = this.pLeft
-        this.pRight = new Player('Computer')
-        this.pRight.ready = true
+        this.gameState.pLeft = new Player(this.loggedInUsername ? this.loggedInUsername : this.socketService.guestUsername)
+        this.gameState.activePlayerUsername = this.gameState.pLeft.username
+        this.gameState.pRight = new Player('Computer')
+        this.gameState.pRight.ready = true
+      } else {
+        this.gameState
+        //Match where user not logged in and playing computer
+        
+      //   this.pLeft = new Player(`${this.socketService.guestUsername}`)
+      //   this.activePlayer = this.pLeft
+      //   this.pRight = new Player('Computer')
+      //   this.pRight.ready = true
       }
     }
 
@@ -121,16 +126,16 @@ export class GameComponent implements OnInit {
   }
 //// IMPORTANT
   checkPlayersReady() {
-    if(!this.started && this.pLeft.ready && this.pRight.ready) {
-      this.started = true;
+    if(!this.gameState.isStarted && this.gameState.pLeft.ready && this.gameState.pRight.ready) {
+      this.vsComputer ? this.gameState.isStarted = true : this.socketService.setIsStarted(this.gameState.gamePin, true)
       this.playFight()
       setTimeout(()=>{
         this.fightImgShowing = false
         this.makeAllNotReady()
       }, 2000)
     }
-    else if (this.started && this.pLeft.ready && this.pRight.ready) {
-      switch (this.gameService.findRoundWinner(this.pLeft, this.pRight)) {
+    else if (this.gameState.isStarted && this.gameState.pLeft.ready && this.gameState.pRight.ready) {
+      switch (this.gameService.findRoundWinner(this.gameState.pLeft, this.gameState.pRight)) {
         case 'draw':
           this.getDrawImg()
           this.drawImgShowing = true
@@ -141,9 +146,13 @@ export class GameComponent implements OnInit {
           }, 2000);
           break
         case "pLeft":
-          this.pRight.loseHealth()
-          if (this.pRight.health === 0){
-            this.gameOver(this.pLeft)
+          if (this.vsComputer){
+            this.gameState.pRight.loseHealth()
+          } else {
+            this.socketService.decreasePlayersHealth(this.gameState.gamePin, 'pRight')
+          }
+          if (this.gameState.pRight.health === 0){
+            this.gameOver(this.gameState.pLeft)
           } else {
             setTimeout(() => {
               this.makeAllNotReady()
@@ -151,9 +160,13 @@ export class GameComponent implements OnInit {
           }
           break
         case "pRight":
-          this.pLeft.loseHealth()
-          if (this.pLeft.health === 0){
-            this.gameOver(this.pRight)
+          if (this.vsComputer){
+            this.gameState.pLeft.loseHealth()
+          } else {
+            this.socketService.decreasePlayersHealth(this.gameState.gamePin, 'pLeft')
+          }
+          if (this.gameState.pLeft.health === 0){
+            this.gameOver(this.gameState.pRight)
           } else {
             setTimeout(() => {
               this.makeAllNotReady()
@@ -163,24 +176,44 @@ export class GameComponent implements OnInit {
 
     }
   }
-
-  makeReady(player: Player) {
-    player.makeReady()
-    this.checkPlayersReady()
-  }
-  makeAllNotReady() {
-    this.pLeft.ready = false;
-    this.pRight.ready = false;
+  async makeReady(side: 'pLeft' | 'pRight') {
     if (this.vsComputer) {
-      setTimeout(() => {
-        this.select(this.pRight, this.gameService.computerSelection())
-      }, Math.random() * 2000 + 2000);
+      this.gameState[side].makeReady()
+      this.checkPlayersReady()
+    }else {
+      await this.socketService.setSideToReady(this.gameState.gamePin, side)
+      setTimeout(() => { ///TEMPORARY
+        this.checkPlayersReady()
+      }, 2000);
+      //this.checkPlayersReady() 
     }
   }
-  select(player: Player, selection: 'rock' | 'paper' | 'scissors') {
-    player.optionSelction = selection;
-    player.ready = true;
+  async makeNotReady(side: 'pLeft' | 'pRight') {
+    await this.socketService.setSideToNotReady(this.gameState.gamePin, side)
+  }
+  makeAllNotReady() {
+    if (this.vsComputer){
+      this.gameState.pLeft.ready = false;
+      this.gameState.pRight.ready = false;
+
+      setTimeout(() => {
+        this.select('pRight', this.gameService.computerSelection())
+      }, Math.random() * 2000 + 2000);
+    } else {
+      this.makeNotReady('pLeft');
+      this.makeNotReady('pRight')
+    }
+  }
+  async select(side: 'pLeft' | 'pRight', selection: 'rock' | 'paper' | 'scissors') {
+    if (this.vsComputer) {
+    this.gameState[side].optionSelction = selection;
+    this.gameState[side].ready = true;
     this.checkPlayersReady();
+    } else {
+      await this.socketService.setPlayersSelection(this.gameState.gamePin,side, selection);
+      await this.makeReady(side)
+      this.checkPlayersReady()
+    }
   }
 
   gameOver(winner: Player) {
