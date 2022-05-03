@@ -7,6 +7,7 @@ export class SoundsService {
     playing = false;
     musicAudio = new Audio();
     musicStatus = 'Play Music';
+    isMuted = false;
     soundVolume = 0.1;
     fightMusic = [
         '../../assets/sounds/game/fight1.mp3',
@@ -67,19 +68,19 @@ export class SoundsService {
     }
 
     volumeUp() {
-        this.audio.volume += 0.1;
+        this.musicAudio.volume += 0.1;
     }
 
     volumeDown() {
-        this.audio.volume -= 0.1;
+        this.musicAudio.volume -= 0.1;
     }
 
     volumeMute() {
         if (this.isMuted) {
-            this.audio.muted = false;
+            this.musicAudio.muted = false;
             this.isMuted = false;
         } else {
-            this.audio.muted = true;
+            this.musicAudio.muted = true;
             this.isMuted = true;
         }
     }
