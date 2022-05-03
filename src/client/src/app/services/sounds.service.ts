@@ -5,6 +5,7 @@ export class SoundsService {
     constructor() { }
 
     playing = false;
+    isMuted = false;
     audio = new Audio();
     musicStatus = 'Play Music';
     fightMusic = [
@@ -52,5 +53,23 @@ export class SoundsService {
 
     stopFightMusic() {
         this.audio.pause()
+    }
+
+    volumeUp() {
+        this.audio.volume += 0.1;
+    }
+
+    volumeDown() {
+        this.audio.volume -= 0.1;
+    }
+
+    volumeMute() {
+        if (this.isMuted) {
+            this.audio.muted = false;
+            this.isMuted = false;
+        } else {
+            this.audio.muted = true;
+            this.isMuted = true;
+        }
     }
 }

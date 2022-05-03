@@ -34,7 +34,7 @@ const config: SocketIoConfig = {
     AppComponent,
     HomeComponent,
     SignInComponent,
-    SignUpComponent,
+    SignUpComponent
   ],
   imports: [
     HttpClientModule,
