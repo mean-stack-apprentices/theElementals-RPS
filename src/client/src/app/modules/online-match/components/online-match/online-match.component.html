@@ -9,7 +9,7 @@
         <button (click)="socketRequestFindMatch(); playSelectSound()" (mouseover)="playHoverSound()">Find Match</button>
       </div>
       <div class="input-container">
-        <input [(ngModel)]="gamePin" type="text" placeholder="PIN">
+        <input [(ngModel)]="gamePin" type="text" placeholder="PIN" maxlength="4">
       </div>
     </div>
     <button (click)="socketRequestCreateMatch(); playSelectSound()" (mouseover)="playHoverSound()">Create Match</button>
