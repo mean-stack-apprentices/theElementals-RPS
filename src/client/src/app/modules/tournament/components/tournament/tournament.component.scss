@@ -18,6 +18,12 @@ h1 {
   margin-bottom: 30px;
 }
 
+.find-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .tournament-container button {
   background-image: linear-gradient(180deg, #ffffff 55%, #9e9fff);
   background-clip: text;
@@ -34,7 +40,7 @@ h1 {
 
 .tournament-container button:hover {
   background-image: linear-gradient(180deg, #ffffff 5%, #fdad00);
-  font-size: 90px;
+  transform: scale(1.2);
 }
 
 input {
@@ -42,6 +48,7 @@ input {
   font-size: 40px;
   width: 250px;
   text-align: center;
+  margin-left: 20px;
 }
 
 #back {
