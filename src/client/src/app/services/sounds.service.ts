@@ -2,10 +2,19 @@ import { Injectable } from "@angular/core";
 
 @Injectable()
 export class SoundsService {
-    constructor() { }
+    constructor() {
+        this.hitAudio.volume = this.soundVolume;
+        this.drawAudio.volume = this.soundVolume;
+        this.gameOverAudio.volume = this.soundVolume,
+        this.gameEndAudio.volume = this.soundVolume
+    }
 
     playing = false;
     musicAudio = new Audio();
+    hitAudio = new Audio();
+    drawAudio = new Audio();
+    gameOverAudio = new Audio();
+    gameEndAudio = new Audio();
     musicStatus = 'Play Music';
     isMuted = false;
     soundVolume = 0.1;
@@ -21,6 +30,12 @@ export class SoundsService {
     songTitle = '';
     randomSongNumber = Math.floor(Math.random() * Object.keys(this.fightMusic).length);
     songNumber = this.randomSongNumber;
+
+    hitSounds = [
+        '../../assets/sounds/game/hits/hit_punch_l.wav',
+        '../../assets/sounds/game/hits/hit_punch_m.wav',
+        '../../assets/sounds/game/hits/hit_punch_h.wav'
+    ]
 
     playMenuMusic() {
         if (this.playing === false) {
@@ -43,6 +58,7 @@ export class SoundsService {
     stopMenuMusic() {
         this.musicAudio.pause();
         this.musicStatus = 'Play Music'
+        this.musicAudio.volume = this.soundVolume;
         this.playing = false
     }
 
@@ -50,13 +66,44 @@ export class SoundsService {
         this.musicAudio.src = Object.values(this.fightMusic)[this.randomSongNumber];
         this.songTitle = Object.keys(this.fightMusic)[this.randomSongNumber]
         this.musicAudio.load();
-        this.musicAudio.volume = 0.1;
+        this.musicAudio.volume = this.soundVolume;
         this.musicAudio.loop = true;
         this.musicAudio.play()
     }
 
     stopFightMusic() {
         this.musicAudio.pause()
+        this.gameEndAudio.pause()
+    }
+
+    playGameOverMusic() {
+        this.gameOverAudio.src = '../../assets/sounds/game/game-over.mp3'
+        this.gameOverAudio.play()
+    }
+
+    playGameEndMusic() {
+        this.gameEndAudio.src = '../../assets/sounds/game/game-end.mp3'
+        this.gameEndAudio.loop = true;
+        this.gameEndAudio.play();
+    }
+
+    playHitSound() {
+        this.hitAudio.src = this.hitSounds[Math.floor(Math.random() * this.hitSounds.length)];
+        this.hitAudio.play()
+        console.log(this.hitAudio.volume)
+    }
+
+    resetHitSoundVolume() {
+        this.hitAudio.volume = 0.1;
+    }
+
+    playDrawSound() {
+        this.drawAudio.src = '../../assets/sounds/game/draw/draw1.wav'
+        this.drawAudio.play()
+    }
+
+    resetDrawSoundVolume() {
+        this.drawAudio.volume = 0.1;
     }
 
     randomizeSong() {
@@ -112,19 +159,42 @@ export class SoundsService {
 
     volumeUp() {
         this.musicAudio.volume += 0.1;
+        this.hitAudio.volume += 0.1;
+        this.drawAudio.volume += 0.1;
+        this.gameOverAudio.volume += 0.1;
+        this.gameEndAudio.volume += 0.1;
     }
 
     volumeDown() {
         this.musicAudio.volume -= 0.1;
+        this.hitAudio.volume -= 0.1;
+        this.drawAudio.volume -= 0.1;
+        this.gameOverAudio.volume -= 0.1;
+        this.gameEndAudio.volume -= 0.1;
     }
 
     volumeMute() {
         if (this.isMuted) {
             this.musicAudio.muted = false;
+            this.hitAudio.muted = false;
+            this.drawAudio.muted = false;
+            this.isMuted = false;
+            this.gameOverAudio.muted = false;
             this.isMuted = false;
         } else {
             this.musicAudio.muted = true;
+            this.hitAudio.muted = true
+            this.drawAudio.muted = true;
+            this.musicAudio.muted = true;
+            this.gameOverAudio.muted = true;
             this.isMuted = true;
         }
+    }
+
+    resetVolumeMute() {
+        this.musicAudio.muted = false;
+        this.hitAudio.muted = false;
+        this.drawAudio.muted = false;
+        this.isMuted = false;
     }
 }
