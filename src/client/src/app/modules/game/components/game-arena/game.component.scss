@@ -76,11 +76,15 @@ nav {
     background-color: rgba(0, 0, 0, 0.543);
 }
 .inputArea button {
-    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 6vw;
     border-radius: 10px;
     font-family: inherit;
-    font-size: 75px;
+    font-size: 5vw;
     padding: 0 10px;
+    text-align: center;
     margin-bottom: 15px;
     background-color: white;
 }
