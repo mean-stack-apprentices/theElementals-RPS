@@ -4,11 +4,13 @@ import { Injectable } from "@angular/core";
 export class SoundsService {
     constructor() {
         this.hitAudio.volume = this.soundVolume;
+        this.drawAudio.volume = this.soundVolume;
     }
 
     playing = false;
     musicAudio = new Audio();
     hitAudio = new Audio();
+    drawAudio = new Audio();
     musicStatus = 'Play Music';
     isMuted = false;
     soundVolume = 0.1;
@@ -71,6 +73,11 @@ export class SoundsService {
         console.log(this.hitAudio.volume)
     }
 
+    playDrawSound() {
+        this.drawAudio.src = '../../assets/sounds/game/draw/draw1.wav'
+        this.drawAudio.play()
+    }
+
     resetHitSoundVolume() {
         this.hitAudio.volume = 0.1;
     }
@@ -90,23 +97,25 @@ export class SoundsService {
     volumeUp() {
         this.musicAudio.volume += 0.1;
         this.hitAudio.volume += 0.1;
-        console.log(this.musicAudio.volume)
-        console.log(this.hitAudio.volume)
+        this.drawAudio.volume += 0.1;
     }
 
     volumeDown() {
         this.musicAudio.volume -= 0.1;
         this.hitAudio.volume -= 0.1;
+        this.drawAudio.volume -= 0.1;
     }
 
     volumeMute() {
         if (this.isMuted) {
             this.musicAudio.muted = false;
             this.hitAudio.muted = false;
+            this.drawAudio.muted = false;
             this.isMuted = false;
         } else {
             this.musicAudio.muted = true;
             this.hitAudio.muted = true
+            this.drawAudio.muted = true;
             this.isMuted = true;
         }
     }
@@ -114,6 +123,7 @@ export class SoundsService {
     resetVolumeMute() {
         this.musicAudio.muted = false;
         this.hitAudio.muted = false;
+        this.drawAudio.muted = false;
         this.isMuted = false;
     }
 }

@@ -158,6 +158,7 @@ export class GameComponent implements OnInit {
             this.drawImgShowing = false
             this.makeAllNotReady()
           }, 2000);
+          this.sounds.playDrawSound()
           break
         case "pLeft":
           if (this.vsComputer){
