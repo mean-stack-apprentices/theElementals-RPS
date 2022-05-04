@@ -87,6 +87,8 @@ export class GameComponent implements OnInit {
 
   ngOnDestroy() {
     this.sounds.stopFightMusic()
+    this.sounds.resetHitSoundVolume()
+    this.sounds.resetVolumeMute()
   }
 
   healthBarColor(health: number) {

@@ -49,13 +49,14 @@ export class SoundsService {
     stopMenuMusic() {
         this.musicAudio.pause();
         this.musicStatus = 'Play Music'
+        this.musicAudio.volume = this.soundVolume;
         this.playing = false
     }
 
     playFightMusic() {
         this.musicAudio.src = this.fightMusic[Math.floor(Math.random() * this.fightMusic.length)];
         this.musicAudio.load();
-        this.musicAudio.volume = 0.1;
+        this.musicAudio.volume = this.soundVolume;
         this.musicAudio.loop = true;
         this.musicAudio.play()
     }
@@ -68,6 +69,10 @@ export class SoundsService {
         this.hitAudio.src = this.hitSounds[Math.floor(Math.random() * this.hitSounds.length)];
         this.hitAudio.play()
         console.log(this.hitAudio.volume)
+    }
+
+    resetHitSoundVolume() {
+        this.hitAudio.volume = 0.1;
     }
 
     playHoverSound() {
@@ -97,10 +102,18 @@ export class SoundsService {
     volumeMute() {
         if (this.isMuted) {
             this.musicAudio.muted = false;
+            this.hitAudio.muted = false;
             this.isMuted = false;
         } else {
             this.musicAudio.muted = true;
+            this.hitAudio.muted = true
             this.isMuted = true;
         }
+    }
+
+    resetVolumeMute() {
+        this.musicAudio.muted = false;
+        this.hitAudio.muted = false;
+        this.isMuted = false;
     }
 }
