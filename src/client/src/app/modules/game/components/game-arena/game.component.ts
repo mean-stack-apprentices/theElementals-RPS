@@ -82,11 +82,17 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.sounds.stopMenuMusic()
+    this.sounds.randomizeSong()
     this.sounds.playFightMusic()
   }
 
   ngOnDestroy() {
     this.sounds.stopFightMusic()
+    this.sounds.resetHitSoundVolume()
+    this.sounds.resetVolumeMute()
+    this.sounds.resetDrawSoundVolume()
+    this.sounds.resetGameOverMusicVolume()
+    this.sounds.resetGameEndMusicVolume()
   }
 
   healthBarColor(health: number) {
@@ -111,6 +117,7 @@ export class GameComponent implements OnInit {
     const random = Math.floor(Math.random() * backgroundImgArray.length);
     return backgroundImgArray[random]
   }
+
   getDrawImg() {
     const drawImgArray = [
       "knot0.png",
@@ -122,6 +129,7 @@ export class GameComponent implements OnInit {
     console.log(drawImgArray[random])
     this.drawImgString = drawImgArray[random]
   }
+
   playFight() {
     this.fightImgShowing = true
 
@@ -133,6 +141,7 @@ export class GameComponent implements OnInit {
     fightSound.play();
     console.log('sound??')
   }
+
 //// IMPORTANT
   checkPlayersReady() {
     if(!this.gameState.isStarted && this.gameState.pLeft.ready && this.gameState.pRight.ready) {
@@ -153,6 +162,7 @@ export class GameComponent implements OnInit {
             this.drawImgShowing = false
             this.makeAllNotReady()
           }, 2000);
+          this.sounds.playDrawSound()
           break
         case "pLeft":
           if (this.vsComputer){
@@ -167,6 +177,7 @@ export class GameComponent implements OnInit {
               this.makeAllNotReady()
             }, 2000);
           }
+          this.sounds.playHitSound()
           break
         case "pRight":
           if (this.vsComputer){
@@ -181,10 +192,12 @@ export class GameComponent implements OnInit {
               this.makeAllNotReady()
             }, 2000);
           }
+          this.sounds.playHitSound()
       }
 
     }
   }
+
   async makeReady(side: 'pLeft' | 'pRight') {
     if (this.vsComputer) {
       this.gameState[side].makeReady()
@@ -197,9 +210,11 @@ export class GameComponent implements OnInit {
       //this.checkPlayersReady() 
     }
   }
+
   async makeNotReady(side: 'pLeft' | 'pRight') {
     await this.socketService.setSideToNotReady(this.gameState.gamePin, side)
   }
+
   makeAllNotReady() {
     if (this.vsComputer){
       this.gameState.pLeft.ready = false;
@@ -227,14 +242,16 @@ export class GameComponent implements OnInit {
 
   gameOver(winner: Player) {
     this.fatalityImgShowing = true
-    let fatalitySound = new Audio();
-    fatalitySound.src = "../assets/sounds/game-over-arcade.wav";
-    fatalitySound.autoplay = true;
-    fatalitySound.muted = false;
-    fatalitySound.load();
-    fatalitySound.play();
-
+    this.sounds.stopFightMusic();
+    this.sounds.playGameOverMusic();
+    setTimeout(() => {
+      this.sounds.playGameEndMusic()
+    }, 3000)
     console.log(`${winner.username} Wins!!`)
+  }
+
+  playMoveSelect() {
+    this.sounds.playMoveSelectSound()
   }
 
   back(): void {

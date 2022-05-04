@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { SocketService } from 'src/app/services/socket.service';
+import { SoundsService } from 'src/app/services/sounds.service';
 import { TournamentService } from '../../services/tournament.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class TournamentComponent implements OnInit {
 
   constructor(
     private tournamentService: TournamentService, 
-    private navigation: NavigationService
+    private navigation: NavigationService,
+    private sounds: SoundsService
     ) { }
 
   ngOnInit(): void {
@@ -25,5 +27,13 @@ export class TournamentComponent implements OnInit {
 
   back() {
     this.navigation.back()
+  }
+
+  playSelectSound() {
+    this.sounds.playSelectSound()
+  }
+
+  playHoverSound() {
+    this.sounds.playHoverSound()
   }
 }

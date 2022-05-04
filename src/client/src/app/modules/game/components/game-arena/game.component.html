@@ -34,11 +34,11 @@
     <div id="inputAreaContainer">
         <!-- LEFT SIDE -->
         <div *ngIf="!gameState.pLeft.ready && gameState.pLeft.username === gameState.activePlayerUsername" class='inputArea'>
-            <button *ngIf="!gameState.isStarted" (click)='makeReady("pLeft")'>Ready For War?</button>
+            <button *ngIf="!gameState.isStarted" (click)='makeReady("pLeft"); playMoveSelect()'>Ready For War?</button>
             <div *ngIf="gameState.isStarted">
-                <button (click)="select('pLeft', 'rock')">Rock</button>
-                <button (click)="select('pLeft', 'paper')">Paper</button>
-                <button (click)="select('pLeft', 'scissors')">Scissors</button>
+                <button (click)="select('pLeft', 'rock'); playMoveSelect()">Rock</button>
+                <button (click)="select('pLeft', 'paper'); playMoveSelect()">Paper</button>
+                <button (click)="select('pLeft', 'scissors'); playMoveSelect()">Scissors</button>
             </div>
         </div>
         <div *ngIf="!gameState.pLeft.ready && gameState.pLeft.username !== gameState.activePlayerUsername" class='inputArea'>
@@ -47,11 +47,11 @@
         
         <!-- RIGHT SIDE -->
         <div *ngIf="!gameState.pRight.ready && gameState.pRight.username === gameState.activePlayerUsername " class='inputArea right'>
-            <button *ngIf="!gameState.isStarted" (click)='makeReady("pRight")'>Ready For War?</button>
+            <button *ngIf="!gameState.isStarted" (click)='makeReady("pRight"); playMoveSelect()'>Ready For War?</button>
             <div *ngIf="gameState.isStarted">
-                <button (click)="select('pRight', 'rock')">Rock</button>
-                <button (click)="select('pRight', 'paper')">Paper</button>
-                <button (click)="select('pRight', 'scissors')">Scissors</button>
+                <button (click)="select('pRight', 'rock'); playMoveSelect()">Rock</button>
+                <button (click)="select('pRight', 'paper'); playMoveSelect()">Paper</button>
+                <button (click)="select('pRight', 'scissors'); playMoveSelect()">Scissors</button>
             </div>
         </div>
         <div *ngIf="!gameState.pRight.ready && gameState.pRight.username !== gameState.activePlayerUsername " class='inputArea right'>
@@ -60,5 +60,8 @@
         
     </div>
 </div>
-<button id="back" (click)="back()">Back</button>
-<app-volume-control></app-volume-control>
+<div class="options">
+    <button id="back" (click)="back();">Back</button>
+    <app-volume-control></app-volume-control>
+<app-music-selector></app-music-selector>
+</div>

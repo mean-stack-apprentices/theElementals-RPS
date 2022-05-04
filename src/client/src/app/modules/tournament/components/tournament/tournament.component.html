@@ -3,9 +3,11 @@
     <h1>TOURNAMENT</h1>
   </div>
   <div class="tournament-modes">
-      <input type="text" placeholder="Enter Pin">
-      <button>Find </button>
-      <button (click)="createTournament()" >Create </button>
-      <button id="back" (click)="back()">Back</button>
+    <div class="find-container">
+      <button (mouseover)="playHoverSound()">Find</button>
+      <input type="text" placeholder="Pin" maxlength="4">
+    </div>
+      <button (click)="createTournament(); playSelectSound()" (mouseover)="playHoverSound()">Create</button>
+      <button id="back" (click)="back()" (mouseover)="playHoverSound()">Back</button>
   </div>
 </div>
