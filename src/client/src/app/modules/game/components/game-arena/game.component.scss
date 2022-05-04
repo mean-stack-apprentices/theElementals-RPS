@@ -92,6 +92,9 @@ nav {
     cursor: pointer;
     transform: scale(1.2);
 }
+.inputArea button:active {
+    transform: scale(1.1);
+}
 .inputArea div {
     display: flex;
     flex-direction: column;
