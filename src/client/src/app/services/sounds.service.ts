@@ -2,10 +2,13 @@ import { Injectable } from "@angular/core";
 
 @Injectable()
 export class SoundsService {
-    constructor() { }
+    constructor() {
+        this.hitAudio.volume = this.soundVolume;
+    }
 
     playing = false;
     musicAudio = new Audio();
+    hitAudio = new Audio();
     musicStatus = 'Play Music';
     isMuted = false;
     soundVolume = 0.1;
@@ -17,6 +20,12 @@ export class SoundsService {
         '../../assets/sounds/game/fight5.mp3',
         '../../assets/sounds/game/fight6.mp3',
         '../../assets/sounds/game/fight7.mp3',
+    ]
+
+    hitSounds = [
+        '../../assets/sounds/game/hits/hit_punch_l.wav',
+        '../../assets/sounds/game/hits/hit_punch_m.wav',
+        '../../assets/sounds/game/hits/hit_punch_h.wav'
     ]
 
     playMenuMusic() {
@@ -46,13 +55,19 @@ export class SoundsService {
     playFightMusic() {
         this.musicAudio.src = this.fightMusic[Math.floor(Math.random() * this.fightMusic.length)];
         this.musicAudio.load();
-        this.musicAudio.volume = 0.05;
+        this.musicAudio.volume = 0.1;
         this.musicAudio.loop = true;
         this.musicAudio.play()
     }
 
     stopFightMusic() {
         this.musicAudio.pause()
+    }
+
+    playHitSound() {
+        this.hitAudio.src = this.hitSounds[Math.floor(Math.random() * this.hitSounds.length)];
+        this.hitAudio.play()
+        console.log(this.hitAudio.volume)
     }
 
     playHoverSound() {
@@ -69,10 +84,14 @@ export class SoundsService {
 
     volumeUp() {
         this.musicAudio.volume += 0.1;
+        this.hitAudio.volume += 0.1;
+        console.log(this.musicAudio.volume)
+        console.log(this.hitAudio.volume)
     }
 
     volumeDown() {
         this.musicAudio.volume -= 0.1;
+        this.hitAudio.volume -= 0.1;
     }
 
     volumeMute() {

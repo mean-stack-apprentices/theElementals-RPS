@@ -111,6 +111,7 @@ export class GameComponent implements OnInit {
     const random = Math.floor(Math.random() * backgroundImgArray.length);
     return backgroundImgArray[random]
   }
+
   getDrawImg() {
     const drawImgArray = [
       "knot0.png",
@@ -122,6 +123,7 @@ export class GameComponent implements OnInit {
     console.log(drawImgArray[random])
     this.drawImgString = drawImgArray[random]
   }
+
   playFight() {
     this.fightImgShowing = true
 
@@ -133,6 +135,7 @@ export class GameComponent implements OnInit {
     fightSound.play();
     console.log('sound??')
   }
+
 //// IMPORTANT
   checkPlayersReady() {
     if(!this.gameState.isStarted && this.gameState.pLeft.ready && this.gameState.pRight.ready) {
@@ -167,6 +170,7 @@ export class GameComponent implements OnInit {
               this.makeAllNotReady()
             }, 2000);
           }
+          this.sounds.playHitSound()
           break
         case "pRight":
           if (this.vsComputer){
@@ -181,10 +185,12 @@ export class GameComponent implements OnInit {
               this.makeAllNotReady()
             }, 2000);
           }
+          this.sounds.playHitSound()
       }
 
     }
   }
+
   async makeReady(side: 'pLeft' | 'pRight') {
     if (this.vsComputer) {
       this.gameState[side].makeReady()
@@ -197,9 +203,11 @@ export class GameComponent implements OnInit {
       //this.checkPlayersReady() 
     }
   }
+
   async makeNotReady(side: 'pLeft' | 'pRight') {
     await this.socketService.setSideToNotReady(this.gameState.gamePin, side)
   }
+
   makeAllNotReady() {
     if (this.vsComputer){
       this.gameState.pLeft.ready = false;
