@@ -22,6 +22,10 @@ button:hover {
     transform: scale(1.1);
 }
 
+button:active {
+    transform: scale(1);
+}
+
 p {
     display: flex;
     align-items: center;
