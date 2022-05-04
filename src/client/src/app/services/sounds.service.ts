@@ -58,6 +58,7 @@ export class SoundsService {
 
     stopFightMusic() {
         this.musicAudio.pause()
+        this.gameEndAudio.pause()
     }
 
     playGameOverMusic() {
