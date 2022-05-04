@@ -41,7 +41,7 @@ nav {
 
 .username {
     font-size: 25px;
-    font-family:monospace;
+    color: black;
 }
 .healthBar {
     display: flex;
@@ -76,9 +76,15 @@ nav {
     background-color: rgba(0, 0, 0, 0.543);
 }
 .inputArea button {
-    height: 30px;
+    height: 100px;
     border-radius: 10px;
+    font-family: inherit;
+    font-size: 75px;
     padding: 0 10px;
+}
+.inputArea button:hover {
+    cursor: pointer;
+    transform: scale(1.2);
 }
 .inputArea div {
     display: flex;
