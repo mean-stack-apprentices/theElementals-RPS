@@ -239,13 +239,11 @@ export class GameComponent implements OnInit {
 
   gameOver(winner: Player) {
     this.fatalityImgShowing = true
-    let fatalitySound = new Audio();
-    fatalitySound.src = "../assets/sounds/game-over-arcade.wav";
-    fatalitySound.autoplay = true;
-    fatalitySound.muted = false;
-    fatalitySound.load();
-    fatalitySound.play();
-
+    this.sounds.stopFightMusic();
+    this.sounds.playGameOverMusic();
+    setTimeout(() => {
+      this.sounds.playGameEndMusic()
+    }, 3000)
     console.log(`${winner.username} Wins!!`)
   }
 

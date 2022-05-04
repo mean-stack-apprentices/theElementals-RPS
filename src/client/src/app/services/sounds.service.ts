@@ -5,12 +5,16 @@ export class SoundsService {
     constructor() {
         this.hitAudio.volume = this.soundVolume;
         this.drawAudio.volume = this.soundVolume;
+        this.gameOverAudio.volume = this.soundVolume,
+        this.gameEndAudio.volume = this.soundVolume
     }
 
     playing = false;
     musicAudio = new Audio();
     hitAudio = new Audio();
     drawAudio = new Audio();
+    gameOverAudio = new Audio();
+    gameEndAudio = new Audio();
     musicStatus = 'Play Music';
     isMuted = false;
     soundVolume = 0.1;
@@ -65,6 +69,18 @@ export class SoundsService {
 
     stopFightMusic() {
         this.musicAudio.pause()
+        this.gameEndAudio.pause()
+    }
+
+    playGameOverMusic() {
+        this.gameOverAudio.src = '../../assets/sounds/game/game-over.mp3'
+        this.gameOverAudio.play()
+    }
+
+    playGameEndMusic() {
+        this.gameEndAudio.src = '../../assets/sounds/game/game-end.mp3'
+        this.gameEndAudio.loop = true;
+        this.gameEndAudio.play();
     }
 
     playHitSound() {
@@ -102,12 +118,16 @@ export class SoundsService {
         this.musicAudio.volume += 0.1;
         this.hitAudio.volume += 0.1;
         this.drawAudio.volume += 0.1;
+        this.gameOverAudio.volume += 0.1;
+        this.gameEndAudio.volume += 0.1;
     }
 
     volumeDown() {
         this.musicAudio.volume -= 0.1;
         this.hitAudio.volume -= 0.1;
         this.drawAudio.volume -= 0.1;
+        this.gameOverAudio.volume -= 0.1;
+        this.gameEndAudio.volume -= 0.1;
     }
 
     volumeMute() {
@@ -116,10 +136,14 @@ export class SoundsService {
             this.hitAudio.muted = false;
             this.drawAudio.muted = false;
             this.isMuted = false;
+            this.gameOverAudio.muted = false;
+            this.isMuted = false;
         } else {
             this.musicAudio.muted = true;
             this.hitAudio.muted = true
             this.drawAudio.muted = true;
+            this.musicAudio.muted = true;
+            this.gameOverAudio.muted = true;
             this.isMuted = true;
         }
     }
