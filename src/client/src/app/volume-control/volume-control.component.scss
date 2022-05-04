@@ -13,17 +13,17 @@ button {
     font-size: 20px;
     padding: 0 10px;
     text-align: center;
-    margin-left: 10px;
+    margin-left: 12px;
     background-color: white;
 }
 
 button:hover {
     cursor: pointer;
-    transform: scale(1.1);
+    transform: scale(1.2);
 }
 
 button:active {
-    transform: scale(1);
+    transform: scale(1.1);
 }
 
 p {
