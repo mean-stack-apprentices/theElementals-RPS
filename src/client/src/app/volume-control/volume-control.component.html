@@ -1,6 +1,6 @@
 <div class="volume-control-container">
     <p>Volume: {{volumeLevel}}</p>
-    <button (click)="volumeDown()">Volume Down</button>
-    <button (click)="volumeUp()">Volume Up</button>
-    <button (click)="volumeMute()">{{muteOption}}</button>
+    <button (click)="volumeDown(); playSelectSound()" (mouseover)="playHoverSound()">Volume Down</button>
+    <button (click)="volumeUp(); playSelectSound()" (mouseover)="playHoverSound()">Volume Up</button>
+    <button (click)="volumeMute(); playSelectSound()" (mouseover)="playHoverSound()">{{muteOption}}</button>
 </div>

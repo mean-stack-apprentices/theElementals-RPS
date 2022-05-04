@@ -5,8 +5,10 @@ export class SoundsService {
     constructor() {
         this.hitAudio.volume = this.soundVolume;
         this.drawAudio.volume = this.soundVolume;
-        this.gameOverAudio.volume = this.soundVolume,
-        this.gameEndAudio.volume = this.soundVolume
+        this.gameOverAudio.volume = this.soundVolume;
+        this.gameEndAudio.volume = this.soundVolume;
+        this.moveSelectAudio.volume = this.soundVolume;
+        this.musicAudio.volume = this.soundVolume;
     }
 
     playing = false;
@@ -15,6 +17,7 @@ export class SoundsService {
     drawAudio = new Audio();
     gameOverAudio = new Audio();
     gameEndAudio = new Audio();
+    moveSelectAudio = new Audio();
     musicStatus = 'Play Music';
     isMuted = false;
     soundVolume = 0.1;
@@ -65,6 +68,7 @@ export class SoundsService {
         this.musicAudio.volume = this.soundVolume;
         this.musicAudio.loop = true;
         this.musicAudio.play()
+        console.log(this.musicAudio.volume)
     }
 
     stopFightMusic() {
@@ -75,12 +79,21 @@ export class SoundsService {
     playGameOverMusic() {
         this.gameOverAudio.src = '../../assets/sounds/game/game-over.mp3'
         this.gameOverAudio.play()
+        console.log(this.gameOverAudio.volume)
+    }
+
+    resetGameOverMusicVolume() {
+        this.gameOverAudio.volume = 0.1;
     }
 
     playGameEndMusic() {
         this.gameEndAudio.src = '../../assets/sounds/game/game-end.mp3'
         this.gameEndAudio.loop = true;
         this.gameEndAudio.play();
+    }
+
+    resetGameEndMusicVolume() {
+        this.gameEndAudio.volume = 0.1;
     }
 
     playHitSound() {
@@ -103,15 +116,33 @@ export class SoundsService {
     }
 
     playHoverSound() {
-        let hoverAudio = new Audio('../../assets/sounds/navigation/move-cursor.wav');
-        hoverAudio.volume = this.soundVolume;
-        hoverAudio.play()
+        if (this.isMuted) {
+        } else {
+            let hoverAudio = new Audio('../../assets/sounds/navigation/move-cursor.wav');
+            hoverAudio.volume = this.soundVolume;
+            hoverAudio.play()
+        }
     }
 
     playSelectSound() {
-        let selectAudio = new Audio('../../assets/sounds/navigation/select.wav')
-        selectAudio.volume = this.soundVolume;
-        selectAudio.play()
+        if (this.isMuted) {
+
+        } else {
+            let selectAudio = new Audio('../../assets/sounds/navigation/select.wav')
+            selectAudio.volume = this.soundVolume;
+            selectAudio.play()
+        }
+    }
+
+    playMoveSelectSound() {
+        if (this.isMuted) {
+
+        } else {
+            let moveSelectAudio = new Audio('../../assets/sounds/game/choose.mp3')
+            moveSelectAudio.volume = this.soundVolume;
+            moveSelectAudio.play()
+        }
+
     }
 
     volumeUp() {
@@ -120,6 +151,7 @@ export class SoundsService {
         this.drawAudio.volume += 0.1;
         this.gameOverAudio.volume += 0.1;
         this.gameEndAudio.volume += 0.1;
+        this.soundVolume += 0.1;
     }
 
     volumeDown() {
@@ -128,6 +160,7 @@ export class SoundsService {
         this.drawAudio.volume -= 0.1;
         this.gameOverAudio.volume -= 0.1;
         this.gameEndAudio.volume -= 0.1;
+        this.soundVolume -= 0.1;
     }
 
     volumeMute() {
@@ -135,8 +168,9 @@ export class SoundsService {
             this.musicAudio.muted = false;
             this.hitAudio.muted = false;
             this.drawAudio.muted = false;
-            this.isMuted = false;
+            this.moveSelectAudio.muted = false;
             this.gameOverAudio.muted = false;
+            this.gameEndAudio.muted = false;
             this.isMuted = false;
         } else {
             this.musicAudio.muted = true;
@@ -144,6 +178,8 @@ export class SoundsService {
             this.drawAudio.muted = true;
             this.musicAudio.muted = true;
             this.gameOverAudio.muted = true;
+            this.moveSelectAudio.muted = true;
+            this.gameEndAudio.muted = true;
             this.isMuted = true;
         }
     }
@@ -153,5 +189,6 @@ export class SoundsService {
         this.hitAudio.muted = false;
         this.drawAudio.muted = false;
         this.isMuted = false;
+        this.soundVolume = 0.1;
     }
 }
