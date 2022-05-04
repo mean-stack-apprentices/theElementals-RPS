@@ -89,6 +89,7 @@ export class GameComponent implements OnInit {
     this.sounds.stopFightMusic()
     this.sounds.resetHitSoundVolume()
     this.sounds.resetVolumeMute()
+    this.sounds.resetDrawSoundVolume()
   }
 
   healthBarColor(health: number) {

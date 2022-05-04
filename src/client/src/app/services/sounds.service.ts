@@ -73,13 +73,17 @@ export class SoundsService {
         console.log(this.hitAudio.volume)
     }
 
+    resetHitSoundVolume() {
+        this.hitAudio.volume = 0.1;
+    }
+
     playDrawSound() {
         this.drawAudio.src = '../../assets/sounds/game/draw/draw1.wav'
         this.drawAudio.play()
     }
 
-    resetHitSoundVolume() {
-        this.hitAudio.volume = 0.1;
+    resetDrawSoundVolume() {
+        this.drawAudio.volume = 0.1;
     }
 
     playHoverSound() {
