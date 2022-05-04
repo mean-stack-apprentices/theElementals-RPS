@@ -9,21 +9,24 @@ export class SoundsService {
     musicStatus = 'Play Music';
     isMuted = false;
     soundVolume = 0.1;
-    fightMusic = [
-        '../../assets/sounds/game/fight1.mp3',
-        '../../assets/sounds/game/fight2.mp3',
-        '../../assets/sounds/game/fight3.mp3',
-        '../../assets/sounds/game/fight4.mp3',
-        '../../assets/sounds/game/fight5.mp3',
-        '../../assets/sounds/game/fight6.mp3',
-        '../../assets/sounds/game/fight7.mp3',
-    ]
+    fightMusic = {
+        'Guile Theme': '../../assets/sounds/game/fight1.mp3',
+        'Ryu Theme': '../../assets/sounds/game/fight2.mp3',
+        'Spider-Man Theme': '../../assets/sounds/game/fight3.mp3',
+        'Morrigan Theme': '../../assets/sounds/game/fight4.mp3',
+        'Captain America Theme': '../../assets/sounds/game/fight5.mp3',
+        'Ace Attorney Theme': '../../assets/sounds/game/fight6.mp3',
+        'Ken Theme': '../../assets/sounds/game/fight7.mp3'
+    }
+    songTitle = '';
+    randomSongNumber = Math.floor(Math.random() * Object.keys(this.fightMusic).length);
+    songNumber = this.randomSongNumber;
 
     playMenuMusic() {
         if (this.playing === false) {
             this.musicAudio.src = "../../../assets/sounds/menu.mp3";
             this.musicAudio.load();
-            this.musicAudio.volume = 0.05;
+            this.musicAudio.volume = 0.1;
             this.musicAudio.loop = true;
             this.musicAudio.play()
             this.playing = true;
@@ -44,15 +47,55 @@ export class SoundsService {
     }
 
     playFightMusic() {
-        this.musicAudio.src = this.fightMusic[Math.floor(Math.random() * this.fightMusic.length)];
+        this.musicAudio.src = Object.values(this.fightMusic)[this.randomSongNumber];
+        this.songTitle = Object.keys(this.fightMusic)[this.randomSongNumber]
         this.musicAudio.load();
-        this.musicAudio.volume = 0.05;
+        this.musicAudio.volume = 0.1;
         this.musicAudio.loop = true;
         this.musicAudio.play()
     }
 
     stopFightMusic() {
         this.musicAudio.pause()
+    }
+
+    randomizeSong() {
+        this.randomSongNumber = Math.floor(Math.random() * Object.keys(this.fightMusic).length);
+    this.songNumber = this.randomSongNumber;
+    }
+
+    nextFightSong() {
+        if (this.songNumber == Object.keys(this.fightMusic).length - 1) {
+            this.songNumber = 0;
+            this.songTitle = Object.keys(this.fightMusic)[this.songNumber];
+            this.musicAudio.src = Object.values(this.fightMusic)[this.songNumber];
+            this.musicAudio.play()
+            this.musicAudio.loop = true;
+        } else {
+            this.songNumber++;
+            this.songTitle = Object.keys(this.fightMusic)[this.songNumber];
+            this.musicAudio.src = Object.values(this.fightMusic)[this.songNumber];
+            this.musicAudio.play()
+            this.musicAudio.loop = true;
+        }
+
+    }
+
+    previousFightSong() {
+        if (this.songNumber == 0) {
+            this.songNumber = Object.keys(this.fightMusic).length - 1;
+            this.songTitle = Object.keys(this.fightMusic)[this.songNumber];
+            this.musicAudio.src = Object.values(this.fightMusic)[this.songNumber];
+            this.musicAudio.play()
+            this.musicAudio.loop = true;
+        } else {
+            this.songNumber--;
+            this.songTitle = Object.keys(this.fightMusic)[this.songNumber];
+            this.musicAudio.src = Object.values(this.fightMusic)[this.songNumber];
+            this.musicAudio.play()
+            this.musicAudio.loop = true;
+        }
+
     }
 
     playHoverSound() {
