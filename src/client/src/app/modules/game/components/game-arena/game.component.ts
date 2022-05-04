@@ -82,6 +82,7 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.sounds.stopMenuMusic()
+    this.sounds.randomizeSong()
     this.sounds.playFightMusic()
   }
 
