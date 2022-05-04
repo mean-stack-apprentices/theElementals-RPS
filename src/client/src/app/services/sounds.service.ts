@@ -3,12 +3,16 @@ import { Injectable } from "@angular/core";
 @Injectable()
 export class SoundsService {
     constructor() {
+        this.hitAudio.volume = this.soundVolume;
+        this.drawAudio.volume = this.soundVolume;
         this.gameOverAudio.volume = this.soundVolume,
         this.gameEndAudio.volume = this.soundVolume
     }
 
     playing = false;
     musicAudio = new Audio();
+    hitAudio = new Audio();
+    drawAudio = new Audio();
     gameOverAudio = new Audio();
     gameEndAudio = new Audio();
     musicStatus = 'Play Music';
@@ -22,6 +26,12 @@ export class SoundsService {
         '../../assets/sounds/game/fight5.mp3',
         '../../assets/sounds/game/fight6.mp3',
         '../../assets/sounds/game/fight7.mp3',
+    ]
+
+    hitSounds = [
+        '../../assets/sounds/game/hits/hit_punch_l.wav',
+        '../../assets/sounds/game/hits/hit_punch_m.wav',
+        '../../assets/sounds/game/hits/hit_punch_h.wav'
     ]
 
     playMenuMusic() {
@@ -45,6 +55,7 @@ export class SoundsService {
     stopMenuMusic() {
         this.musicAudio.pause();
         this.musicStatus = 'Play Music'
+        this.musicAudio.volume = this.soundVolume;
         this.playing = false
     }
 
@@ -72,6 +83,25 @@ export class SoundsService {
         this.gameEndAudio.play();
     }
 
+    playHitSound() {
+        this.hitAudio.src = this.hitSounds[Math.floor(Math.random() * this.hitSounds.length)];
+        this.hitAudio.play()
+        console.log(this.hitAudio.volume)
+    }
+
+    resetHitSoundVolume() {
+        this.hitAudio.volume = 0.1;
+    }
+
+    playDrawSound() {
+        this.drawAudio.src = '../../assets/sounds/game/draw/draw1.wav'
+        this.drawAudio.play()
+    }
+
+    resetDrawSoundVolume() {
+        this.drawAudio.volume = 0.1;
+    }
+
     playHoverSound() {
         let hoverAudio = new Audio('../../assets/sounds/navigation/move-cursor.wav');
         hoverAudio.volume = this.soundVolume;
@@ -86,12 +116,16 @@ export class SoundsService {
 
     volumeUp() {
         this.musicAudio.volume += 0.1;
+        this.hitAudio.volume += 0.1;
+        this.drawAudio.volume += 0.1;
         this.gameOverAudio.volume += 0.1;
         this.gameEndAudio.volume += 0.1;
     }
 
     volumeDown() {
         this.musicAudio.volume -= 0.1;
+        this.hitAudio.volume -= 0.1;
+        this.drawAudio.volume -= 0.1;
         this.gameOverAudio.volume -= 0.1;
         this.gameEndAudio.volume -= 0.1;
     }
@@ -99,12 +133,25 @@ export class SoundsService {
     volumeMute() {
         if (this.isMuted) {
             this.musicAudio.muted = false;
+            this.hitAudio.muted = false;
+            this.drawAudio.muted = false;
+            this.isMuted = false;
             this.gameOverAudio.muted = false;
             this.isMuted = false;
         } else {
             this.musicAudio.muted = true;
+            this.hitAudio.muted = true
+            this.drawAudio.muted = true;
+            this.musicAudio.muted = true;
             this.gameOverAudio.muted = true;
             this.isMuted = true;
         }
+    }
+
+    resetVolumeMute() {
+        this.musicAudio.muted = false;
+        this.hitAudio.muted = false;
+        this.drawAudio.muted = false;
+        this.isMuted = false;
     }
 }
