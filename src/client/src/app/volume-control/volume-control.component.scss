@@ -1,5 +1,6 @@
 .volume-control-container {
     display: flex;
+    flex-wrap: wrap;
 }
 
 button {
@@ -33,7 +34,8 @@ p {
     font-size: 20px;
     height: 30px;
     width: 100px;
-    background: #ffffff;
+    background: black;
+    color: white;
     border-radius: 15px;
     border: solid 1px black;
 }
