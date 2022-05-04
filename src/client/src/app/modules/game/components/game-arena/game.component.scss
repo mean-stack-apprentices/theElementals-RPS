@@ -41,7 +41,9 @@ nav {
 
 .username {
     font-size: 25px;
-    color: black;
+    color: rgb(0, 0, 0);
+   letter-spacing: .03em;
+   padding: 0 5px;
 }
 .healthBar {
     display: flex;
