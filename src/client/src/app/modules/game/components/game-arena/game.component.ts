@@ -91,6 +91,8 @@ export class GameComponent implements OnInit {
     this.sounds.resetHitSoundVolume()
     this.sounds.resetVolumeMute()
     this.sounds.resetDrawSoundVolume()
+    this.sounds.resetGameOverMusicVolume()
+    this.sounds.resetGameEndMusicVolume()
   }
 
   healthBarColor(health: number) {
@@ -246,6 +248,10 @@ export class GameComponent implements OnInit {
       this.sounds.playGameEndMusic()
     }, 3000)
     console.log(`${winner.username} Wins!!`)
+  }
+
+  playMoveSelect() {
+    this.sounds.playMoveSelectSound()
   }
 
   back(): void {

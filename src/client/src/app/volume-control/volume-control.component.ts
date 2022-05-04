@@ -32,6 +32,14 @@ export class VolumeControlComponent implements OnInit {
     }
   }
 
+  playSelectSound() {
+    this.sounds.playSelectSound()
+  }
+
+  playHoverSound() {
+    this.sounds.playHoverSound()
+  }
+
   ngOnInit(): void {
   }
 
