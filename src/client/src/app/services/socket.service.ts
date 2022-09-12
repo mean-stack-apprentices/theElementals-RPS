@@ -4,9 +4,11 @@ import { Store } from '@ngrx/store';
 import { Socket } from 'ngx-socket-io';
 import { map } from 'rxjs/operators';
 import { AppState } from 'src/app/store';
-import { setActivePlayer, setGamePin, setGamePlayers, setIsStarted } from 'src/app/store/game/game.actions';
+import { setActivePlayer, setGamePin, setGamePlayers, setIsStarted, setResult } from 'src/app/store/game/game.actions';
 import { loggedInSelector } from 'src/app/store/user/user.selectors';
 import { Player } from '../../../../shared/models/player.model';
+import { Result } from '../../../../shared/models/result.model';
+import { User } from '../../../../shared/models/user.model';
 
 
 @Injectable({
@@ -53,6 +55,9 @@ export class SocketService {
     this.socket.on('set isStarted', (isStarted: boolean) => {
       this.store.dispatch(setIsStarted({isStarted}))
     })
+    this.socket.on('set result', (result: Result) => {
+      this.store.dispatch(setResult({result}))
+    })
     this.socket.on('update game players', (playerInfo: {pLeft:Player, pRight:Player}) => {
       this.store.dispatch(setGamePlayers(playerInfo));
     })
@@ -72,6 +77,12 @@ export class SocketService {
       }
     )
   }
+  createTournament(){
+    this.socket.emit('create-tournament', this.socketId, (response:any) => {
+      this.tPin = response
+      this.router.navigate(['/tournament/lobby'])
+    })
+  }
   findCreatedMatch(gamePin: string) {
     this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
     const activePlayer = new Player(this.loggedInUsername ? this.loggedInUsername: this.guestUsername, this.socketId )
@@ -86,14 +97,14 @@ export class SocketService {
       }
     )
   }
-  createTournament(){
-    this.socket.emit('create-tournament', this.socketId, (response:any) => {
-      this.tPin = response
-      this.router.navigate(['/tournament/lobby'])
-    })
-  }
-  decreasePlayersHealth(gamePin: string, side: 'pLeft' | 'pRight') {
-    this.socket.emit("request decrease player's health", {gamePin, side})
+  playComputer(loggedIn: User | null) {
+    if (loggedIn) {
+      const activePlayer = new Player(this.loggedInUsername ? this.loggedInUsername: this.guestUsername, this.socketId)
+      this.store.dispatch(setActivePlayer({activePlayerUsername: activePlayer.username}))
+      this.socket.emit('requesting to play computer',{
+        emittingPlayer: activePlayer
+      })
+    }
   }
   setPlayersSelection(gamePin: string, side: 'pLeft' | 'pRight', selction: 'rock' | 'paper' | 'scissors') {
     this.socket.emit("request set player's selection", {gamePin, side, selction})
