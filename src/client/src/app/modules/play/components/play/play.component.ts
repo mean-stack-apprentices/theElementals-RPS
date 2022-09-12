@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SocketService } from 'src/app/services/socket.service';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { AppState } from 'src/app/store';
 import { loggedInSelector } from 'src/app/store/user/user.selectors';
 import { User } from '../../../../../../../shared/models/user.model';
-import { PlayService } from '../../play.service';
+import { RoutingService } from '../../../../services/routing.service';
 
 @Component({
   selector: 'app-play',
@@ -18,9 +17,8 @@ export class PlayComponent implements OnInit {
   loggedInUser: User | null = null
 
   constructor(
-    private router: Router ,
+    private routingService: RoutingService,
     private store: Store<AppState>,
-    private playService: PlayService,
     private socketService: SocketService,
     private sounds: SoundsService,
     ) {
@@ -39,19 +37,20 @@ export class PlayComponent implements OnInit {
   }
 
   playComputer() {
-    this.router.navigate(['/game'])
+    this.route('game')
     this.socketService.playComputer(this.loggedInUser)
   }
-
-  checkIfLoggedIn(route: string){
-    this.playService.checkIfLoggedIn(route)
-  }
-
   playHoverSound() {
     this.sounds.playHoverSound();
   }
 
   playSelectSound() {
     this.sounds.playSelectSound();
+  }
+  route(path: string) {
+    this.routingService.route(path)
+  }
+  routeIfLoggedIn(path: string) {
+    this.routingService.routeIfLoggedIn(path)
   }
 }
