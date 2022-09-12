@@ -8,11 +8,11 @@
     <div id="pLeft">
         <div id="pLeftInfo">
             <img src="" alt="">
-            <span class="username">{{gameState.pLeft.username}}</span>
+            <span class="username">{{(pLeft$ | async).username}}</span>
         </div>
         <div class="healthBar left">
-            <ng-container *ngFor="let i of [].constructor(gameState.pLeft.health)">
-                <div class="healthCell"[ngStyle]="{'background-color': healthBarColor(gameState.pLeft.health)}"></div>
+            <ng-container *ngFor="let i of [].constructor((pLeft$ | async).health)">
+                <div class="healthCell"[ngStyle]="{'background-color': healthBarColor((pLeft$ | async).health)}"></div>
             </ng-container>
         </div>
     </div>
@@ -20,11 +20,11 @@
     <div id="pRight" class="">
         <div id="pRightInfo" class="right">
             <img src="" alt="">
-            <span class="username">{{gameState.pRight.username}}</span>
+            <span class="username">{{(pRight$ | async).username}}</span>
         </div>
         <div class="healthBar right">
-            <ng-container *ngFor="let i of [].constructor(gameState.pRight.health)">
-                <div class="healthCell" [ngStyle]="{'background-color': healthBarColor(gameState.pRight.health)}"></div>
+            <ng-container *ngFor="let i of [].constructor((pRight$ | async).health)">
+                <div class="healthCell" [ngStyle]="{'background-color': healthBarColor((pRight$ | async).health)}"></div>
             </ng-container>
         </div>
     </div>
@@ -33,7 +33,7 @@
 <div id="wrapper">
     <div id="inputAreaContainer">
         <!-- LEFT SIDE -->
-        <div *ngIf="!gameState.pLeft.ready && gameState.pLeft.username === gameState.activePlayerUsername" class='inputArea'>
+        <div *ngIf="!(pLeft$ | async).ready && (pLeft$ | async).username === gameState.activePlayerUsername" class='inputArea'>
             <button *ngIf="!gameState.isStarted" (click)='makeReady("pLeft"); playMoveSelect()'>Ready For War?</button>
             <div *ngIf="gameState.isStarted">
                 <button (click)="select('pLeft', 'rock'); playMoveSelect()">Rock</button>
@@ -41,12 +41,12 @@
                 <button (click)="select('pLeft', 'scissors'); playMoveSelect()">Scissors</button>
             </div>
         </div>
-        <div *ngIf="!gameState.pLeft.ready && gameState.pLeft.username !== gameState.activePlayerUsername" class='inputArea'>
+        <div *ngIf="!(pLeft$ | async).ready && (pLeft$ | async).username !== gameState.activePlayerUsername" class='inputArea'>
             <img class="waitingRing" src="assets/images/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="">
         </div>
         
         <!-- RIGHT SIDE -->
-        <div *ngIf="!gameState.pRight.ready && gameState.pRight.username === gameState.activePlayerUsername " class='inputArea right'>
+        <div *ngIf="!(pRight$ | async).ready && (pRight$ | async).username === gameState.activePlayerUsername " class='inputArea right'>
             <button *ngIf="!gameState.isStarted" (click)='makeReady("pRight"); playMoveSelect()'>Ready For War?</button>
             <div *ngIf="gameState.isStarted">
                 <button (click)="select('pRight', 'rock'); playMoveSelect()">Rock</button>
@@ -54,7 +54,7 @@
                 <button (click)="select('pRight', 'scissors'); playMoveSelect()">Scissors</button>
             </div>
         </div>
-        <div *ngIf="!gameState.pRight.ready && gameState.pRight.username !== gameState.activePlayerUsername " class='inputArea right'>
+        <div *ngIf="!(pRight$ | async).ready && (pRight$ | async).username !== gameState.activePlayerUsername " class='inputArea right'>
             <img class="waitingRing" src="assets/images/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="">
         </div>
         
