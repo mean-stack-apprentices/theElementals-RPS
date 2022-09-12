@@ -12,3 +12,11 @@ export const gamePinSelector = createSelector(
     gameFeatureSelector,
     (state) => state.gamePin
 );
+export const pLeftSelector = createSelector(
+    gameFeatureSelector,
+    (state) => state.pLeft
+);
+export const pRightSelector = createSelector(
+    gameFeatureSelector,
+    (state) => state.pRight
+);
