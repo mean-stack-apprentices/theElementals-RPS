@@ -28,10 +28,6 @@ export class PlayService {
   //   }
   }
 
-  playComputer() {
-    this.router.navigate(['/game'])
-  }
-
   checkIfLoggedIn(route: string){
       const checkPromise = new Promise((resolve, reject) => {
         resolve(this.loggedIn)

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SocketService } from 'src/app/services/socket.service';
 import { SoundsService } from 'src/app/services/sounds.service';
@@ -17,6 +18,7 @@ export class PlayComponent implements OnInit {
   loggedInUser: User | null = null
 
   constructor(
+    private router: Router ,
     private store: Store<AppState>,
     private playService: PlayService,
     private socketService: SocketService,
@@ -37,6 +39,7 @@ export class PlayComponent implements OnInit {
   }
 
   playComputer() {
+    this.router.navigate(['/game'])
     this.socketService.playComputer(this.loggedInUser)
   }
 
