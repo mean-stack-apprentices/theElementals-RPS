@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkclient=self.webpackChunkclient||[]).push([[592],{9456:(r,o,n)=>{n.d(o,{Mi:()=>s,J6:()=>a,FE:()=>l,fK:()=>g});var t=n(4220);const c=e=>e.game,s=(0,t.P1)(c,e=>e),a=(0,t.P1)(c,e=>e.gamePin),l=(0,t.P1)(c,e=>e.pLeft),g=(0,t.P1)(c,e=>e.pRight)}}]);
