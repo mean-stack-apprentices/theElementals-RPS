@@ -33,6 +33,10 @@ function findMeALoser(game) {
         return 'something went very wrong lol';
     }
 }
+function getRandomMilliseconds(shortest = 2000, longest = 4000) {
+    const range = longest - shortest;
+    return (Math.random() * range) + shortest;
+}
 function getResultObj(losingSide) {
     let result = {};
     switch (losingSide) {
@@ -77,5 +81,5 @@ function randomPin() {
 function yallBothReady(game) {
     return game.pLeft.ready && game.pRight.ready ? true : false;
 }
-export { findMeALoser, getResultObj, getUniqueGamePin, randomPin, yallBothReady };
+export { findMeALoser, getRandomMilliseconds, getResultObj, getUniqueGamePin, randomPin, yallBothReady };
 //# sourceMappingURL=socket.helper.js.map

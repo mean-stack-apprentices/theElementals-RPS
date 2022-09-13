@@ -39,6 +39,10 @@ function findMeALoser(game: {pLeft:any, pRight: any}) {
         return 'something went very wrong lol'
     }
 }
+function getRandomMilliseconds(shortest: number = 2000, longest: number = 4000) {
+  const range = longest - shortest;
+  return (Math.random() * range ) + shortest
+}
 function getResultObj(losingSide: string) {
           let result = {}
           switch(losingSide){
@@ -83,4 +87,4 @@ function yallBothReady(game: {pLeft: any, pRight: any}) {
     return game.pLeft.ready && game.pRight.ready ? true : false
 }
 
-export { findMeALoser, getResultObj, getUniqueGamePin, randomPin, yallBothReady }
+export { findMeALoser, getRandomMilliseconds, getResultObj, getUniqueGamePin, randomPin, yallBothReady }
