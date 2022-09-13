@@ -37,8 +37,7 @@ export class PlayComponent implements OnInit {
   }
 
   playComputer() {
-    this.route('game')
-    this.socketService.playComputer(this.loggedInUser)
+    this.socketService.playComputer(this.loggedInUser) //server routes for us
   }
   playHoverSound() {
     this.sounds.playHoverSound();
