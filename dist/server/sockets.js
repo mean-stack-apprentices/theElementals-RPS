@@ -2,6 +2,7 @@ import '../shared/models/player.model.js';
 import { io } from './configs/socket.config.js';
 import * as socketHelpers from './helpers/socket.helper.js';
 import * as computerHelper from './helpers/computer.helper.js';
+import '../shared/models/selections.model.js';
 // CONNECTION STATES
 const tournamentPool = {
 // tPin: [
@@ -14,12 +15,11 @@ const tournamentPool = {
 // ]
 };
 const gamePool = {
-/*__pin__: {
-  isVsComputer: boolean
-  pLeft: __Player__,
-  pRight: __Player__,
-}
-]*/
+/*
+  {
+    [pin:string]: ActiveGame
+  }
+*/
 };
 export default io.on("connection", (socket) => {
     console.log("user connected, ", socket.id);
@@ -43,7 +43,7 @@ export default io.on("connection", (socket) => {
         let joinedPlayers = new Array(socket.id);
         tournamentPool[tPin] = joinedPlayers;
         cb(tPin);
-        console.log(tournamentPool);
+        console.log("tournament created ... id: " + tournamentPool);
     });
     socket.on('requesting to create match', (payload) => {
         const { emittingPlayer } = payload;
@@ -62,6 +62,24 @@ export default io.on("connection", (socket) => {
         gamePool[pin].pRight = computerHelper.getComputerOpponent();
         io.to(pin).emit('update game players', gamePool[pin]);
         socket.emit('route', 'game');
+        // mock computer readying up
+        setTimeout(() => {
+            gamePool[pin].pRight.ready = true;
+            io.to(pin).emit('update game players', gamePool[pin]);
+        }, socketHelpers.getRandomMilliseconds());
+    });
+    socket.on('request set both sides NOT ready', payload => {
+        const { gamePin } = payload;
+        gamePool[gamePin]['pRight'].ready = false;
+        gamePool[gamePin]['pLeft'].ready = false;
+        io.to(gamePin).emit('update game players', gamePool[gamePin]);
+        if (gamePool[gamePin].isVsComputer && gamePool[gamePin].isStarted) {
+            setTimeout(() => {
+                const side = 'pRight';
+                const selection = computerHelper.getRandomSelection();
+                mangagePlayerSelectionIfBothReadyFindLoser({ gamePin, side, selection });
+            }, socketHelpers.getRandomMilliseconds(3000, 6000));
+        }
     });
     socket.on('request set isStarted', (payload) => {
         const { gamePin, bool } = payload;
@@ -73,35 +91,8 @@ export default io.on("connection", (socket) => {
             io.to(gamePin).emit('set isStarted', bool);
         }
     });
-    socket.on("request set player's selection", payload => {
-        const { gamePin, side, selction } = payload;
-        if (!gamePool[gamePin]) {
-            console.log('SOME THING IS VERY WRONG, GAME DOES NOT EXIST');
-        }
-        else {
-            gamePool[gamePin][side].optionSelction = selction;
-            gamePool[gamePin][side].ready = true;
-            if (gamePool[gamePin].isVsComputer) {
-                //getComputerSelection()
-                //emitReady()
-                //manage resultObj()
-            }
-            else if (socketHelpers.yallBothReady(gamePool[gamePin])) {
-                const losingSide = socketHelpers.findMeALoser(gamePool[gamePin]);
-                switch (losingSide) {
-                    case 'pLeft':
-                    case 'pRight':
-                        gamePool[gamePin][losingSide].health -= 1;
-                        break;
-                    case 'draw':
-                        break;
-                    default:
-                        console.log(losingSide, "^^^Error Finding a Loser");
-                }
-                io.to(gamePin).emit('set result', socketHelpers.getResultObj(losingSide));
-            }
-            io.to(gamePin).emit('update game players', gamePool[gamePin]);
-        }
+    socket.on("request set player's selection", (payload) => {
+        mangagePlayerSelectionIfBothReadyFindLoser(payload);
     });
     socket.on('request set side to NOT ready', payload => {
         const { gamePin, side } = payload;
@@ -127,4 +118,24 @@ export default io.on("connection", (socket) => {
         console.log("user disconnected", socket.id);
     });
 });
+function mangagePlayerSelectionIfBothReadyFindLoser(payload) {
+    const { gamePin, side, selection } = payload;
+    gamePool[gamePin][side].optionSelection = selection;
+    gamePool[gamePin][side].ready = true;
+    if (socketHelpers.yallBothReady(gamePool[gamePin])) {
+        const losingSide = socketHelpers.findMeALoser(gamePool[gamePin]);
+        switch (losingSide) {
+            case 'pLeft':
+            case 'pRight':
+                gamePool[gamePin][losingSide].health -= 1;
+                break;
+            case 'draw':
+                break;
+            default:
+                console.log(losingSide, "^^^Error Finding a Loser");
+        }
+        io.to(gamePin).emit('set result', socketHelpers.getResultObj(losingSide));
+    }
+    io.to(gamePin).emit('update game players', gamePool[gamePin]);
+}
 //# sourceMappingURL=sockets.js.map
