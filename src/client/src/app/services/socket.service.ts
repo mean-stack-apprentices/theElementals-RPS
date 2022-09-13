@@ -40,8 +40,9 @@ export class SocketService {
           this.guestUsername = 'guest' + this.socketId.substring(5,12).toLowerCase()
         }
     })
+    // get logged in player's username
+    this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
     // on listeners
-   
     this.socket.on('found game, joining player',(playerInfo: {pLeft:Player, pRight:Player}) => {
       this.store.dispatch(setGamePlayers(playerInfo));
       
@@ -64,7 +65,6 @@ export class SocketService {
   }
 
   createMatch() {
-    this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
     const activePlayer = new Player(this.loggedInUsername ? this.loggedInUsername: this.guestUsername, this.socketId)
     this.store.dispatch(setActivePlayer({activePlayerUsername: activePlayer.username}))
     this.socket.emit(
@@ -98,16 +98,17 @@ export class SocketService {
     )
   }
   playComputer(loggedIn: User | null) {
-    if (loggedIn) {
       const activePlayer = new Player(this.loggedInUsername ? this.loggedInUsername: this.guestUsername, this.socketId)
       this.store.dispatch(setActivePlayer({activePlayerUsername: activePlayer.username}))
       this.socket.emit('requesting to play computer',{
         emittingPlayer: activePlayer
       })
-    }
   }
-  setPlayersSelection(gamePin: string, side: 'pLeft' | 'pRight', selction: 'rock' | 'paper' | 'scissors') {
-    this.socket.emit("request set player's selection", {gamePin, side, selction})
+  setBothSidesNotReady(gamePin: string){
+    this.socket.emit('request set both sides NOT ready', {gamePin})
+  }
+  setPlayersSelection(gamePin: string, side: 'pLeft' | 'pRight', selection: 'rock' | 'paper' | 'scissors') {
+    this.socket.emit("request set player's selection", {gamePin, side, selection})
   }
   setSideToNotReady(gamePin: string, side: 'pLeft' | 'pRight') {
     this.socket.emit('request set side to NOT ready', {gamePin, side})

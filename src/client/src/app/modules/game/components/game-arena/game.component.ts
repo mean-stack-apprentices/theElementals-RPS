@@ -194,8 +194,7 @@ export class GameComponent implements OnInit {
   }
 
   makeAllNotReady() {
-    this.makeNotReady('pLeft');
-    this.makeNotReady('pRight')
+    this.socketService.setBothSidesNotReady(this.gameState.gamePin)
   }
   async select(side: 'pLeft' | 'pRight', selection: 'rock' | 'paper' | 'scissors') {
     await this.socketService.setPlayersSelection(this.gameState.gamePin, side, selection);
