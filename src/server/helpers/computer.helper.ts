@@ -1,6 +1,6 @@
 import { Player } from "../../shared/models/player.model.js"
+import { Selectable, selections } from "../../shared/models/selections.model.js"
 
-const selctions: ('rock' | 'paper' | 'scissors')[] = ['rock', 'paper', 'scissors']
 const POSSIBLE_COMPUTER_NAMES: string[] = [
     'Carson',
     'Cam',
@@ -15,10 +15,10 @@ const POSSIBLE_COMPUTER_NAMES: string[] = [
 function getComputerOpponent() {
     return new Player(getComputerUsername())
 }
-function getRandomSelection() {
-    const random = Math.floor(Math.random()* 3)
-    console.log(selctions[random])
-    return selctions[random]
+function getRandomSelection(): Selectable {
+    const random = Math.floor(Math.random()* selections.length)
+    console.log(selections[random])
+    return selections[random]!
 }
 function getComputerUsername() {
     const randomNameIndex = Math.floor(Math.random() * POSSIBLE_COMPUTER_NAMES.length)

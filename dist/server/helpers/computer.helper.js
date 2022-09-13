@@ -1,5 +1,5 @@
 import { Player } from "../../shared/models/player.model.js";
-const selctions = ['rock', 'paper', 'scissors'];
+import { selections } from "../../shared/models/selections.model.js";
 const POSSIBLE_COMPUTER_NAMES = [
     'Carson',
     'Cam',
@@ -14,9 +14,9 @@ function getComputerOpponent() {
     return new Player(getComputerUsername());
 }
 function getRandomSelection() {
-    const random = Math.floor(Math.random() * 3);
-    console.log(selctions[random]);
-    return selctions[random];
+    const random = Math.floor(Math.random() * selections.length);
+    console.log(selections[random]);
+    return selections[random];
 }
 function getComputerUsername() {
     const randomNameIndex = Math.floor(Math.random() * POSSIBLE_COMPUTER_NAMES.length);
