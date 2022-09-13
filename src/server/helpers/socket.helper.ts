@@ -1,8 +1,9 @@
+import { Player } from "../../shared/models/player.model.js"
 
 
-function findMeALoser(game: {pLeft:any, pRight: any}) {
-    const l = game.pLeft.optionSelction
-    const r = game.pRight.optionSelction
+function findMeALoser(game: {pLeft:Player, pRight: Player}) {
+    const l = game.pLeft.optionSelection
+    const r = game.pRight.optionSelection
     if (l && r) {
         if (l === r) {
         return 'draw'
@@ -35,8 +36,8 @@ function findMeALoser(game: {pLeft:any, pRight: any}) {
 
         }
     } else {
-        console.log('something went very wrong, both players dont have an option selected')
-        return 'something went very wrong lol'
+        console.log('Error: both players dont have an option selected')
+        throw new Error('findLoser function running without 2 options selected')
     }
 }
 function getRandomMilliseconds(shortest: number = 2000, longest: number = 4000) {
@@ -44,27 +45,27 @@ function getRandomMilliseconds(shortest: number = 2000, longest: number = 4000) 
   return (Math.random() * range ) + shortest
 }
 function getResultObj(losingSide: string) {
-          let result = {}
-          switch(losingSide){
-            case 'pLeft':
-            case 'pRight':
-              result = {
-                draw: false,
-                winner: losingSide == "pLeft" ? "pRight" : "pLeft",
-                loser: losingSide == "pLeft" ? "pLeft" : "pRight"
-              }
-              break
-            case 'draw':
-              result = {
-                draw: true,
-                winner: null,
-                loser: null,
-              }
-              break
-            default:
-              console.log(losingSide, "^^^Error Finding a Loser")
-          }
-          return result
+  let result = {}
+  switch(losingSide){
+    case 'pLeft':
+    case 'pRight':
+      result = {
+        draw: false,
+        winner: losingSide == "pLeft" ? "pRight" : "pLeft",
+        loser: losingSide == "pLeft" ? "pLeft" : "pRight"
+      }
+      break
+    case 'draw':
+      result = {
+        draw: true,
+        winner: null,
+        loser: null,
+      }
+      break
+    default:
+      console.log(losingSide, "^^^Error Finding a Loser")
+  }
+  return result
 }
 function getUniqueGamePin(pool: any, pin:string): string {
     if (pool[pin]) {
