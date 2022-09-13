@@ -6,7 +6,7 @@ export class Player {
         this.socketId = socketId;
     }
     health = 3;
-    optionSelction = null;
+    optionSelection = null;
     ready = false;
     makeReady() {
         this.ready = true;

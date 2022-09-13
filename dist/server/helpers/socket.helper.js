@@ -1,6 +1,7 @@
+import "../../shared/models/player.model.js";
 function findMeALoser(game) {
-    const l = game.pLeft.optionSelction;
-    const r = game.pRight.optionSelction;
+    const l = game.pLeft.optionSelection;
+    const r = game.pRight.optionSelection;
     if (l && r) {
         if (l === r) {
             return 'draw';
@@ -29,8 +30,8 @@ function findMeALoser(game) {
         }
     }
     else {
-        console.log('something went very wrong, both players dont have an option selected');
-        return 'something went very wrong lol';
+        console.log('Error: both players dont have an option selected');
+        throw new Error('findLoser function running without 2 options selected');
     }
 }
 function getRandomMilliseconds(shortest = 2000, longest = 4000) {
