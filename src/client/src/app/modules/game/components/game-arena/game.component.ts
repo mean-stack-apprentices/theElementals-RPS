@@ -1,14 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ThrowStmt } from '@angular/compiler';
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { ActivatedRoute, Navigation } from '@angular/router';
-import { ReducerManagerDispatcher, Store } from '@ngrx/store';
-import { UserStateResolver } from 'src/app/modules/game/resolvers/user-state.resolver';
-import { GameService } from 'src/app/modules/game/services/game.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { SocketService } from 'src/app/services/socket.service';
 import { AppState } from 'src/app/store';
 import { loggedInSelector } from 'src/app/store/user/user.selectors';
 import { Player } from '../../../../../../../shared/models/player.model';
+import { Selectable } from '../../../../../../../shared/models/selections.model';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { gameStateSelector, pLeftSelector, pRightSelector } from 'src/app/store/game/game.selectors';
 import { SoundsService } from 'src/app/services/sounds.service';
@@ -56,7 +54,6 @@ export class GameComponent implements OnInit {
     private socketService: SocketService,
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    private gameService: GameService, 
     private navigation: NavigationService,
     private sounds: SoundsService
     ) {
@@ -196,7 +193,7 @@ export class GameComponent implements OnInit {
   makeAllNotReady() {
     this.socketService.setBothSidesNotReady(this.gameState.gamePin)
   }
-  async select(side: 'pLeft' | 'pRight', selection: 'rock' | 'paper' | 'scissors') {
+  async select(side: 'pLeft' | 'pRight', selection: Selectable) {
     await this.socketService.setPlayersSelection(this.gameState.gamePin, side, selection);
   }
 
