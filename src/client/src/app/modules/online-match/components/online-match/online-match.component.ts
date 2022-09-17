@@ -35,7 +35,9 @@ export class OnlineMatchComponent implements OnInit {
     this.socketService.createMatch()
   }
   socketRequestFindMatch() {
-    this.socketService.findCreatedMatch(this.gamePin)
+    const upperCasePin = this.gamePin.toUpperCase()
+    console.log(upperCasePin)
+    this.socketService.findCreatedMatch(upperCasePin)
   }
 
 }

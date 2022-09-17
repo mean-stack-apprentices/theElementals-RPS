@@ -1,6 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { Player } from '../../../../../shared/models/player.model';
-import { setActivePlayer, setGamePin, setGamePlayers, setIsStarted, setPlayerReady } from './game.actions';
+import { Result } from '../../../../../shared/models/result.model';
+import { setActivePlayer, setGamePin, setGamePlayers, setIsStarted, setPlayerReady, setResult } from './game.actions';
 
 
 export const gameFeatureKey = 'game';
@@ -10,8 +11,8 @@ export interface GameState {
   pLeft: Player | null
   pRight: Player | null
   gamePin: string | null
-  vsComputer: boolean
   isStarted: boolean
+  result: Result | null
 }
 
 export const initialState: GameState = {
@@ -19,22 +20,22 @@ export const initialState: GameState = {
   pLeft: null,
   pRight: null,
   gamePin: null,
-  vsComputer: true,
   isStarted: false,
+  result: null,
 };
 
 
 export const reducer = createReducer(
   initialState,
 
+  on(setActivePlayer, (state, action) => {
+    return {...state, activePlayerUsername: action.activePlayerUsername}
+  }),
   on(setGamePlayers, (state, action) => {
-    return {...state, vsComputer: false, ...action}
+    return {...state, ...action}
   }),
   on(setGamePin, (state, action) => {
     return {...state, gamePin: action.gamePin}
-  }),
-  on(setActivePlayer, (state, action) => {
-    return {...state, activePlayerUsername: action.activePlayerUsername}
   }),
   on(setIsStarted, (state, action) => {
     return {...state, isStarted: action.isStarted}
@@ -48,5 +49,8 @@ export const reducer = createReducer(
     }
     return {...state, ...tempState}
   }),
+  on(setResult, (state, action) => {
+    return {...state, result: action.result}
+  })
 )
 
