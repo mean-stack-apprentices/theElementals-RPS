@@ -1,17 +1,17 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ThrowStmt } from '@angular/compiler';
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { ActivatedRoute, Navigation } from '@angular/router';
-import { ReducerManagerDispatcher, Store } from '@ngrx/store';
-import { UserStateResolver } from 'src/app/modules/game/resolvers/user-state.resolver';
-import { GameService } from 'src/app/modules/game/services/game.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { SocketService } from 'src/app/services/socket.service';
 import { AppState } from 'src/app/store';
 import { loggedInSelector } from 'src/app/store/user/user.selectors';
 import { Player } from '../../../../../../../shared/models/player.model';
+import { Selectable } from '../../../../../../../shared/models/selections.model';
 import { NavigationService } from 'src/app/services/navigation.service';
-import { gameStateSelector } from 'src/app/store/game/game.selectors';
+import { gameStateSelector, pLeftSelector, pRightSelector } from 'src/app/store/game/game.selectors';
 import { SoundsService } from 'src/app/services/sounds.service';
+import { Observable } from 'rxjs';
+import { setResult } from 'src/app/store/game/game.actions';
 
 @Component({
   selector: 'app-game',
@@ -37,7 +37,9 @@ import { SoundsService } from 'src/app/services/sounds.service';
 })
 export class GameComponent implements OnInit {
   gameState: any
-  
+  pLeft$: Observable<any> | null = null  
+  pRight$: Observable<any> | null = null  
+
   loggedInUsername: string | undefined = undefined;
   
   backgroundString: string;
@@ -52,32 +54,22 @@ export class GameComponent implements OnInit {
     private socketService: SocketService,
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    private gameService: GameService, 
     private navigation: NavigationService,
     private sounds: SoundsService
     ) {
       this.backgroundString = this.getBackground();
       this.store.select(loggedInSelector).subscribe(user => this.loggedInUsername = user?.username)
-      this.store.select(gameStateSelector).subscribe(gs => this.gameState = {...gs})
+      this.store.select(gameStateSelector).subscribe(gs => {
+        this.gameState = gs
+        this.runChecks()
+      })
       const userStateSnapshot = this.route.snapshot.data.userState;
 
       console.log(this.gameState)
-      //this.gameState = {}
-      if (this.gameState.vsComputer){
-        this.vsComputer = true;
-        this.gameState.pLeft = new Player(this.loggedInUsername ? this.loggedInUsername : this.socketService.guestUsername)
-        this.gameState.activePlayerUsername = this.gameState.pLeft.username
-        this.gameState.pRight = new Player('Computer')
-        this.gameState.pRight.ready = true
-      } else {
-        this.gameState
-        //Match where user not logged in and playing computer
-        
-      //   this.pLeft = new Player(`${this.socketService.guestUsername}`)
-      //   this.activePlayer = this.pLeft
-      //   this.pRight = new Player('Computer')
-      //   this.pRight.ready = true
-      }
+
+      this.pLeft$ = this.store.select(pLeftSelector)
+      this.pRight$ = this.store.select(pRightSelector)
+    
     }
 
   ngOnInit(): void {
@@ -142,73 +134,56 @@ export class GameComponent implements OnInit {
     console.log('sound??')
   }
 
-//// IMPORTANT
-  checkPlayersReady() {
+  checkForWinner() {
+    if (this.gameState.pLeft.health === 0 || this.gameState.pRight.health === 0) {
+      this.gameOver(this.gameState.pLeft.health === 0 ? this.gameState.pRight : this.gameState.pLeft)
+    } else {
+      this.makeAllNotReady()
+    }
+  }
+
+  checkGameStarted() {
+    // if not started and everyone is ready?.... set started and play fight
     if(!this.gameState.isStarted && this.gameState.pLeft.ready && this.gameState.pRight.ready) {
-      this.vsComputer ? this.gameState.isStarted = true : this.socketService.setIsStarted(this.gameState.gamePin, true)
+      this.socketService.setIsStarted(this.gameState.gamePin, true)
       this.playFight()
       setTimeout(()=>{
         this.fightImgShowing = false
         this.makeAllNotReady()
       }, 2000)
     }
-    else if (this.gameState.isStarted && this.gameState.pLeft.ready && this.gameState.pRight.ready) {
-      switch (this.gameService.findRoundWinner(this.gameState.pLeft, this.gameState.pRight)) {
-        case 'draw':
-          this.getDrawImg()
-          this.drawImgShowing = true
-          console.log('twas a draw')
-          setTimeout(() => {
-            this.drawImgShowing = false
-            this.makeAllNotReady()
-          }, 2000);
-          this.sounds.playDrawSound()
-          break
-        case "pLeft":
-          if (this.vsComputer){
-            this.gameState.pRight.loseHealth()
-          } else {
-            this.socketService.decreasePlayersHealth(this.gameState.gamePin, 'pRight')
-          }
-          if (this.gameState.pRight.health === 0){
-            this.gameOver(this.gameState.pLeft)
-          } else {
-            setTimeout(() => {
-              this.makeAllNotReady()
-            }, 2000);
-          }
-          this.sounds.playHitSound()
-          break
-        case "pRight":
-          if (this.vsComputer){
-            this.gameState.pLeft.loseHealth()
-          } else {
-            this.socketService.decreasePlayersHealth(this.gameState.gamePin, 'pLeft')
-          }
-          if (this.gameState.pLeft.health === 0){
-            this.gameOver(this.gameState.pRight)
-          } else {
-            setTimeout(() => {
-              this.makeAllNotReady()
-            }, 2000);
-          }
-          this.sounds.playHitSound()
-      }
+  }
 
+  checkResult() {
+    if (this.gameState.result) {
+      /// Results are a draw???
+      if (this.gameState.result.draw) {
+        this.getDrawImg()
+        this.drawImgShowing = true
+        this.sounds.playDrawSound()
+
+        setTimeout(() => {
+          this.drawImgShowing = false
+          this.makeAllNotReady()
+        }, 2000);
+        
+      } else {
+        this.sounds.playHitSound()
+        setTimeout(() => {
+          this.checkForWinner()
+        }, 2000);
+
+      }
+      this.clearResult()
     }
   }
 
+  clearResult() {
+    this.store.dispatch(setResult({result: null}))
+  }
+
   async makeReady(side: 'pLeft' | 'pRight') {
-    if (this.vsComputer) {
-      this.gameState[side].makeReady()
-      this.checkPlayersReady()
-    }else {
       await this.socketService.setSideToReady(this.gameState.gamePin, side)
-      setTimeout(() => { ///TEMPORARY
-        this.checkPlayersReady()
-      }, 2000);
-      //this.checkPlayersReady() 
-    }
   }
 
   async makeNotReady(side: 'pLeft' | 'pRight') {
@@ -216,28 +191,10 @@ export class GameComponent implements OnInit {
   }
 
   makeAllNotReady() {
-    if (this.vsComputer){
-      this.gameState.pLeft.ready = false;
-      this.gameState.pRight.ready = false;
-
-      setTimeout(() => {
-        this.select('pRight', this.gameService.computerSelection())
-      }, Math.random() * 2000 + 2000);
-    } else {
-      this.makeNotReady('pLeft');
-      this.makeNotReady('pRight')
-    }
+    this.socketService.setBothSidesNotReady(this.gameState.gamePin)
   }
-  async select(side: 'pLeft' | 'pRight', selection: 'rock' | 'paper' | 'scissors') {
-    if (this.vsComputer) {
-    this.gameState[side].optionSelction = selection;
-    this.gameState[side].ready = true;
-    this.checkPlayersReady();
-    } else {
-      await this.socketService.setPlayersSelection(this.gameState.gamePin,side, selection);
-      await this.makeReady(side)
-      this.checkPlayersReady()
-    }
+  async select(side: 'pLeft' | 'pRight', selection: Selectable) {
+    await this.socketService.setPlayersSelection(this.gameState.gamePin, side, selection);
   }
 
   gameOver(winner: Player) {
@@ -256,5 +213,10 @@ export class GameComponent implements OnInit {
 
   back(): void {
     this.navigation.back()
+  }
+  runChecks() {
+    this.checkGameStarted()
+    this.checkResult()
+
   }
 }

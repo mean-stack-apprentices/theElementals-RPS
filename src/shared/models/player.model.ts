@@ -7,8 +7,8 @@ export class Player {
     
     health: number = 3;
 
-    optionSelction: 'rock' | 'paper' | 'scissors' | null = null;
-    ready:boolean = false;
+    optionSelection: 'rock' | 'paper' | 'scissors' | null = null;
+    ready: boolean = false;
 
     makeReady() {
         this.ready = true;
