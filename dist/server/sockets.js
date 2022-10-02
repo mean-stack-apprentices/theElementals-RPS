@@ -77,7 +77,7 @@ export default io.on("connection", (socket) => {
             setTimeout(() => {
                 const side = 'pRight';
                 const selection = computerHelper.getRandomSelection();
-                mangagePlayerSelectionIfBothReadyFindLoser({ gamePin, side, selection });
+                managePlayerSelectionIfBothReadyFindLoser({ gamePin, side, selection });
             }, socketHelpers.getRandomMilliseconds(3000, 6000));
         }
     });
@@ -92,7 +92,7 @@ export default io.on("connection", (socket) => {
         }
     });
     socket.on("request set player's selection", (payload) => {
-        mangagePlayerSelectionIfBothReadyFindLoser(payload);
+        managePlayerSelectionIfBothReadyFindLoser(payload);
     });
     socket.on('request set side to NOT ready', payload => {
         const { gamePin, side } = payload;
@@ -118,7 +118,7 @@ export default io.on("connection", (socket) => {
         console.log("user disconnected", socket.id);
     });
 });
-function mangagePlayerSelectionIfBothReadyFindLoser(payload) {
+function managePlayerSelectionIfBothReadyFindLoser(payload) {
     const { gamePin, side, selection } = payload;
     gamePool[gamePin][side].optionSelection = selection;
     gamePool[gamePin][side].ready = true;

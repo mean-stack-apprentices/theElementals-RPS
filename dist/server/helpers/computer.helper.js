@@ -15,7 +15,6 @@ function getComputerOpponent() {
 }
 function getRandomSelection() {
     const random = Math.floor(Math.random() * selections.length);
-    console.log(selections[random]);
     return selections[random];
 }
 function getComputerUsername() {
