@@ -131,7 +131,6 @@ export class GameComponent implements OnInit {
     fightSound.muted = false;
     fightSound.load();
     fightSound.play();
-    console.log('sound??')
   }
 
   checkForWinner() {

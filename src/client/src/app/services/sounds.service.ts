@@ -72,7 +72,6 @@ export class SoundsService {
         this.musicAudio.volume = this.soundVolume;
         this.musicAudio.loop = true;
         this.musicAudio.play()
-        console.log(this.musicAudio.volume)
     }
 
     stopFightMusic() {
@@ -103,7 +102,6 @@ export class SoundsService {
     playHitSound() {
         this.hitAudio.src = this.hitSounds[Math.floor(Math.random() * this.hitSounds.length)];
         this.hitAudio.play()
-        console.log(this.hitAudio.volume)
     }
 
     resetHitSoundVolume() {
