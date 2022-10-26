@@ -16,7 +16,6 @@ function authHandle(req: AuthRequest, res: Response, next: NextFunction) {
         return res.sendStatus(403);
       }
       if (result) {
-        console.log(result.user, 'this is the user');
         req.user = result.user;
       }
       next();

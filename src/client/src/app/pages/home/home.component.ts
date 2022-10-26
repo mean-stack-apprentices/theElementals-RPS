@@ -21,7 +21,6 @@ export class HomeComponent implements OnInit {
       private sounds: SoundsService
     ) {
       this.loggedIn$ = this.store.select(loggedInSelector)
-      console.log(this.loggedIn$)
   }
 
   musicStatus = this.sounds.musicStatus;
